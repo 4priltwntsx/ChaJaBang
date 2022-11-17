@@ -9,6 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
+import com.ssafy.pjt.exception.UnAuthorizedException;
+import com.ssafy.pjt.model.service.user.JwtServiceImpl;
+
 
 
 @Component
@@ -19,7 +22,7 @@ public class JwtInterceptor implements HandlerInterceptor {
 	private static final String HEADER_AUTH = "auth-token";
 
 	@Autowired
-	private JwtService jwtService;
+	private JwtServiceImpl jwtService;
 
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)

@@ -6,7 +6,7 @@
         v-model="id"
         :counter="15"
         :rules="idRules"
-        label="Name"
+        label="ID"
         required
       ></v-text-field>
 
@@ -16,7 +16,7 @@
         :rules="[rules.required, rules.min]"
         :type="show1 ? 'text' : 'password'"
         name="input-10-1"
-        label="Normal with hint text"
+        label="Password"
         hint="At least 8 characters"
         counter
         @click:append="show1 = !show1"
@@ -32,7 +32,7 @@
         required
       ></v-text-field>
 
-      <v-btn :disabled="!valid" color="success" class="mr-4" @click="register">
+      <v-btn class="mr-4" @click="register">
         Regist
       </v-btn>
 

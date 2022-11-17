@@ -14,6 +14,11 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.ssafy.pjt.exception.UnAuthorizedException;
 
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+
 @Service
 public class JwtServiceImpl implements JwtService {
 
