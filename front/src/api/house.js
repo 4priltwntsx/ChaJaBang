@@ -21,4 +21,12 @@ function houseList({sidoName, gugunName, dongName}, success, fail) {
     
 }
 
-export { sidoList, gugunList, dongList, houseList };
+function DealList(aptCode, success, fail) {
+    http.get(`/house/detail/${aptCode}`).then(success).catch(fail);
+}
+
+function houseDetail(aptCode, success, fail) {
+    http.get(`/house/detail/apt/${aptCode}`).then(success).catch(fail);
+}
+
+export { sidoList, gugunList, dongList, houseList, DealList, houseDetail };

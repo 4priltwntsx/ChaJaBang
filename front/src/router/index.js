@@ -5,14 +5,17 @@ import HouseView from "../views/HouseView.vue";
 import BoardView from "../views/BoardView.vue";
 import BoardWrite from "../components/board/BoardWrite.vue"
 import BoardList from "../components/board/BoardList.vue"
-import BoardNotice from "../components/board/BoardNotice.vue"
+import BoardNotice from "../components/board/alpha/BoardNotice.vue"
 import BoardDetail from "../components/board/BoardDetail.vue"
 import UserLogin from "@/components/user/UserLogin"
 import UserMyPage from "@/components/user/UserMyPage"
 import UserRegister from "@/components/user/UserRegister"
 import BoardModify from "@/components/board/BoardModify.vue"
+import HouseDetail from "@/components/house/HouseDetail.vue"
+import HouseTable from "@/components/house/HouseTable.vue"
 
 import store from "@/store";
+
 
 Vue.use(VueRouter);
 
@@ -48,6 +51,18 @@ const routes = [
     path: "/house",
     name: "house",
     component: HouseView,
+    children: [
+      {
+        path: "",
+        name: "houseTable",
+        component: HouseTable,
+      },
+      {
+        path: "aptdetail",
+        name: "houseDetail",
+        component: HouseDetail,
+      },
+    ]
   },
   {
     path: "/board",

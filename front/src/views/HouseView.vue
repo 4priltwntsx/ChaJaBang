@@ -18,7 +18,7 @@
       <v-row>
         <v-col cols="12" md="2"></v-col>
         <v-col cols="12" md="4"><house-map /></v-col>
-        <v-col cols="12" md="4"><house-table /></v-col>
+        <v-col cols="12" md="4"><router-view/></v-col>
         <v-col cols="12" md="2"></v-col>
       </v-row>
     </template>
@@ -27,7 +27,7 @@
 
 
 <script>
-import HouseTable from "@/components/house/HouseTable.vue";
+// import HouseTable from "@/components/house/HouseTable.vue";
 import HouseHeader from "../components/house/HouseHeader.vue";
 import HouseMap from "@/components/house/HouseMap.vue";
 export default {
@@ -35,7 +35,7 @@ export default {
 
   components: {
     HouseHeader,
-    HouseTable,
+    // HouseTable,
     HouseMap,
   },
 };

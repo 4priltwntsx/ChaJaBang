@@ -37,7 +37,7 @@ export default {
   }),
   methods: {
     move2House() {
-      this.$router.push({ name: "house" });
+      this.$router.push({ name: "houseTable" });
     },
   },
 };

@@ -13,7 +13,7 @@ https://vuetifyjs.com/en/components/simple-tables/#usage
       </thead>
       <tbody>
         <tr v-for="item in houses" :key="item.aptCode">
-          <td>{{ item.apartmentName }}</td>
+          <td @click="getlist(item.aptCode)">{{ item.apartmentName }}</td>
           <td>{{ item.buildYear }}년</td>
         </tr>
       </tbody>
@@ -22,7 +22,7 @@ https://vuetifyjs.com/en/components/simple-tables/#usage
 </template>
 
 <script>
-import {mapState} from "vuex";
+import {mapState, mapActions, mapMutations} from "vuex";
 
 const houseStore = "houseStore";
 
@@ -30,13 +30,30 @@ export default {
   name: "HouseTable",
   data() {
     return {
-      
+      aptCode: null,
     };
   },
   computed:{
-    ...mapState(houseStore, ["houses", "points"]),
-    
+    ...mapState(houseStore, ["houses", "points", "house", "deals"]),
+  },
+  watch:{
+    deals(){
+      this.move2Detail();
+    }
+  },
+  methods:{
+    ...mapActions(houseStore, ["getDetail", "getDealList"]),
+    ...mapMutations(houseStore, ["CLEAR_SIDO_LIST", "CLEAR_GUGUN_LIST","CLEAR_DONG_LIST", "CLEAR_APT_LIST"]),
+    getlist(code){
+      console.log(code);
+      this.getDetail(code);
+      this.getDealList(code);
+    },
+    move2Detail(){
+      this.$router.push({name: "houseDetail"})
+    }
   }
+  
 };
 </script>
 

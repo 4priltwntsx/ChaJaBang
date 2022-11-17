@@ -31,7 +31,7 @@
 <script>
 import BoardRanking from "@/components/board/BoardRanking.vue";
 import BoardHeader from "@/components/board/BoardHeader.vue";
-import BoardNotice4 from "@/components/board/BoardNotice4.vue";
+import BoardNotice4 from "@/components/board/alpha/BoardNotice4.vue";
 export default {
   components: {
     BoardRanking,

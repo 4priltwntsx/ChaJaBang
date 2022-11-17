@@ -1,4 +1,4 @@
-import { sidoList, gugunList, dongList, houseList } from "@/api/house.js";
+import { sidoList, gugunList, dongList, houseList, DealList, houseDetail } from "@/api/house.js";
 
 
 const houseStore = {
@@ -9,6 +9,7 @@ const houseStore = {
     dongs: [],
     houses: [],
     house: null,
+    deals: [],
     points:[],
   },
   getters: {
@@ -53,9 +54,13 @@ const houseStore = {
       })
     },
     SET_DETAIL_HOUSE(state, house) {
-      // console.log("Mutations", house);
       state.house = house;
     },
+    SET_DEAL_LIST(state, deals) {
+      deals.forEach((deal) => {
+        state.deals.push(deal);
+      });
+    }
   
   },
   actions: { //백엔드랑 통신하는 비동기 처리
@@ -93,14 +98,14 @@ const houseStore = {
       )
     },
 
-    getHouseList({ commit }, { sidoName, gugunName, dongName }) {
+    getHouseList:({ commit }, { sidoName, gugunName, dongName })=> {
       const params = {sidoName, gugunName, dongName}
 
       houseList(
         params,
         ({ data }) => {
           console.log(data);
-          console.log(data[0].apartmentName);
+          // console.log(data[0].apartmentName);
           commit("SET_HOUSE_LIST", data);
         },
         (error) => {
@@ -108,11 +113,35 @@ const houseStore = {
         }
       );
     },
-    detailHouse({ commit }, house) {
-      // 나중에 house.일련번호를 이용하여 API 호출
-      // console.log(commit, house);
-      commit("SET_DETAIL_HOUSE", house);
+
+    getDetail({ commit }, aptCode){
+      const params = aptCode;
+      houseDetail(
+        params,
+        ({ data }) => {
+          console.log(data);
+          commit("SET_DETAIL_HOUSE", data);
+        },
+        (error) => {
+          console.log(error);
+        }
+      )
     },
+
+    getDealList({ commit }, aptCode) {
+      const param = aptCode;
+      DealList(
+        param,
+        ({ data }) => {
+          console.log("aptDealList", data);
+          commit("SET_DEAL_LIST", data);
+        },
+        (error) => {
+          console.log(error);
+        }
+      )
+    }
+
   },
 };
 export default houseStore;
