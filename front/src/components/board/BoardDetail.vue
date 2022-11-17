@@ -205,7 +205,6 @@ export default {
       this.$router.push({ name: "boardModify", params: { bno } });
     },
     deleteBoard() {
-      let param = this.bno;
       bDelete(
         this.bno,
         ({ data }) => {

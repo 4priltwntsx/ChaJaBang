@@ -1,4 +1,3 @@
-import { sidoList } from "./house";
 import http from "./http";
 //////////////////////////board start///////////////////
 // board list
@@ -167,7 +166,6 @@ export {
   nModify,
   nDelete,
   nList4,
-  nRead,
   qDelete,
   qModifyManager,
   qModifyUser,
