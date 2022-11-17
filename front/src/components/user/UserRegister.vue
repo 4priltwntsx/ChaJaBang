@@ -1,46 +1,67 @@
 <template>
-  <div>
-    <h1>Sign Up</h1>
-    <v-form ref="form" v-model="valid" lazy-validation>
-      <v-text-field
-        v-model="id"
-        :counter="15"
-        :rules="idRules"
-        label="ID"
-        required
-      ></v-text-field>
+  <v-card class="mx-auto my-12" color="indigo lighten-5" max-width="374">
+    <v-card-title>SIGN UP</v-card-title>
+    <v-list-item>
+      <template>
+        <v-list-item-content>
+          <v-form ref="form" v-model="valid" lazy-validation>
+            <v-card class="overflow-hidden">
+              <v-card-text>
+                <v-text-field
+                  v-model="id"
+                  color="indigo lighten-2"
+                  :counter="15"
+                  :rules="idRules"
+                  label="ID"
+                  required
+                ></v-text-field>
 
-      <v-text-field
-        v-model="password"
-        :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
-        :rules="[rules.required, rules.min]"
-        :type="show1 ? 'text' : 'password'"
-        name="input-10-1"
-        label="Password"
-        hint="At least 8 characters"
-        counter
-        @click:append="show1 = !show1"
-      >
-      </v-text-field>
+                <v-text-field
+                  v-model="password"
+                  color="indigo lighten-2"
+                  :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+                  :rules="[rules.required, rules.min]"
+                  :type="show1 ? 'text' : 'password'"
+                  name="input-10-1"
+                  label="Password"
+                  hint="At least 8 characters"
+                  counter
+                  @click:append="show1 = !show1"
+                >
+                </v-text-field>
 
-      <v-text-field v-model="name" label="Name" required></v-text-field>
+                <v-text-field
+                  v-model="name"
+                  color="indigo lighten-2"
+                  label="Name"
+                  required
+                ></v-text-field>
 
-      <v-text-field
-        v-model="email"
-        :rules="emailRules"
-        label="E-mail"
-        required
-      ></v-text-field>
-
-      <v-btn class="mr-4" @click="register">
-        Regist
-      </v-btn>
-
-      <v-btn color="error" class="mr-4" @click="reset"> Cancel </v-btn>
-
-      <v-btn color="warning" @click="move2Login"> to login </v-btn>
-    </v-form>
-  </div>
+                <v-text-field
+                  v-model="email"
+                  color="indigo lighten-2"
+                  :rules="emailRules"
+                  label="E-mail"
+                  required
+                ></v-text-field>
+              </v-card-text>
+              <v-row style="text-align: center">
+                <v-col></v-col>
+                <v-col>
+                  <v-btn @click="move2Login" color="indigo lighten-2">LOGIN</v-btn>
+                </v-col>
+                <v-col>
+                  <v-btn @click="register" color="indigo lighten-2">JOIN</v-btn>
+                </v-col>
+                <v-col></v-col>
+              </v-row>
+              <br />
+            </v-card>
+          </v-form>
+        </v-list-item-content>
+      </template>
+    </v-list-item>
+  </v-card>
 </template>
 
 <script>
@@ -103,5 +124,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>
