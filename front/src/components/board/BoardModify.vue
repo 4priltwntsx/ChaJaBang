@@ -33,6 +33,7 @@
 </template>
 
 <script>
+import { bRead, bModify } from "@/api/board";
 export default {
   data() {
     return {
@@ -50,6 +51,17 @@ export default {
   created() {
     this.bno = this.$route.params.bno;
     let _this = this;
+    let param = this.bno;
+    bRead(
+      param,
+      ({ data }) => {
+        _this.board = data;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+    /*
     let url = "http://localhost:8888/board/" + this.bno;
 
       fetch(url)
@@ -58,10 +70,32 @@ export default {
           console.log(data);
           _this.board = data;
         });
+        */
   },
   methods: {
     modify() {
       let _this = this;
+      let param = {
+        bno: _this.bno,
+        title: _this.board.title,
+        writer: _this.board.writer,
+        content: _this.board.content,
+        writeDate: _this.writeDate,
+      };
+      bModify(
+        param,
+        ({ data }) => {
+          alert(data);
+          _this.result = data;
+          _this.isShow = true;
+
+          _this.$router.push({ name: "boardList" });
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+      /*
       fetch("http://localhost:8888/board", {
         method: "put",
         body: JSON.stringify({
@@ -83,6 +117,7 @@ export default {
 
           _this.$router.push({ name: "boardList" });
         });
+        */
     },
   },
 };

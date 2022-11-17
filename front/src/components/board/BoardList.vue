@@ -23,6 +23,7 @@ https://vuetifyjs.com/en/components/data-tables/#filterable
 </template>
 
 <script>
+import { bList } from "@/api/board";
 export default {
   data() {
     return {
@@ -46,6 +47,18 @@ export default {
 
   created() {
     let _this = this;
+    bList(
+      ({ data }) => {
+        console.log(data.length, data);
+        _this.boardList = data;
+        _this.totalCnt = data.length;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+
+    /*
     fetch("http://localhost:8888/board", { method: "get" })
       .then((response) => response.json())
       .then((data) => {
@@ -53,6 +66,7 @@ export default {
         _this.boardList = data;
         _this.totalCnt = data.length;
       });
+      */
   },
   methods: {
     move2Detail(el) {

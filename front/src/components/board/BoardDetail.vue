@@ -9,11 +9,7 @@ https://vuetifyjs.com/en/components/lists/#action-stack
         <!-- board detail start -->
         <v-card class="mx-auto my-12" min-height="550" max-width="650">
           <template slot="progress">
-            <v-progress-linear
-              color="deep-purple"
-              height="10"
-              indeterminate
-            ></v-progress-linear>
+            <v-progress-linear color="deep-purple" height="10" indeterminate></v-progress-linear>
           </template>
 
           <v-img height="300" :src="require(`@/assets/${imgPath}`)"></v-img>
@@ -29,12 +25,8 @@ https://vuetifyjs.com/en/components/lists/#action-stack
           </div>
           <v-card-text>
             <div style="text-align: right">
-              <span class="my-4 text-subtitle-1">
-                작성일 : {{ board.writeDate | yyyyMMdd }}
-              </span>
-              <span class="grey--text ms-4">
-                조회수 : {{ board.readCount }}
-              </span>
+              <span class="my-4 text-subtitle-1"> 작성일 : {{ board.writeDate | yyyyMMdd }} </span>
+              <span class="grey--text ms-4"> 조회수 : {{ board.readCount }} </span>
             </div>
 
             <h3 v-html="board.content"></h3>
@@ -42,17 +34,12 @@ https://vuetifyjs.com/en/components/lists/#action-stack
             <v-row style="text-align: center">
               <v-col cols="12" md="3"></v-col>
               <v-col cols="12" md="3"
-                ><v-btn
-                  center
-                  color="indigo lighten-3"
-                  @click="modifyBoard(board.bno)"
+                ><v-btn center color="indigo lighten-3" @click="modifyBoard(board.bno)"
                   >수정</v-btn
                 ></v-col
               >
               <v-col cols="12" md="3"
-                ><v-btn color="indigo lighten-5" @click="deleteBoard"
-                  >삭제</v-btn
-                ></v-col
+                ><v-btn color="indigo lighten-5" @click="deleteBoard">삭제</v-btn></v-col
               >
               <v-col cols="12" md="3"></v-col>
             </v-row>
@@ -82,26 +69,16 @@ https://vuetifyjs.com/en/components/lists/#action-stack
                               v-text="item.cwriter"
                             ></v-list-item-subtitle>
 
-                            <v-list-item-subtitle
-                              v-text="item.ccontent"
-                            ></v-list-item-subtitle>
+                            <v-list-item-subtitle v-text="item.ccontent"></v-list-item-subtitle>
                           </v-list-item-content>
 
                           <v-list-item-action>
-                            <v-list-item-action-text
-                              v-text="item.cno"
-                            ></v-list-item-action-text>
+                            <v-list-item-action-text v-text="item.cno"></v-list-item-action-text>
                             <v-row>
                               <v-col
-                                ><v-btn @click="modifyCommentView(item.cno)"
-                                  >수정</v-btn
-                                ></v-col
+                                ><v-btn @click="modifyCommentView(item.cno)">수정</v-btn></v-col
                               >
-                              <v-col
-                                ><v-btn @click="deleteComment(item.cno)"
-                                  >삭제</v-btn
-                                ></v-col
-                              >
+                              <v-col><v-btn @click="deleteComment(item.cno)">삭제</v-btn></v-col>
                             </v-row>
                           </v-list-item-action>
                         </template>
@@ -129,11 +106,9 @@ https://vuetifyjs.com/en/components/lists/#action-stack
                               </v-card-text>
                               <v-row style="text-align: center"
                                 ><v-col
-                                  ><v-btn
-                                    @click="actionClick"
-                                    color="indigo lighten-3"
-                                    >{{ action }}</v-btn
-                                  ></v-col
+                                  ><v-btn @click="actionClick" color="indigo lighten-3">{{
+                                    action
+                                  }}</v-btn></v-col
                                 ></v-row
                               >
                               <br />
@@ -157,8 +132,8 @@ https://vuetifyjs.com/en/components/lists/#action-stack
   </div>
 </template>
 
-
 <script>
+import { bRead, cList, cWrite, cRead, cModify, cDelete, bDelete } from "@/api/board";
 export default {
   data() {
     return {
@@ -177,6 +152,18 @@ export default {
   created() {
     this.bno = this.$route.params.bno;
     let _this = this;
+
+    let param = this.bno;
+    bRead(
+      param,
+      ({ data }) => {
+        _this.board = data;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+    /*
     let url = "http://localhost:8888/board/" + this.bno;
 
     fetch(url)
@@ -185,6 +172,7 @@ export default {
         console.log(data);
         _this.board = data;
       });
+      */
     this.getComments();
     this.getImgPath();
   },
@@ -194,17 +182,42 @@ export default {
   methods: {
     getComments() {
       let _this = this;
+      let param = this.bno;
+      cList(
+        param,
+        ({ data }) => {
+          _this.comments = data;
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+      /*
       fetch("http://localhost:8888/comment/" + this.bno)
         .then((response) => response.json())
         .then((data) => {
           console.log(data);
           _this.comments = data;
         });
+        */
     },
     modifyBoard(bno) {
       this.$router.push({ name: "boardModify", params: { bno } });
     },
     deleteBoard() {
+      let param = this.bno;
+      bDelete(
+        this.bno,
+        ({ data }) => {
+          alert(data);
+          this.$router.push({ name: "boardList" });
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+
+      /*
       fetch("http://localhost:8888/board/" + this.bno, {
         method: "delete",
       })
@@ -213,6 +226,7 @@ export default {
           console.log(data);
           this.$router.push({ name: "boardList" });
         });
+        */
     },
     actionClick() {
       if (this.action == "추가") {
@@ -223,7 +237,27 @@ export default {
     },
     addComment() {
       let _this = this;
+      let param = {
+        bno: _this.bno,
+        ccontent: _this.ccontent,
+        cno: 0,
+        cwriter: _this.cwriter,
+      };
 
+      cWrite(
+        param,
+        ({ data }) => {
+          console.log("comment add ", data);
+          _this.cwriter = "";
+          _this.ccontent = "";
+          _this.getComments();
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+
+      /*
       fetch("http://localhost:8888/comment", {
         method: "post",
         body: JSON.stringify({
@@ -243,10 +277,24 @@ export default {
           _this.ccontent = "";
           _this.getComments();
         });
+        */
     },
     modifyCommentView(cno) {
       let _this = this;
       _this.cno = cno;
+      cRead(
+        this.cno,
+        ({ data }) => {
+          console.log("modify Comment view", data);
+          this.cwriter = data.cwriter;
+          this.ccontent = data.ccontent;
+          this.action = "수정";
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+      /*
       fetch("http://localhost:8888/comment/one/" + cno)
         .then((response) => response.json())
         .then((data) => {
@@ -255,10 +303,30 @@ export default {
           _this.ccontent = data.ccontent;
           _this.action = "수정";
         });
+        */
     },
     modifyComment() {
       let _this = this;
-
+      let param = {
+        bno: _this.bno,
+        ccontent: _this.ccontent,
+        cno: _this.cno,
+        cwriter: _this.cwriter,
+      };
+      cModify(
+        param,
+        ({ data }) => {
+          console.log("comment modify ", data);
+          _this.cwriter = "";
+          _this.ccontent = "";
+          _this.getComments();
+          _this.action = "추가";
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+      /*
       fetch("http://localhost:8888/comment", {
         method: "put",
         body: JSON.stringify({
@@ -279,9 +347,21 @@ export default {
           _this.getComments();
           _this.action = "추가";
         });
+        */
     },
     deleteComment(cno) {
       //let _this = this;
+      cDelete(
+        cno,
+        ({ data }) => {
+          console.log("comment delete", data);
+          this.getComments();
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+      /*
       fetch("http://localhost:8888/comment/" + cno, {
         method: "delete",
       })
@@ -290,6 +370,7 @@ export default {
           console.log("comment delete", data);
           this.getComments();
         });
+        */
     },
     getImgPath() {
       let n = Math.floor(Math.random() * 9) + 1;
@@ -326,5 +407,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>

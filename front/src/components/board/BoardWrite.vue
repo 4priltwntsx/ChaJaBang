@@ -2,18 +2,10 @@
   <div>
     <v-row>
       <v-col>
-        <v-card class="overflow-hidden" >
+        <v-card class="overflow-hidden">
           <v-card-text>
-            <v-text-field
-              color="indigo lighten-3"
-              label="Title"
-              v-model="title"
-            ></v-text-field>
-            <v-text-field
-              color="indigo lighten-3"
-              label="Writer"
-              v-model="writer"
-            ></v-text-field>
+            <v-text-field color="indigo lighten-3" label="Title" v-model="title"></v-text-field>
+            <v-text-field color="indigo lighten-3" label="Writer" v-model="writer"></v-text-field>
           </v-card-text>
         </v-card> </v-col
     ></v-row>
@@ -34,15 +26,14 @@
       {{ result }}
 
       <template v-slot:action="{ attrs }">
-        <v-btn color="pink" text v-bind="attrs" @click="isShow = false">
-          Close
-        </v-btn>
+        <v-btn color="pink" text v-bind="attrs" @click="isShow = false"> Close </v-btn>
       </template>
     </v-snackbar>
   </div>
 </template>
 
 <script>
+import { bWrite } from "@/api/board";
 export default {
   data() {
     return {
@@ -58,6 +49,25 @@ export default {
   methods: {
     write() {
       let _this = this;
+      let param = {
+        title: _this.title,
+        writer: _this.writer,
+        content: _this.content,
+      };
+      bWrite(
+        param,
+        ({ data }) => {
+          alert(data);
+          _this.result = data;
+          _this.isShow = true;
+
+          _this.$router.push({ name: "boardList" });
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+      /*
       fetch("http://localhost:8888/board", {
         method: "post",
         body: JSON.stringify({
@@ -77,10 +87,10 @@ export default {
 
           _this.$router.push({ name: "boardList" });
         });
+        */
     },
   },
 };
 </script>
 
-<style>
-</style>
+<style></style>
