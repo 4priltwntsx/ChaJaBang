@@ -1,19 +1,14 @@
 <template>
-  <user-login/>
+  <router-view />
 </template>
 
 <script>
-
-import UserLogin from "@/components/user/UserLogin.vue";
 export default {
   name: "UserView",
 
-  components: {
-    UserLogin,
-  },
+  components: {},
 };
 </script>
 
 <style>
-
 </style>

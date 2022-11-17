@@ -9,35 +9,27 @@ https://vuetifyjs.com/en/components/app-bars/#dense
         @click.stop="drawer = !drawer"
       ></v-app-bar-nav-icon>
 
-      <v-toolbar-title >
-        <router-link to="/" id="logo">
-          MyHome
-        </router-link>
-        </v-toolbar-title>
+      <v-toolbar-title>
+        <router-link to="/" id="none-a"> MyHome </router-link>
+      </v-toolbar-title>
 
       <v-spacer></v-spacer>
 
-      <v-btn icon @click="moveLogin">
+      <v-btn icon @click="move2Login">
         <v-icon>mdi-heart</v-icon>
       </v-btn>
 
       <v-btn icon>
         <v-icon>mdi-magnify</v-icon>
       </v-btn>
-
-      <v-menu left bottom>
-        <template v-slot:activator="{ on, attrs }">
-          <v-btn icon v-bind="attrs" v-on="on">
-            <v-icon>mdi-dots-vertical</v-icon>
-          </v-btn>
-        </template>
-
-        <v-list>
-          <v-list-item>
-            <v-list-item-title>hello</v-list-item-title>
-          </v-list-item>
-        </v-list>
-      </v-menu>
+      <div v-if="userInfo">
+        <v-btn text @click="move2Login">MyPage</v-btn>
+        <v-btn text @click="move2Register">Logout</v-btn>
+      </div>
+      <div v-else>
+        <v-btn text @click="move2Login">Login</v-btn>
+        <v-btn text @click="move2Register">Join</v-btn>
+      </div>
     </v-app-bar>
     <v-navigation-drawer v-model="drawer" absolute left temporary>
       <v-list nav dense>
@@ -80,20 +72,25 @@ export default {
       this.drawer = false;
     },
   },
-  methods:{
-      moveLogin() {
-      this.$router.push({ name: "Login" });
+  methods: {
+    move2Register() {
+      console.log("move register");
+      this.$router.push({ name: "join" });
+    },
+    move2Login() {
+      console.log("move login");
+      this.$router.push({ name: "login" });
     },
     move2Home() {
       this.$router.push({ name: "main" });
     },
-  }
+  },
 };
 </script>
 
 <style>
-#logo{
- text-decoration: none;
- color : white;
+#none-a {
+  text-decoration: none;
+  color: white;
 }
 </style>

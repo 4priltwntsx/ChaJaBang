@@ -10,7 +10,6 @@ import BoardDetail from "../components/board/BoardDetail.vue"
 import UserLogin from "@/components/user/UserLogin"
 import UserMyPage from "@/components/user/UserMyPage"
 import UserRegister from "@/components/user/UserRegister"
-
 import BoardModify from "@/components/board/BoardModify.vue"
 
 import store from "@/store";
