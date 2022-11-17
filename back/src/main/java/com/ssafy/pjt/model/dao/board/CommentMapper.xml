@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.pjt.model.dao.board.CommentMapper">
+	<insert id="insert" parameterType="CommentDTO">
+		INSERT INTO COMMENT_TB(BNO,
+		CWRITER, CCONTENT)
+		VALUES(#{bno}, #{cwriter}, #{ccontent})
+	</insert>
+
+	<resultMap type="CommentDTO" id="Comment">
+		<result column="CWRITE_DATE" property="cwriteDate"/>
+	</resultMap>
+
+	<select id="selectList" resultMap="Comment">
+		SELECT CNO, BNO, CWRITER, CCONTENT, CWRITE_DATE
+		FROM COMMENT_TB
+		WHERE BNO=#{bno}
+	</select>
+	<select id = "selectOne" resultType="CommentDTO">
+		SELECT CNO, BNO, CWRITER, CCONTENT
+		FROM COMMENT_TB
+		WHERE CNO=#{cno}
+	</select>
+
+	<update id="modify" parameterType="CommentDTO">
+		UPDATE COMMENT_TB
+		SET CCONTENT=#{ccontent}
+		where CNO = #{cno}
+	</update>
+	
+	<delete id="delete" parameterType="int">
+		DELETE FROM COMMENT_TB
+		WHERE CNO = #{cno}
+	</delete>
+</mapper>
