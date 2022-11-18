@@ -7,6 +7,7 @@ const naverStore ={
     newsList: [],
     blogList: [],
     shopList: [],
+    news3:[],
   },
   getters: {
     // 굳이 state에 데이터를 중복해서 저장할 필요는 없늗네 가공된 데이터를
@@ -26,6 +27,11 @@ const naverStore ={
     },
     SEARCH_NAVER_NEWS(state, payload) {
       state.newsList = payload;
+      state.news3 = [];
+      state.newsList.forEach(news => {
+        state.news3.push(news);
+      });
+      state.news3.slice(0, 3);
     },
   },
   actions: {
