@@ -13,6 +13,8 @@ import UserRegister from "@/components/user/UserRegister";
 import BoardModify from "@/components/board/BoardModify.vue";
 import HouseDetail from "@/components/house/HouseDetail.vue";
 import HouseTable from "@/components/house/HouseTable.vue";
+import HouseNews from "@/components/house/HouseNews.vue";
+
 import BoardNoticeWrite from "@/components/board/alpha/BoardNoticeWrite";
 import NoticeDetail from "@/components/board/alpha/NoticeDetail";
 import NoticeModify from "@/components/board/alpha/NoticeModify";
@@ -58,7 +60,7 @@ const routes = [
     component: HouseView,
     children: [
       {
-        path: "/house",
+        path: "",
         name: "houseTable",
         component: HouseTable,
       },
@@ -66,6 +68,10 @@ const routes = [
         path: "aptdetail",
         name: "houseDetail",
         component: HouseDetail,
+      },  {
+        path: "aptNews",
+        name: "news",
+        component: HouseNews,
       },
     ],
   },

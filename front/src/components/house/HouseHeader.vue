@@ -28,6 +28,8 @@
       <v-btn size="small"> select box </v-btn>
       &nbsp;&nbsp;&nbsp;
       <v-btn size="small" @click="move2Home"> Home </v-btn>
+      &nbsp;&nbsp;&nbsp;
+      <v-btn size="small" @click="move2News"> news</v-btn>
     </v-card-text>
   </v-card>
 </template>
@@ -93,6 +95,9 @@ export default {
     move2Home() {
       this.$router.push({ name: "main" });
     },
+    move2News() {
+      this.$router.push({ name: "news" });
+    },    
   },
 };
 </script>
