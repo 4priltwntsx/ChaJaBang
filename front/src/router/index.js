@@ -3,22 +3,21 @@ import VueRouter from "vue-router";
 import MainView from "../views/MainView.vue";
 import HouseView from "../views/HouseView.vue";
 import BoardView from "../views/BoardView.vue";
-import BoardWrite from "../components/board/BoardWrite.vue"
-import BoardList from "../components/board/BoardList.vue"
-import BoardNotice from "../components/board/alpha/BoardNotice.vue"
-import BoardDetail from "../components/board/BoardDetail.vue"
-import UserLogin from "@/components/user/UserLogin"
-import UserMyPage from "@/components/user/UserMyPage"
-import UserRegister from "@/components/user/UserRegister"
-import BoardModify from "@/components/board/BoardModify.vue"
-import HouseDetail from "@/components/house/HouseDetail.vue"
-import HouseTable from "@/components/house/HouseTable.vue"
-import BoardNoticeWrite from "@/components/board/alpha/BoardNoticeWrite"
-import NoticeDetail from "@/components/board/alpha/NoticeDetail"
-import NoticeModify from "@/components/board/alpha/NoticeModify"
+import BoardWrite from "../components/board/BoardWrite.vue";
+import BoardList from "../components/board/BoardList.vue";
+import BoardNotice from "../components/board/alpha/BoardNotice.vue";
+import BoardDetail from "../components/board/BoardDetail.vue";
+import UserLogin from "@/components/user/UserLogin";
+import UserMyPage from "@/components/user/UserMyPage";
+import UserRegister from "@/components/user/UserRegister";
+import BoardModify from "@/components/board/BoardModify.vue";
+import HouseDetail from "@/components/house/HouseDetail.vue";
+import HouseTable from "@/components/house/HouseTable.vue";
+import BoardNoticeWrite from "@/components/board/alpha/BoardNoticeWrite";
+import NoticeDetail from "@/components/board/alpha/NoticeDetail";
+import NoticeModify from "@/components/board/alpha/NoticeModify";
 
 import store from "@/store";
-
 
 Vue.use(VueRouter);
 
@@ -43,7 +42,6 @@ const onlyAuthUser = async (to, from, next) => {
   }
 };
 
-
 const routes = [
   {
     path: "/",
@@ -65,7 +63,7 @@ const routes = [
         name: "houseDetail",
         component: HouseDetail,
       },
-    ]
+    ],
   },
   {
     path: "/board",
@@ -75,40 +73,42 @@ const routes = [
       {
         path: "",
         name: "boardList",
-        component : BoardList,
+        component: BoardList,
       },
       {
         path: "write",
         name: "boardWrite",
-        component : BoardWrite,
-      },{
+        component: BoardWrite,
+      },
+      {
         path: "detail",
         name: "boardDetail",
-        component : BoardDetail,
+        component: BoardDetail,
       },
       {
         path: "notice",
         name: "notice",
-        component : BoardNotice,
-      },{
+        component: BoardNotice,
+      },
+      {
         path: "modify",
         name: "boardModify",
-        component : BoardModify,
+        component: BoardModify,
       },
       {
         path: "nwrite",
         name: "noticeWrite",
-        component : BoardNoticeWrite,
+        component: BoardNoticeWrite,
       },
       {
         path: "nmodify",
         name: "noticeModify",
-        component : NoticeModify,
+        component: NoticeModify,
       },
       {
         path: "ndetail",
         name: "noticeDetail",
-        component : NoticeDetail,
+        component: NoticeDetail,
       },
     ],
   },

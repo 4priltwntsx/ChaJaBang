@@ -12,7 +12,7 @@ https://vuetifyjs.com/en/components/app-bars/#dense
 
       <v-spacer></v-spacer>
 
-      <v-btn icon @click="move2Login">
+      <v-btn icon @click="move2MyPage">
         <v-icon>mdi-heart</v-icon>
       </v-btn>
 
@@ -20,7 +20,7 @@ https://vuetifyjs.com/en/components/app-bars/#dense
         <v-icon>mdi-magnify</v-icon>
       </v-btn>
       <div v-if="userInfo">
-        <v-btn text @click="move2Login">MyPage</v-btn>
+        <v-btn text @click="move2MyPage">MyPage</v-btn>
         <v-btn text @click.prevent="onClickLogout">Logout</v-btn>
       </div>
       <div v-else>
@@ -30,7 +30,7 @@ https://vuetifyjs.com/en/components/app-bars/#dense
     </v-app-bar>
     <v-navigation-drawer v-model="drawer" absolute left temporary>
       <v-list nav dense>
-        <v-list-item-group v-model="group" active-class="pink lighten-2--text white--text">
+        <v-list-item-group v-model="group" active-class="indigo lighten-2--text white--text">
           <v-list-item>
             <v-list-item-title>Foo</v-list-item-title>
           </v-list-item>
@@ -83,6 +83,10 @@ export default {
     },
     move2Home() {
       this.$router.push({ name: "main" });
+    },
+    move2MyPage() {
+      console.log("move mypage");
+      this.$router.push({ name: "mypage" });
     },
     ...mapActions(memberStore, ["userLogout"]),
     // ...mapMutations(memberStore, ["SET_IS_LOGIN", "SET_USER_INFO"]),
