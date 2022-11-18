@@ -4,6 +4,7 @@ https://vuetifyjs.com/en/components/simple-tables/#fixed-header
 <template>
 
   <v-simple-table fixed-header max-width="580" height="240">
+    
     <template v-slot:default>
       <thead>
         <tr>
@@ -12,9 +13,9 @@ https://vuetifyjs.com/en/components/simple-tables/#fixed-header
         </tr>
       </thead>
       <tbody>
-        <tr v-for="item in desserts" :key="item.bno">
-          <td><b>{{ item.title }}</b></td>
-          <td>{{ item.writeDate | yyyyMMdd}}</td>
+        <tr v-for="item in latest" :key="item.bno">
+          <td @click="move2Detail(item.nno)"><b>{{ item.ntitle }}</b></td>
+          <td>{{ item.nwriteDate | yyyyMMdd}}</td>
         </tr>
       </tbody>
     </template>
@@ -22,28 +23,31 @@ https://vuetifyjs.com/en/components/simple-tables/#fixed-header
 </template>
 
 <script>
+  import {mapState, mapActions} from "vuex";
+
+  const boardStore = "boardStore";
+
   export default {
+    name: "boardNotice4",
     data() {
       return {
-        desserts: [
-          {
-            title: "비회원 이용 안내",
-            writeDate: "2022-09-16 15:06:05",
-          },
-          {
-            title: "정보 공유에 관한 규칙 안내",
-            writeDate: "2022-10-21 13:48:26",
-          },
-          {
-            title: "에티켓을 지켜주세요",
-            writeDate: "2022-10-21 13:48:26",
-          },
-          {
-            title: "이용안내",
-            writeDate: "2022-10-21 13:48:26",
-          },
-        ],
       };
+    },
+    created(){
+      this.getLatest();
+      console.log(this.notices);
+    },
+    computed:{
+      ...mapState(boardStore, ["notices", "latest"]),
+
+    },
+    methods:{
+      ...mapActions(boardStore, ["getLatest"]),
+      move2Detail(nno){
+
+        this.$router.push({ name: "noticeDetail" ,params: { nno } });
+
+      },
     },
     filters: {
       // filter로 쓸 filter ID 지정

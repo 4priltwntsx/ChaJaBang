@@ -13,6 +13,9 @@ import UserRegister from "@/components/user/UserRegister"
 import BoardModify from "@/components/board/BoardModify.vue"
 import HouseDetail from "@/components/house/HouseDetail.vue"
 import HouseTable from "@/components/house/HouseTable.vue"
+import BoardNoticeWrite from "@/components/board/alpha/BoardNoticeWrite"
+import NoticeDetail from "@/components/board/alpha/NoticeDetail"
+import NoticeModify from "@/components/board/alpha/NoticeModify"
 
 import store from "@/store";
 
@@ -53,7 +56,7 @@ const routes = [
     component: HouseView,
     children: [
       {
-        path: "",
+        path: "/house",
         name: "houseTable",
         component: HouseTable,
       },
@@ -92,7 +95,21 @@ const routes = [
         name: "boardModify",
         component : BoardModify,
       },
-      
+      {
+        path: "nwrite",
+        name: "noticeWrite",
+        component : BoardNoticeWrite,
+      },
+      {
+        path: "nmodify",
+        name: "noticeModify",
+        component : NoticeModify,
+      },
+      {
+        path: "ndetail",
+        name: "noticeDetail",
+        component : NoticeDetail,
+      },
     ],
   },
   {

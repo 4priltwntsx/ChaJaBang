@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ssafy.pjt.model.dao.board.CommentMapper">
 	<insert id="insert" parameterType="CommentDTO">
-		INSERT INTO COMMENT_TB(BNO,
+		INSERT INTO COMMENT(BNO,
 		CWRITER, CCONTENT)
 		VALUES(#{bno}, #{cwriter}, #{ccontent})
 	</insert>
@@ -13,23 +13,23 @@
 
 	<select id="selectList" resultMap="Comment">
 		SELECT CNO, BNO, CWRITER, CCONTENT, CWRITE_DATE
-		FROM COMMENT_TB
+		FROM COMMENT
 		WHERE BNO=#{bno}
 	</select>
 	<select id = "selectOne" resultType="CommentDTO">
 		SELECT CNO, BNO, CWRITER, CCONTENT
-		FROM COMMENT_TB
+		FROM COMMENT
 		WHERE CNO=#{cno}
 	</select>
 
 	<update id="modify" parameterType="CommentDTO">
-		UPDATE COMMENT_TB
+		UPDATE COMMENT
 		SET CCONTENT=#{ccontent}
 		where CNO = #{cno}
 	</update>
 	
 	<delete id="delete" parameterType="int">
-		DELETE FROM COMMENT_TB
+		DELETE FROM COMMENT
 		WHERE CNO = #{cno}
 	</delete>
 </mapper>

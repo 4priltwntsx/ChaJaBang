@@ -114,8 +114,10 @@ export default {
             email: _this.email,
           })
         )
-        .then((response) => response.text())
+        .then((response) => console.log(response))
         .catch(console.log("register fail"));
+      this.$router.push({ name: "main" });
+        
     },
     reset() {
       this.$refs.form.reset();

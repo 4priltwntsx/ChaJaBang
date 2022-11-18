@@ -4,55 +4,55 @@
 
 	<insert id="insert" parameterType="BoardDTO" useGeneratedKeys="true" keyProperty="bno" >
 		INSERT INTO
-		BOARD_TB(TITLE, WRITER, CONTENT, WRITE_DATE)
+		BOARD(TITLE, WRITER, CONTENT, WRITE_DATE)
 		VALUES(#{title}, #{writer}, #{content}, NOW())
 	</insert>
 	
 	<update id="updateReadCount" parameterType="int">
-		UPDATE BOARD_TB
+		UPDATE BOARD
 		SET READ_COUNT = READ_COUNT+1
 		WHERE BNO=#{bno}
 	</update>	
 	
 	<select id="selectList" resultMap="rrrr">
 		SELECT 	BNO, TITLE, WRITER, WRITE_DATE, READ_COUNT
-		FROM BOARD_TB
+		FROM BOARD
 		ORDER BY BNO DESC
 		LIMIT #{start}, #{cnt}
 	</select>
 	
 	<select id="selectAll" resultMap="rrrr">
 		SELECT 	BNO, TITLE, WRITER, WRITE_DATE, READ_COUNT
-		FROM BOARD_TB
+		FROM BOARD
 		ORDER BY BNO DESC
 
 	</select>
 	
 	<select id="orderList" resultMap="rrrr">
 		SELECT BNO, TITLE, WRITER, WRITE_DATE, READ_COUNT
-		FROM BOARD_TB
+		FROM BOARD
 		ORDER BY READ_COUNT DESC
 				LIMIT 4
 	</select>
 	
 	<select id="selectOne" resultMap="rrrr">	
 		SELECT  *
-		FROM BOARD_TB WHERE BNO=#{bno}
+		FROM BOARD WHERE BNO=#{bno}
 	</select>
 	
 	<select id="selectTotalCount" resultType="int">
-		SELECT COUNT(*) FROM BOARD_TB
+		SELECT COUNT(*) FROM BOARD
 	</select>
 
 		
 	<update id="modify" parameterType="BoardDTO">
-		UPDATE BOARD_TB
+		UPDATE BOARD
 		SET TITLE=#{title}, CONTENT=#{content}
 		where BNO = #{bno}
 	</update>
 	
 	<delete id="delete" parameterType="int">
-		DELETE FROM BOARD_TB
+		DELETE FROM BOARD
 		WHERE BNO = #{bno}
 	</delete>
 	

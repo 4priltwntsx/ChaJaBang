@@ -49,4 +49,10 @@ public class MemberServiceImpl implements MemberService {
 		sqlSession.getMapper(MemberMapper.class).deleteRefreshToken(map);
 	}
 
+	@Override
+	public int reigst(UserDTO memberDto) throws Exception {
+		
+		return sqlSession.getMapper(MemberMapper.class).regist(memberDto);
+	}
+
 }
