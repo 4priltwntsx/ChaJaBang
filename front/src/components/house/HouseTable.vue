@@ -8,13 +8,18 @@ https://vuetifyjs.com/en/components/simple-tables/#usage
         <tr>
           <th class="text-left">아파트 이름</th>
           <th class="text-left">건축년도</th>
-
+          <th class="text-left">좋아요</th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="item in houses" :key="item.aptCode">
           <td @click="getlist(item.aptCode)">{{ item.apartmentName }}</td>
           <td>{{ item.buildYear }}년</td>
+          <td>
+            <v-btn @click="btnClick(item.aptCode)"
+              ><v-icon size="small" color="indigo lighten-1">mdi-heart</v-icon></v-btn
+            >
+          </td>
         </tr>
       </tbody>
     </template>
@@ -22,10 +27,10 @@ https://vuetifyjs.com/en/components/simple-tables/#usage
 </template>
 
 <script>
-import {mapState, mapActions, mapMutations} from "vuex";
+import { mapState, mapActions, mapMutations } from "vuex";
 
 const houseStore = "houseStore";
-
+const memberStore = "memberStore";
 export default {
   name: "HouseTable",
   data() {
@@ -33,32 +38,41 @@ export default {
       aptCode: null,
     };
   },
-  created(){
-        this.CLEAR_HOUSE_POINT();
-
+  created() {
+    this.CLEAR_HOUSE_POINT();
   },
-  computed:{
+  computed: {
     ...mapState(houseStore, ["houses", "points", "house", "deals"]),
+    ...mapState(memberStore, ["userInfo"]),
   },
-  watch:{
-    deals(){
+  watch: {
+    deals() {
       this.move2Detail();
-    }
+    },
   },
-  methods:{
+  methods: {
     ...mapActions(houseStore, ["getDetail", "getDealList"]),
     ...mapMutations(houseStore, ["CLEAR_HOUSE_POINT", "CLEAR_APT_LIST"]),
-    getlist(code){
+    getlist(code) {
       console.log(code);
       this.getDetail(code);
       this.getDealList(code);
     },
-    move2Detail(){
+    btnClick(code) {
+      console.log("house table interest click", code);
+      let id = this.userInfo.userid;
+      console.log(id);
+      let param = {
+        aptcode: code,
+        userid: id,
+      };
+      console.log(param);
+    },
+    move2Detail() {
       // this.CLAER_HOUSE_POINT();
-      this.$router.push({name: "houseDetail"})
-    }
-  }
-  
+      this.$router.push({ name: "houseDetail" });
+    },
+  },
 };
 </script>
 

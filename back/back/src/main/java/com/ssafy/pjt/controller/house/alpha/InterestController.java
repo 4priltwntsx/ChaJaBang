@@ -26,6 +26,7 @@ public class InterestController {
 
 	@PostMapping()
 	public ResponseEntity<?> interest(@RequestBody InterestDTO interest) {
+		System.out.println("!!!!!!!!!!!!!!!"+interest);
 		if (service.interest(interest)) {
 			return new ResponseEntity<String>("interest success!!", HttpStatus.ACCEPTED);
 		} else {
@@ -47,7 +48,7 @@ public class InterestController {
 		return new ResponseEntity<List<InterestDTO>>(service.getInterests(userid), HttpStatus.ACCEPTED);
 	}
 
-	@GetMapping("/{aptcode}")
+	@GetMapping("/cnt/{aptcode}")
 	public ResponseEntity<?> getCount(@PathVariable("aptcode") long aptcode) {
 		return new ResponseEntity<Integer>(service.getCount(aptcode), HttpStatus.ACCEPTED);
 	}
