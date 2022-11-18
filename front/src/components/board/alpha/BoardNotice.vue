@@ -33,6 +33,7 @@ https://vuetifyjs.com/en/components/data-tables/#server-side-paginate-and-sort
 </template>
 
 <script>
+// import { nRead } from "@/api/board";
 import {mapState, mapActions, mapMutations} from "vuex";
 
 const boardStore = "boardStore";
@@ -58,7 +59,7 @@ export default {
   },
   created(){
     this.getNotices();
-    this.
+    this.getLatest();
     console.log(this.notices);
   },
 
@@ -69,12 +70,14 @@ export default {
 
   },
   methods: {
-    ...mapActions(boardStore, ["getNotices","getLatest"]),
+    ...mapActions(boardStore, ["getNotices","getLatest","getNotice"]),
     ...mapMutations(boardStore, ["SET_NOTICE_LIST"]),
 
     move2Detail(el){
       let nno = el.nno;
-      this.$router.push({ name: "noticeDetail" ,params: { nno } });
+      this.getNotice(nno);
+      // this.$router.push({ name: "noticeDetail" ,params: { nno } });
+      this.$router.push({ name: "noticeDetail"});
 
     },
     move2Write(){

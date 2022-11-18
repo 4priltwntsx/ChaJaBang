@@ -14,7 +14,7 @@ https://vuetifyjs.com/en/components/lists/#action-stack
 
           <br />
           <v-card-title
-            ><h3>{{ board.ntitle }}</h3>
+            ><h3>{{ notice.ntitle }}</h3>
           </v-card-title>
           <div style="text-align: right">
             <h4>
@@ -24,17 +24,17 @@ https://vuetifyjs.com/en/components/lists/#action-stack
           </div>
           <v-card-text>
             <div style="text-align: right">
-              <span class="my-4 text-subtitle-1"> 작성일 : {{ board.nwriteDate | yyyyMMdd }} </span>
+              <span class="my-4 text-subtitle-1"> 작성일 : {{ notice.nwriteDate | yyyyMMdd }} </span>
             </div>
 
-            <h3 v-html="board.ncontent"></h3>
+            <h3 v-html="notice.ncontent"></h3>
             <br />
 
           </v-card-text>
                       <v-row style="text-align: center">
               <v-col cols="12" md="2"></v-col>
               <v-col cols="12" md="2"
-                ><v-btn center color="indigo lighten-3" @click="modifyNotice(board.nno)"
+                ><v-btn center color="indigo lighten-3" @click="modifyNotice(notice.nno)"
                   >수정</v-btn
                 ></v-col
               >
@@ -54,8 +54,13 @@ https://vuetifyjs.com/en/components/lists/#action-stack
 </template>
 
 <script>
-import { nRead, nDelete } from "@/api/board";
+import {nDelete } from "@/api/board";
+import { mapState} from "vuex";
+
+const boardStore = "boardStore";
+
 export default {
+  name: "NoticeDetail",
   data() {
     return {
       nno: 0,
@@ -65,23 +70,11 @@ export default {
   },
 
   created() {
-    this.nno = this.$route.params.nno;
-    let _this = this;
-
-    let param = this.nno;
-    nRead(
-      param,
-      ({ data }) => {
-        _this.board = data;
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
 
   },
-  watch: {
-  },
+  computed: {
+    ...mapState(boardStore, [ "notice"]),
+    },
   methods: {
 
     modifyNotice(nno) {
