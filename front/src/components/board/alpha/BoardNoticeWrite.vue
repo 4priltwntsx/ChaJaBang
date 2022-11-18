@@ -33,6 +33,9 @@
 
 <script>
 import { nWrite } from "@/api/board";
+import { mapActions } from "vuex";
+
+const boardStore = "boardStore";
 export default {
   data() {
     return {
@@ -45,6 +48,7 @@ export default {
     };
   },
   methods: {
+    ...mapActions(boardStore, ["getLatest"]),
     write() {
       let _this = this;
       let param = {
@@ -57,7 +61,7 @@ export default {
           alert(data);
           _this.result = data;
           _this.isShow = true;
-
+          this.getLatest();
           _this.$router.push({ name: "notice" });
         },
         (error) => {
