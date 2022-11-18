@@ -16,6 +16,10 @@ import HouseTable from "@/components/house/HouseTable.vue";
 import BoardNoticeWrite from "@/components/board/alpha/BoardNoticeWrite";
 import NoticeDetail from "@/components/board/alpha/NoticeDetail";
 import NoticeModify from "@/components/board/alpha/NoticeModify";
+import QnaList from "@/components/board/alpha/QnaList";
+import QnaDetail from "@/components/board/alpha/QnaDetail";
+import QnaModify from "@/components/board/alpha/QnaModify";
+import QnaWrite from "@/components/board/alpha/QnaWrite";
 
 import store from "@/store";
 
@@ -109,6 +113,26 @@ const routes = [
         path: "ndetail",
         name: "noticeDetail",
         component: NoticeDetail,
+      },
+      {
+        path: "qna",
+        name: "qna",
+        component: QnaList,
+      },
+      {
+        path: "qmodify",
+        name: "qnaModify",
+        component: QnaModify,
+      },
+      {
+        path: "qwrite",
+        name: "qnaWrite",
+        component: QnaWrite,
+      },
+      {
+        path: "qdetail",
+        name: "qDetail",
+        component: QnaDetail,
       },
     ],
   },
