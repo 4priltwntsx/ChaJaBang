@@ -87,6 +87,7 @@ export default {
     },
     searchApt() {
       if (this.dongName) this.getHouseList({sidoName: this.sidoName, gugunName: this.gugunName, dongName: this.dongName});
+      this.$router.push({name:"houseTable"})
     },
 
     move2Home() {

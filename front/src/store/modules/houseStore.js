@@ -10,7 +10,8 @@ const houseStore = {
     houses: [],
     house: null,
     deals: [],
-    points:[],
+    points: [], 
+    point: [],
   },
   getters: {
   },
@@ -48,6 +49,7 @@ const houseStore = {
     SET_HOUSE_LIST(state, houses) {
       state.houses = houses;
       state.points = [];
+      state.house = null;
       houses.forEach((house) => {
         state.points.push([house.lat, house.lng]);
         console.log(house.lat);
@@ -55,11 +57,17 @@ const houseStore = {
     },
     SET_DETAIL_HOUSE(state, house) {
       state.house = house;
+      state.point = [];
+      state.point.push([house.lat, house.lng]);
     },
     SET_DEAL_LIST(state, deals) {
+      state.deals = [];
       deals.forEach((deal) => {
         state.deals.push(deal);
       });
+    },
+    CLEAR_HOUSE_POINT(state) {
+      state.point = [];
     }
   
   },

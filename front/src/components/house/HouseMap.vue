@@ -23,11 +23,15 @@
       }
     },
 
-    mounted() {
-
+    created() {
+        // this.$forceUpdate();
+        this.map = null;
+      if (window.kakao && window.kakao.maps) {
+        this.initMap();
+      } 
     },
     computed:{
-    ...mapState(houseStore,["houses","points"]),
+    ...mapState(houseStore,["houses","points","point"]),
 
     },
     watch:{
@@ -44,6 +48,23 @@
         document.head.appendChild(script);
         
       }
+      },
+      point(){
+        const mapContainer = document.getElementById("map");
+        const options = {
+          center: new kakao.maps.LatLng(33.450701, 126.570667),
+          level: 5,
+        };
+
+        this.map = new kakao.maps.Map(mapContainer, options);
+        console.log(this.point);
+        if(this.point.length!=0){
+          console.log(this.point);
+        this.displayMarker(this.point);
+        }else{
+          console.log(this.points);
+          this.displayMarker(this.points);
+        }
       }
     },
     methods: {

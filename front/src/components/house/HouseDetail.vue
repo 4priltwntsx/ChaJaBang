@@ -1,7 +1,19 @@
 <template>
 <div>
   <h3>{{house.apartmentName}}</h3>
-  <h4>{{house.buildYear}} 준공 </h4>
+  <h4>{{house.buildYear}} 준공 </h4>      
+  <v-btn @click="move2Table"
+        class="ma-2"
+        color="indigo darken-2"
+        dark
+      >
+        <v-icon
+          dark
+          left
+        >
+          mdi-arrow-left
+        </v-icon>Back
+      </v-btn>
   <v-simple-table fixed-header max-width="580" height="590">
     <template v-slot:default>
       <thead>
@@ -13,7 +25,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="item in deals" :key="item.aptCode">
+        <tr v-for="item in deals" :key="item.no">
           <td>{{ item.no }}</td>
           <td>{{ item.dealYear}}년 {{item.dealMonth}}월 {{item.dealDay}}일</td>
           <td>{{ item.floor }}층</td>
@@ -39,6 +51,11 @@ export default {
   computed:{
     ...mapState(houseStore, ["houses", "points", "house", "deals"]),
     
+  },
+  methods:{
+    move2Table(){
+      this.$router.push({name:"houseTable"})
+    }
   },
 }
 </script>

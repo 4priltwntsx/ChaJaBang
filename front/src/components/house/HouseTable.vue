@@ -33,6 +33,10 @@ export default {
       aptCode: null,
     };
   },
+  created(){
+        this.CLEAR_HOUSE_POINT();
+
+  },
   computed:{
     ...mapState(houseStore, ["houses", "points", "house", "deals"]),
   },
@@ -43,13 +47,14 @@ export default {
   },
   methods:{
     ...mapActions(houseStore, ["getDetail", "getDealList"]),
-    ...mapMutations(houseStore, ["CLEAR_SIDO_LIST", "CLEAR_GUGUN_LIST","CLEAR_DONG_LIST", "CLEAR_APT_LIST"]),
+    ...mapMutations(houseStore, ["CLEAR_HOUSE_POINT", "CLEAR_APT_LIST"]),
     getlist(code){
       console.log(code);
       this.getDetail(code);
       this.getDealList(code);
     },
     move2Detail(){
+      // this.CLAER_HOUSE_POINT();
       this.$router.push({name: "houseDetail"})
     }
   }
