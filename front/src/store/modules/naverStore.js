@@ -1,10 +1,6 @@
 import http from "@/api/http";
-import Vue from 'vue'
-import Vuex from 'vuex'
 
-Vue.use(Vuex)
-
-const naverStore = new Vuex.Store({
+const naverStore ={
   namespaced: true,
 
   state: {
@@ -53,7 +49,7 @@ const naverStore = new Vuex.Store({
   },
   modules: {
   },
-});
+}
 
 export default naverStore;
   
