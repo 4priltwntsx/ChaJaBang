@@ -4,6 +4,7 @@ public class QnaDTO {
 	private int qno;
 	private String qtitle;
 	private String qcontent;
+	private String qwriter;
 	private String qwriteDate;
 	private String acontent;
 	private String awriteDate;
@@ -15,12 +16,13 @@ public class QnaDTO {
 		// TODO Auto-generated constructor stub
 	}
 
-	public QnaDTO(int qno, String qtitle, String qcontent, String qwriteDate, String acontent, String awriteDate,
-			boolean isAnswered, boolean isChecked) {
+	public QnaDTO(int qno, String qtitle, String qcontent, String qwriter, String qwriteDate, String acontent,
+			String awriteDate, boolean isAnswered, boolean isChecked) {
 		super();
 		this.qno = qno;
 		this.qtitle = qtitle;
 		this.qcontent = qcontent;
+		this.qwriter = qwriter;
 		this.qwriteDate = qwriteDate;
 		this.acontent = acontent;
 		this.awriteDate = awriteDate;
@@ -50,6 +52,14 @@ public class QnaDTO {
 
 	public void setQcontent(String qcontent) {
 		this.qcontent = qcontent;
+	}
+
+	public String getQwriter() {
+		return qwriter;
+	}
+
+	public void setQwriter(String qwriter) {
+		this.qwriter = qwriter;
 	}
 
 	public String getQwriteDate() {
@@ -94,9 +104,9 @@ public class QnaDTO {
 
 	@Override
 	public String toString() {
-		return "QnaDTO [qno=" + qno + ", qtitle=" + qtitle + ", qcontent=" + qcontent + ", qwriteDate=" + qwriteDate
-				+ ", acontent=" + acontent + ", awriteDate=" + awriteDate + ", isAnswered=" + isAnswered
-				+ ", isChecked=" + isChecked + "]";
+		return "QnaDTO [qno=" + qno + ", qtitle=" + qtitle + ", qcontent=" + qcontent + ", qwriter=" + qwriter
+				+ ", qwriteDate=" + qwriteDate + ", acontent=" + acontent + ", awriteDate=" + awriteDate
+				+ ", isAnswered=" + isAnswered + ", isChecked=" + isChecked + "]";
 	}
 
 }

@@ -38,7 +38,7 @@ export default {
       this.$router.push({ name: "notice" });
     },
     move2Qna() {
-      this.$router.push({ name: "qna" });
+      this.$router.push({ name: "qnaWrite" });
     },
     move2Home() {
       this.$router.push({ name: "main" });

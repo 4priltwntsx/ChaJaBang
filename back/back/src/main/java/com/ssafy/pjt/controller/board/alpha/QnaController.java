@@ -27,6 +27,7 @@ public class QnaController {
 
 	@PostMapping()
 	public ResponseEntity<?> write(@RequestBody QnaDTO qna) {
+		System.out.println("!!!!!!!!!!!!!!!!!!"+qna);
 		if (service.write(qna)) {
 			return new ResponseEntity<String>("qna write success!!", HttpStatus.ACCEPTED);
 		} else {
