@@ -12,6 +12,8 @@ const houseStore = {
     deals: [],
     points: [], 
     point: [],
+    sido: "",
+    gugun:"",
   },
   getters: {
   },
@@ -32,6 +34,14 @@ const houseStore = {
       dongs.forEach((dong) => {
         state.dongs.push(dong);
       });
+    },
+    SET_SIDO_GUGUN(state, { sidoName, gugunName }) {
+      state.sido = sidoName;
+      state.gugun = gugunName;
+    },
+    CLEAR_SIDO_GUGUN(state) {
+      state.sido = null;
+      state.gugun = null;
     },
     CLEAR_SIDO_LIST(state) {
       state.sidos = [];

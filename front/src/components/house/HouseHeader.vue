@@ -29,7 +29,7 @@
       &nbsp;&nbsp;&nbsp;
       <v-btn size="small" @click="move2Home"> Home </v-btn>
       &nbsp;&nbsp;&nbsp;
-      <v-btn size="small" @click="move2News"> news</v-btn>
+      <v-btn size="small" @click="move2News"> Local News</v-btn>
     </v-card-text>
   </v-card>
 </template>
@@ -72,7 +72,7 @@ export default {
 
   methods: {
     ...mapActions(houseStore, ["getSido", "getGugun", "getDong", "getHouseList"]),
-    ...mapMutations(houseStore, ["CLEAR_SIDO_LIST", "CLEAR_GUGUN_LIST","CLEAR_DONG_LIST", "CLEAR_APT_LIST"]),
+    ...mapMutations(houseStore, ["SET_SIDO_GUGUN", "CLEAR_SIDO_LIST", "CLEAR_GUGUN_LIST","CLEAR_DONG_LIST", "CLEAR_APT_LIST"]),
 
     gugunList() {
       // console.log(sidos)
@@ -85,10 +85,18 @@ export default {
       console.log(this.gugunName);
       this.CLEAR_DONG_LIST();
       this.dongName = null;
-      if (this.gugunName) this.getDong({sidoName: this.sidoName, gugunName: this.gugunName});
+      if (this.gugunName) {
+        this.getDong({sidoName: this.sidoName, gugunName: this.gugunName});
+        this.SET_SIDO_GUGUN(this.sidoName, this.gugunName);
+      }
+      
     },
     searchApt() {
-      if (this.dongName) this.getHouseList({sidoName: this.sidoName, gugunName: this.gugunName, dongName: this.dongName});
+      if (this.dongName) {
+        this.getHouseList({sidoName: this.sidoName, gugunName: this.gugunName, dongName: this.dongName});
+        this.SET_SIDO_GUGUN({sidoName: this.sidoName, gugunName: this.gugunName});
+      }
+      
       this.$router.push({name:"houseTable"})
     },
 
