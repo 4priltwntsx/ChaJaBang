@@ -9,13 +9,13 @@
       <h3>News</h3>
       <v-row dense>
         <v-col
-          v-for="news in news3"
+          v-for="(news, index) in news3"
           :key="news.title"
-          :cols="2"
+          :cols="4"
         >
           <v-card>
             <v-img
-              :src="cards[0].src"
+              :src="cards[index].src"
               class="white--text align-end"
               gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
               height="200px"
@@ -53,8 +53,7 @@ import {mapActions, mapState} from "vuex";
   export default {
     name: "HouseNaver",
     data: () => ({
-      link:"https://www.mstoday.co.kr/news/articleView.html?idxno=81018",
-      t:"KB국민은행, &apos;KB 가족<b>부동산</b> 지킴신탁&apos; 출시",
+
       cards: [
         { title: 'Pre-fab homes', src: 'https://cdn.vuetifyjs.com/images/cards/house.jpg', flex: 4 },
         { title: "KB국민은행, &apos;KB 가족<b>부동산</b> 지킴신탁&apos; 출시", src: 'https://cdn.vuetifyjs.com/images/cards/road.jpg', flex: 4 },

@@ -94,6 +94,7 @@ export default {
 
     move2Home() {
       this.$router.push({ name: "main" });
+      this.CLEAR_APT_LIST();
     },
     move2News() {
       this.$router.push({ name: "news" });

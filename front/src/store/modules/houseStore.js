@@ -39,6 +39,8 @@ const houseStore = {
     CLEAR_APT_LIST(state) {
       state.houses = [];
       state.house = null;
+      state.points = [];
+
     },
     CLEAR_GUGUN_LIST(state) {
       state.guguns = [];

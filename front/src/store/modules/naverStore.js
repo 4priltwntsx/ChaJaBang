@@ -12,13 +12,18 @@ const naverStore ={
   getters: {
     // 굳이 state에 데이터를 중복해서 저장할 필요는 없늗네 가공된 데이터를
     // 필요로 하는 컴포넌트들한테 제공하고 싶은 경우 
-    top3Items(state) {
-      return state.shopwList.sort((a, b) => {
-        return a.lprice - b.lprice
-      }
-      )
-        .slice(0, 3);
-    }
+    // top3Items(state) {
+    //   return state.shopwList.sort((a, b) => {
+    //     return a.lprice - b.lprice
+    //   }
+    //   )
+    //     .slice(0, 3);
+    // },
+    // threeNews(state) {
+    //   return state.newsList.sort((a, b) => {
+    //     return b.pubDate - a.pubDate
+    //   }).slice(0, 3);
+    // }
   },
   mutations: {
     // state에 접근 권한이 있어서 데이터 저장시키는 setter 역할 가능!
@@ -28,10 +33,8 @@ const naverStore ={
     SEARCH_NAVER_NEWS(state, payload) {
       state.newsList = payload;
       state.news3 = [];
-      state.newsList.forEach(news => {
-        state.news3.push(news);
-      });
-      state.news3.slice(0, 3);
+      state.news3 = state.newsList.slice(0, 3);
+      console.log(state.news3);
     },
   },
   actions: {
