@@ -34,6 +34,9 @@
 
 <script>
 import { bWrite } from "@/api/board";
+import { mapState } from "vuex";
+const memberStore = "memberStore";
+
 export default {
   data() {
     return {
@@ -45,6 +48,12 @@ export default {
       result: "",
       timeout: 1000,
     };
+  },
+  created(){
+    this.writer = this.userInfo.userid;
+  },
+  computed:{
+        ...mapState(memberStore, ["isLogin", "userInfo"]),
   },
   methods: {
     write() {
@@ -93,4 +102,7 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.scroll {
+   overflow-y: scroll
+}</style>

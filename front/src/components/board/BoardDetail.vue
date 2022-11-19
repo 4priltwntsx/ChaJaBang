@@ -31,13 +31,14 @@ https://vuetifyjs.com/en/components/lists/#action-stack
 
             <h3 v-html="board.content"></h3>
             <br />
-            <v-row style="text-align: center">
+            <v-row
+              style="text-align: center"
+              v-if="userInfo.userid === board.writer || userInfo.userid === 'admin'"
+            >
               <v-col cols="12" md="3"></v-col>
-              <v-col cols="12" md="3"
-                ><v-btn center color="indigo lighten-3" @click="modifyBoard(board.bno)"
-                  >수정</v-btn
-                ></v-col
-              >
+              <v-col cols="12" md="3" v-if="userInfo.userid === board.writer">
+                <v-btn center color="indigo lighten-3" @click="modifyBoard(board.bno)"> 수정</v-btn>
+              </v-col>
               <v-col cols="12" md="3"
                 ><v-btn color="indigo lighten-5" @click="deleteBoard">삭제</v-btn></v-col
               >
@@ -54,89 +55,97 @@ https://vuetifyjs.com/en/components/lists/#action-stack
 
           <v-card-text>
             <template>
-              <v-card class="mx-auto" max-width="500">
+              <v-card height="400" max-width="500" id="scroll">
                 <v-list two-line>
                   <v-list-item-group multiple>
                     <!-- comment list start -->
-                    <template v-for="(item, index) in comments">
-                      <v-list-item :key="item.ccontent">
-                        <template>
-                          <v-list-item-content>
-                            <!-- <v-list-item-title v-text="item.title"></v-list-item-title> -->
 
-                            <v-list-item-subtitle
-                              class="text--primary"
-                              v-text="item.cwriter"
-                            ></v-list-item-subtitle>
+                      <template v-for="(item, index) in comments">
+                        <v-list-item :key="item.ccontent">
+                          <template>
+                            <v-list-item-content>
+                              <!-- <v-list-item-title v-text="item.title"></v-list-item-title> -->
 
-                            <v-list-item-subtitle v-text="item.ccontent"></v-list-item-subtitle>
-                          </v-list-item-content>
+                              <v-list-item-subtitle
+                                class="text--primary"
+                                v-text="item.cwriter"
+                              ></v-list-item-subtitle>
 
-                          <v-list-item-action>
-                            <v-list-item-action-text v-text="item.cno"></v-list-item-action-text>
+                              <v-list-item-subtitle v-text="item.ccontent"></v-list-item-subtitle>
+                            </v-list-item-content>
 
+                            <v-list-item-action>
+                              <v-list-item-action-text v-text="item.cno"></v-list-item-action-text>
 
-                            <v-menu left bottom>
-                              <template v-slot:activator="{ on, attrs }">
-                                <v-btn icon v-bind="attrs" v-on="on">
-                                  <v-icon>mdi-dots-vertical</v-icon>
-                                </v-btn>
-                              </template>
-                              <v-list>
-                                <v-list-item>
-                                  <v-list-item-title @click="modifyCommentView(item.cno)">수정</v-list-item-title>
-                                </v-list-item>
-                                <v-list-item>
-                                  <v-list-item-title @click="deleteComment(item.cno)">삭제</v-list-item-title>
-                                </v-list-item>
-                              </v-list>
-                            </v-menu>
+                              <v-menu
+                                left
+                                bottom
+                                v-if="
+                                  userInfo.userid === item.cwriter || userInfo.userid === 'admin'
+                                "
+                              >
+                                <template v-slot:activator="{ on, attrs }">
+                                  <v-btn icon v-bind="attrs" v-on="on">
+                                    <v-icon>mdi-dots-vertical</v-icon>
+                                  </v-btn>
+                                </template>
+                                <v-list>
+                                  <v-list-item v-if="userInfo.userid === item.cwriter">
+                                    <v-list-item-title @click="modifyCommentView(item.cno)"
+                                      >수정</v-list-item-title
+                                    >
+                                  </v-list-item>
+                                  <v-list-item>
+                                    <v-list-item-title @click="deleteComment(item.cno)"
+                                      >삭제</v-list-item-title
+                                    >
+                                  </v-list-item>
+                                </v-list>
+                              </v-menu>
+                            </v-list-item-action>
+                          </template>
+                        </v-list-item>
 
-
-                          </v-list-item-action>
-                        </template>
-                      </v-list-item>
-
-                      <v-divider :key="index"></v-divider>
-                    </template>
+                        <v-divider :key="index"></v-divider>
+                      </template>
+<!-- 
                     <template>
                       <v-list-item>
                         <template>
                           <v-list-item-content>
-                            <!-- comment input start -->
-                            <v-card class="overflow-hidden">
-                              <v-card-text>
-                                <v-text-field
-                                  color="indigo lighten-3"
-                                  label="writer"
-                                  v-model="cwriter"
-                                ></v-text-field>
-                                <v-text-field
-                                  color="indigo lighten-3"
-                                  label="content"
-                                  v-model="ccontent"
-                                ></v-text-field>
-                              </v-card-text>
-                              <v-row style="text-align: center"
-                                ><v-col
-                                  ><v-btn @click="actionClick" color="indigo lighten-3">{{
-                                    action
-                                  }}</v-btn></v-col
-                                ></v-row
-                              >
-                              <br />
-                            </v-card>
-                            <!-- comment input end -->
+
                           </v-list-item-content>
                         </template>
                       </v-list-item>
-                    </template>
+                    </template> -->
                     <!-- comment list end -->
                   </v-list-item-group>
                 </v-list>
               </v-card>
             </template>
           </v-card-text>
+          <!-- comment input start -->
+          <v-card class="overflow-hidden" v-if="userInfo">
+            <v-card-text>
+              <v-text-field
+                color="indigo lighten-3"
+                label="writer"
+                v-model="cwriter"
+              ></v-text-field>
+              <v-text-field
+                color="indigo lighten-3"
+                label="content"
+                v-model="ccontent"
+              ></v-text-field>
+            </v-card-text>
+            <v-row style="text-align: center"
+              ><v-col
+                ><v-btn @click="actionClick" color="indigo lighten-3">{{ action }}</v-btn></v-col
+              ></v-row
+            >
+            <br />
+          </v-card>
+          <!-- comment input end -->
         </v-card>
         <!-- comment list end -->
       </v-col>
@@ -147,7 +156,8 @@ https://vuetifyjs.com/en/components/lists/#action-stack
 
 <script>
 import { bRead, cWrite, cRead, cModify, cDelete, bDelete } from "@/api/board";
-import { mapState, mapActions } from "vuex";
+import { mapState, mapGetters, mapActions } from "vuex";
+const memberStore = "memberStore";
 const boardStore = "boardStore";
 
 export default {
@@ -179,6 +189,7 @@ export default {
         console.log(error);
       }
     );
+    this.cwriter = this.userInfo.userid;
     /*
     let url = "http://localhost:8888/board/" + this.bno;
 
@@ -195,6 +206,8 @@ export default {
   },
   computed: {
     ...mapState(boardStore, ["comments"]),
+    ...mapState(memberStore, ["isLogin", "userInfo"]),
+    ...mapGetters(["checkUserInfo"]),
   },
   watch: {
     comments() {},
@@ -223,6 +236,7 @@ export default {
         });
         */
     // },
+
     modifyBoard(bno) {
       this.$router.push({ name: "boardModify", params: { bno } });
     },
@@ -428,4 +442,17 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+/* v-container {
+  display: flex !important;
+  flex-direction: column;
+}
+
+.v-card {
+  flex-grow: 1;
+  overflow: auto;
+} */
+.scroll {
+  overflow-y: scroll;
+}
+</style>
