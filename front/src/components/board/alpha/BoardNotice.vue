@@ -12,12 +12,12 @@ https://vuetifyjs.com/en/components/data-tables/#server-side-paginate-and-sort
         hide-details
         color="indigo lighten-1"
       ></v-text-field>    
-      <v-btn
+      <v-btn v-if="userInfo.userid === 'admin'"
       class="mx-2"
       fab
       dark
       small
-      color="cyan" @click="move2Write">
+      color="cyan" @click="move2Write" >
       <v-icon dark>
         mdi-pencil
       </v-icon>
@@ -37,6 +37,7 @@ https://vuetifyjs.com/en/components/data-tables/#server-side-paginate-and-sort
 import {mapState, mapActions, mapMutations} from "vuex";
 
 const boardStore = "boardStore";
+const memberStore = "memberStore";
 
 export default {
   name: "NoticeList",
@@ -65,6 +66,7 @@ export default {
 
   computed:{
     ...mapState(boardStore, ["notices", "notice"]),
+    ...mapState(memberStore, ["userInfo"]),
   },
   watch: {
 

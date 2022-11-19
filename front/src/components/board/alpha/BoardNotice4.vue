@@ -11,7 +11,7 @@ https://vuetifyjs.com/en/components/simple-tables/#fixed-header
         </tr>
       </thead>
       <tbody>
-        <tr v-for="item in latest" :key="item.bno">
+        <tr v-for="item in latest" :key="item.nno">
           <td @click="move2Detail(item.nno)">
             <b>{{ item.ntitle }}</b>
           </td>
@@ -30,10 +30,13 @@ const boardStore = "boardStore";
 export default {
   name: "boardNotice4",
   data() {
-    return {};
+    return {
+      nno:"",
+    };
   },
   created() {
     
+    this.getNotices();
     this.getLatest();
     console.log("board notice4 created");
     console.log(this.latest);
@@ -45,9 +48,16 @@ export default {
     latest() {},
   },
   methods: {
-    ...mapActions(boardStore, ["getLatest"]),
+    ...mapActions(boardStore, ["getLatest","getNotices","getNotice"]),
     move2Detail(nno) {
-      this.$router.push({ name: "noticeDetail", params: { nno } });
+
+      this.getNotice(nno);
+      // this.$router.push({ name: "noticeDetail" ,params: { nno } });
+      this.$router.push({ name: "noticeDetail"})      .catch((error)=>{
+        if(error.name !== 'NavigationDuplicated'){
+          this.$router.go(this.$router.currentRoute);
+        }
+      });
     },
   },
   filters: {

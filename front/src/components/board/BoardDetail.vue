@@ -155,7 +155,7 @@ https://vuetifyjs.com/en/components/lists/#action-stack
 </template>
 
 <script>
-import { bRead, cWrite, cRead, cModify, cDelete, bDelete } from "@/api/board";
+import {  cWrite, cRead, cModify, cDelete, bDelete } from "@/api/board";
 import { mapState, mapGetters, mapActions } from "vuex";
 const memberStore = "memberStore";
 const boardStore = "boardStore";
@@ -168,7 +168,7 @@ export default {
       cwriter: "",
       ccontent: "",
       action: "추가",
-      board: {},
+      // board: [],
       // comments: [],
       selected: [2],
       imgPath: "image2.jpg",
@@ -177,18 +177,19 @@ export default {
 
   created() {
     this.bno = this.$route.params.bno;
-    let _this = this;
+  
+    // let _this = this;
 
-    let param = this.bno;
-    bRead(
-      param,
-      ({ data }) => {
-        _this.board = data;
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
+    // let param = this.bno;
+    // bRead(
+    //   param,
+    //   ({ data }) => {
+    //     _this.board = data;
+    //   },
+    //   (error) => {
+    //     console.log(error);
+    //   }
+    // );
     this.cwriter = this.userInfo.userid;
     /*
     let url = "http://localhost:8888/board/" + this.bno;
@@ -205,7 +206,7 @@ export default {
     console.log(this.comments);
   },
   computed: {
-    ...mapState(boardStore, ["comments"]),
+    ...mapState(boardStore, ["comments", "ranking", "board"]),
     ...mapState(memberStore, ["isLogin", "userInfo"]),
     ...mapGetters(["checkUserInfo"]),
   },
@@ -213,7 +214,7 @@ export default {
     comments() {},
   },
   methods: {
-    ...mapActions(boardStore, ["getComments"]),
+    ...mapActions(boardStore, ["getComments","getDetail"]),
 
     // getComments() {
     //   let _this = this;
@@ -283,7 +284,7 @@ export default {
         param,
         ({ data }) => {
           console.log("comment add ", data);
-          _this.cwriter = "";
+          _this.cwriter = _this.userInfo.userid;
           _this.ccontent = "";
           _this.getComments(_this.bno);
         },

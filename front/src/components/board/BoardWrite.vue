@@ -103,6 +103,4 @@ export default {
 </script>
 
 <style>
-.scroll {
-   overflow-y: scroll
-}</style>
+</style>

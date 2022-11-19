@@ -31,6 +31,10 @@ https://vuetifyjs.com/en/components/simple-tables/#fixed-header
 
 <script>
 import { bOrderList } from "@/api/board";
+import { mapState, mapActions } from "vuex";
+
+const boardStore = "boardStore";
+
 export default {
   data() {
     return {
@@ -39,6 +43,9 @@ export default {
 
       rankingList: [],
     };
+  },
+  computed:{
+    ...mapState(boardStore, ["ranking","board"]),
   },
   created() {
     let _this = this;
@@ -62,12 +69,24 @@ export default {
       });
       */
   },
+  watch:{
+    ranking(){
+      this.getRanking();
+    }
+  },
   methods: {
+    ...mapActions(boardStore, ["getRanking","getDetail","getComments"]),
     move2Detail(el) {
       let bno = el;
-
+      this.getDetail(bno);
+      this.getComments(bno);
       console.log(bno);
-      this.$router.push({ name: "boardDetail", params: { bno } });
+      this.$router.push({ name: "boardDetail", params: { bno } })
+      .catch((error)=>{
+        if(error.name !== 'NavigationDuplicated'){
+          this.$router.go(this.$router.currentRoute);
+        }
+      });
     },
   },
 };

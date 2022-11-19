@@ -2,7 +2,7 @@
   <div>
     <v-row>
       <v-col>
-        <v-card class="overflow-hidden" color="pink lighten-3" dark>
+        <v-card class="overflow-hidden" color="indigo lighten-3" dark>
           <v-card-text>
             <v-text-field filled color="white" label="Title" v-model="board.title"></v-text-field>
             <v-text-field filled color="white" label="Writer" v-model="board.writer"></v-text-field>
@@ -16,7 +16,7 @@
     </v-row>
     <v-row>
       <v-col cols="12" style="text-align: center">
-        <v-btn @click="modify" color="pink">
+        <v-btn @click="modify" color="indigo">
           <b style="color: white">수정 완료</b>
         </v-btn>
       </v-col>
