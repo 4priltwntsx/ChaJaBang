@@ -5,6 +5,8 @@ import {
   // nModify,
   // nDelete,
   nList4,
+  cList,
+
 } from "@/api/board"
 
 const boardStore = {
@@ -13,6 +15,7 @@ const boardStore = {
     notices: [], // 공지사항 글 리스트
     notice: null, // 공지사항 1개
     latest: [], // 최신글 4개
+    comments: [], // 댓글 리스트
   },
   getter: {
     
@@ -33,6 +36,11 @@ const boardStore = {
       latest.forEach(lt => {
         state.latest.push(lt);
       });
+    },
+    ///////////// comments //////////////...........
+    SET_COMMENTS_LIST(state, comments) {
+      state.comments = [];
+      state.comments = comments;
     },
 
   },
@@ -72,7 +80,20 @@ const boardStore = {
         }
       );
     },
-    
+    ///////////////// commets ////////////////////////
+    getComments({ commit }, bno) {
+      const param = bno;
+      cList(
+        param, 
+        ({ data }) => {
+          console.log("store: ", data);
+          commit("SET_COMMENTS_LIST", data);
+        },
+        (error) => {
+          console.log(error);
+        }
+      )
+    }
   },
 
 };

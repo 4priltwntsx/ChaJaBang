@@ -8,7 +8,7 @@
 	</insert>
 
 	<resultMap type="CommentDTO" id="Comment">
-		<result column="CWRITE_DATE" property="cwriteDate"/>
+		<result column="CWRITE_DATE" property="cwrite_date"/>
 	</resultMap>
 
 	<select id="selectList" resultMap="Comment">
@@ -16,7 +16,7 @@
 		FROM COMMENT
 		WHERE BNO=#{bno}
 	</select>
-	<select id = "selectOne" resultType="CommentDTO">
+	<select id = "selectOne" resultType="com.ssafy.pjt.model.dto.board.CommentDTO">
 		SELECT CNO, BNO, CWRITER, CCONTENT
 		FROM COMMENT
 		WHERE CNO=#{cno}

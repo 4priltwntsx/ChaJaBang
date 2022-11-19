@@ -59,7 +59,7 @@ https://vuetifyjs.com/en/components/lists/#action-stack
                   <v-list-item-group multiple>
                     <!-- comment list start -->
                     <template v-for="(item, index) in comments">
-                      <v-list-item :key="item.title">
+                      <v-list-item :key="item.ccontent">
                         <template>
                           <v-list-item-content>
                             <!-- <v-list-item-title v-text="item.title"></v-list-item-title> -->
@@ -74,12 +74,25 @@ https://vuetifyjs.com/en/components/lists/#action-stack
 
                           <v-list-item-action>
                             <v-list-item-action-text v-text="item.cno"></v-list-item-action-text>
-                            <v-row>
-                              <v-col
-                                ><v-btn @click="modifyCommentView(item.cno)">수정</v-btn></v-col
-                              >
-                              <v-col><v-btn @click="deleteComment(item.cno)">삭제</v-btn></v-col>
-                            </v-row>
+
+
+                            <v-menu left bottom>
+                              <template v-slot:activator="{ on, attrs }">
+                                <v-btn icon v-bind="attrs" v-on="on">
+                                  <v-icon>mdi-dots-vertical</v-icon>
+                                </v-btn>
+                              </template>
+                              <v-list>
+                                <v-list-item>
+                                  <v-list-item-title @click="modifyCommentView(item.cno)">수정</v-list-item-title>
+                                </v-list-item>
+                                <v-list-item>
+                                  <v-list-item-title @click="deleteComment(item.cno)">삭제</v-list-item-title>
+                                </v-list-item>
+                              </v-list>
+                            </v-menu>
+
+
                           </v-list-item-action>
                         </template>
                       </v-list-item>
@@ -133,7 +146,10 @@ https://vuetifyjs.com/en/components/lists/#action-stack
 </template>
 
 <script>
-import { bRead, cList, cWrite, cRead, cModify, cDelete, bDelete } from "@/api/board";
+import { bRead, cWrite, cRead, cModify, cDelete, bDelete } from "@/api/board";
+import { mapState, mapActions } from "vuex";
+const boardStore = "boardStore";
+
 export default {
   data() {
     return {
@@ -143,7 +159,7 @@ export default {
       ccontent: "",
       action: "추가",
       board: {},
-      comments: [],
+      // comments: [],
       selected: [2],
       imgPath: "image2.jpg",
     };
@@ -173,26 +189,32 @@ export default {
         _this.board = data;
       });
       */
-    this.getComments();
+    this.getComments(this.bno);
     this.getImgPath();
+    console.log(this.comments);
+  },
+  computed: {
+    ...mapState(boardStore, ["comments"]),
   },
   watch: {
     comments() {},
   },
   methods: {
-    getComments() {
-      let _this = this;
-      let param = this.bno;
-      cList(
-        param,
-        ({ data }) => {
-          _this.comments = data;
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
-      /*
+    ...mapActions(boardStore, ["getComments"]),
+
+    // getComments() {
+    //   let _this = this;
+    //   let param = this.bno;
+    //   cList(
+    //     param,
+    //     ({ data }) => {
+    //       _this.comments = data;
+    //     },
+    //     (error) => {
+    //       console.log(error);
+    //     }
+    //   );
+    /*
       fetch("http://localhost:8888/comment/" + this.bno)
         .then((response) => response.json())
         .then((data) => {
@@ -200,7 +222,7 @@ export default {
           _this.comments = data;
         });
         */
-    },
+    // },
     modifyBoard(bno) {
       this.$router.push({ name: "boardModify", params: { bno } });
     },
@@ -249,7 +271,7 @@ export default {
           console.log("comment add ", data);
           _this.cwriter = "";
           _this.ccontent = "";
-          _this.getComments();
+          _this.getComments(_this.bno);
         },
         (error) => {
           console.log(error);
@@ -318,7 +340,7 @@ export default {
           console.log("comment modify ", data);
           _this.cwriter = "";
           _this.ccontent = "";
-          _this.getComments();
+          _this.getComments(_this.bno);
           _this.action = "추가";
         },
         (error) => {
@@ -354,7 +376,7 @@ export default {
         cno,
         ({ data }) => {
           console.log("comment delete", data);
-          this.getComments();
+          this.getComments(this.bno);
         },
         (error) => {
           console.log(error);
