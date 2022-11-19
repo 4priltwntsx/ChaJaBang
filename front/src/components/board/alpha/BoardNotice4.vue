@@ -33,8 +33,10 @@ export default {
     return {};
   },
   created() {
+    
     this.getLatest();
     console.log("board notice4 created");
+    console.log(this.latest);
   },
   computed: {
     ...mapState(boardStore, ["notices", "latest"]),
