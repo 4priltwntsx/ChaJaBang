@@ -2,8 +2,12 @@
   <div id="t">
     <v-row>
       <v-col cols="12" md="3"></v-col>
-      <v-col cols="12" md="3"><v-btn @click="addTraffic">교통 정보 보기</v-btn></v-col>
-      <v-col cols="12" md="3"><v-btn @click="removeTraffic">교통 정보 없애기</v-btn></v-col>
+      <v-col cols="12" md="3"
+        ><v-btn v-model="traffic" @click="clickTraffic">교통 정보 </v-btn></v-col
+      >
+      <v-col cols="12" md="3"
+        ><v-btn v-model="bicycle" @click="clickBicycle">자전거도로</v-btn></v-col
+      >
       <v-col cols="12" md="3"></v-col>
     </v-row>
     <br />
@@ -27,6 +31,8 @@ export default {
       infowindow: null,
       ps: null,
       map: null,
+      isTraffic: false,
+      isBicycle: false,
     };
   },
   mounted: {},
@@ -117,15 +123,31 @@ export default {
       }
       this.markers = [];
     },
-    addTraffic() {
-      console.log("addTraffic click");
-      // 지도에 교통정보를 표시하도록 지도타입을 추가합니다
-      this.map.addOverlayMapTypeId(window.kakao.maps.MapTypeId.TRAFFIC);
+    clickTraffic() {
+      if (!this.isTraffic) {
+        console.log("addTraffic click");
+        // 지도에 교통정보를 표시하도록 지도타입을 추가합니다
+        this.map.addOverlayMapTypeId(window.kakao.maps.MapTypeId.TRAFFIC);
+        this.isTraffic = true;
+      } else {
+        console.log("removeTraffic click");
+        //교통정보 지도타입을 제거합니다
+        this.map.removeOverlayMapTypeId(window.kakao.maps.MapTypeId.TRAFFIC);
+        this.isTraffic = false;
+      }
     },
-    removeTraffic() {
-      console.log("removeTraffic click");
-      //교통정보 지도타입을 제거합니다
-      this.map.removeOverlayMapTypeId(window.kakao.maps.MapTypeId.TRAFFIC);
+    clickBicycle() {
+      if (!this.isBicycle) {
+        console.log("addBicycle click");
+        // 지도에 자전거도로를 표시하도록 지도타입을 추가합니다
+        this.map.addOverlayMapTypeId(window.kakao.maps.MapTypeId.BICYCLE);
+        this.isBicycle = true;
+      } else {
+        console.log("removeBicycle click");
+        //자전거 지도타입을 제거합니다
+        this.map.removeOverlayMapTypeId(window.kakao.maps.MapTypeId.BICYCLE);
+        this.isBicycle = false;
+      }
     },
   },
 };

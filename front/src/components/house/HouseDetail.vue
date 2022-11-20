@@ -5,6 +5,8 @@
     <v-btn @click="move2Table" class="ma-2" color="indigo darken-2" dark>
       <v-icon dark left> mdi-arrow-left </v-icon>Back
     </v-btn>
+    <v-btn @click="clickRoad" class="ma-2" color="indigo darken-2" dark> road </v-btn>
+
     <v-data-table
       :headers="headers"
       :items="deals"
@@ -52,9 +54,15 @@ export default {
   computed: {
     ...mapState(houseStore, ["houses", "points", "house", "deals"]),
   },
+  created() {
+    console.log("created", this.hosue);
+  },
   methods: {
     move2Table() {
       this.$router.push({ name: "houseTable" });
+    },
+    clickRoad() {
+      this.$router.push({ name: "houseRoad" });
     },
   },
 };
