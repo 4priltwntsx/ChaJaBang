@@ -3,7 +3,7 @@
     <v-row>
       <!-- <v-col cols="12" md="6"> -->
       <!-- board detail start -->
-      <v-card class="mx-auto my-12" min-height="550" max-width="650">
+      <v-card class="mx-auto my-auto" min-height="550" max-width="650">
         <template slot="progress">
           <v-progress-linear color="deep-purple" height="10" indeterminate></v-progress-linear>
         </template>
@@ -33,6 +33,7 @@
           <v-col cols="12" md="2"><v-btn color="indigo lighten-5">목록</v-btn></v-col>
         </v-row>
       </v-card>
+
       <!-- board detail end -->
       <!-- </v-col> -->
     </v-row>
@@ -41,12 +42,16 @@
 
 <script>
 import { qRead } from "@/api/board";
+import { mapState } from "vuex";
+const memberStore = "memberStore";
+
 export default {
   data() {
     return {
       qno: 0,
       qna: {},
       err: "",
+      acontent:"",
     };
   },
   created() {
@@ -62,6 +67,8 @@ export default {
         console.log("qna detail fail");
       }
     );
+  },  computed: {
+    ...mapState(memberStore, ["userInfo"]),
   },
   filters: {
     // filter로 쓸 filter ID 지정

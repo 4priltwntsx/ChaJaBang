@@ -106,11 +106,6 @@ function qModifyUser(qna, success, fail) {
   http.put(`/qna`, JSON.stringify(qna)).then(success).catch(fail);
 }
 
-// qna modifyManager
-function qModifyManager(qna, success, fail) {
-  http.put(`/qna/user`, JSON.stringify(qna)).then(success).catch(fail);
-}
-
 // qna getUserQna
 function qgetUserQna(userid, success, fail) {
   http.get(`/qna/${userid}`).then(success).catch(fail);
@@ -144,6 +139,11 @@ function qgetManagerNotAnswer(success, fail) {
 // qna getQna
 function qRead(qno, success, fail) {
   http.get(`/qna/one/${qno}`).then(success).catch(fail);
+}
+
+// qna modifyManager 관리자가 답변하기
+function qModifyManager(qna, success, fail) {
+  http.put(`/qna/manager`, JSON.stringify(qna)).then(success).catch(fail);
 }
 
 //////////////////////////qna end///////////////////

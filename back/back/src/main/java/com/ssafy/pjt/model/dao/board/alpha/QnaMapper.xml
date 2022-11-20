@@ -16,7 +16,7 @@ UPDATE QNA SET QTITLE = #{qtitle}, QCONTENT =#{qcontent} WHERE QNO = #{qno}
 </update>
 
 <update id="updateManager" parameterType = "QnaDTO">
-UPDATE QNA SET ACONTENT="" WHERE QNO=#{qno};
+UPDATE QNA SET ACONTENT=#{acontent}, IS_ANSWERED=1, IS_CHECKED=0, AWRITE_DATE=now()  WHERE QNO=#{qno};
 </update>
 
 
