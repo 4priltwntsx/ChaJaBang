@@ -79,11 +79,19 @@ export default {
       let nno = el.nno;
       this.getNotice(nno);
       // this.$router.push({ name: "noticeDetail" ,params: { nno } });
-      this.$router.push({ name: "noticeDetail"});
+      this.$router.push({ name: "noticeDetail"}).catch((error)=>{
+        if(error.name !== 'NavigationDuplicated'){
+          this.$router.go(this.$router.currentRoute);
+        }
+      });
 
     },
     move2Write(){
-      this.$router.push({ name: "noticeWrite" });
+      this.$router.push({ name: "noticeWrite" }).catch((error)=>{
+        if(error.name !== 'NavigationDuplicated'){
+          this.$router.go(this.$router.currentRoute);
+        }
+      });
     },    
 
   },

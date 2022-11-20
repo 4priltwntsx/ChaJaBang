@@ -75,18 +75,34 @@ export default {
   methods: {
     move2Register() {
       console.log("move register");
-      this.$router.push({ name: "join" });
+      this.$router.push({ name: "join" }).catch((error)=>{
+        if(error.name !== 'NavigationDuplicated'){
+          this.$router.go(this.$router.currentRoute);
+        }
+      });
     },
     move2Login() {
       console.log("move login");
-      this.$router.push({ name: "login" });
+      this.$router.push({ name: "login" }).catch((error)=>{
+        if(error.name !== 'NavigationDuplicated'){
+          this.$router.go(this.$router.currentRoute);
+        }
+      });
     },
     move2Home() {
-      this.$router.push({ name: "main" });
+      this.$router.push({ name: "main" }).catch((error)=>{
+        if(error.name !== 'NavigationDuplicated'){
+          this.$router.go(this.$router.currentRoute);
+        }
+      });
     },
     move2MyPage() {
       console.log("move mypage");
-      this.$router.push({ name: "mypage" });
+      this.$router.push({ name: "mypage" }).catch((error)=>{
+        if(error.name !== 'NavigationDuplicated'){
+          this.$router.go(this.$router.currentRoute);
+        }
+      });
     },
     ...mapActions(memberStore, ["userLogout"]),
     // ...mapMutations(memberStore, ["SET_IS_LOGIN", "SET_USER_INFO"]),
@@ -102,7 +118,11 @@ export default {
       this.userLogout(this.userInfo.userid);
       sessionStorage.removeItem("access-token"); //저장된 토큰 없애기
       sessionStorage.removeItem("refresh-token"); //저장된 토큰 없애기
-      if (this.$route.path != "/") this.$router.push({ name: "main" });
+      if (this.$route.path != "/") this.$router.push({ name: "main" }).catch((error)=>{
+        if(error.name !== 'NavigationDuplicated'){
+          this.$router.go(this.$router.currentRoute);
+        }
+      });
     },
   },
 };

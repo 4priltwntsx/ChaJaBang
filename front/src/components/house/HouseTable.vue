@@ -31,6 +31,7 @@ https://vuetifyjs.com/en/components/simple-tables/#usage
 
 <script>
 import { mapState, mapActions, mapMutations } from "vuex";
+import {interest} from "@/api/house";
 
 const houseStore = "houseStore";
 const memberStore = "memberStore";
@@ -64,12 +65,20 @@ export default {
     btnClick(code) {
       console.log("house table interest click", code);
       let id = this.userInfo.userid;
-      console.log(id);
+      // console.log(id);
       let param = {
         aptcode: code,
         userid: id,
       };
       console.log(param);
+      interest(
+        param,
+        ({data})=>{
+          console.log(data);
+        },(error)=>{
+          console.log(error);
+        }
+      )
     },
     move2Detail() {
       // this.CLAER_HOUSE_POINT();

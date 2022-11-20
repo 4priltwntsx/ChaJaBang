@@ -31,7 +31,7 @@ https://vuetifyjs.com/en/components/lists/#action-stack
             <br />
 
           </v-card-text>
-                      <v-row style="text-align: center">
+            <v-row v-if="userInfo.userid==='admin'" style="text-align: center">
               <v-col cols="12" md="2"></v-col>
               <v-col cols="12" md="2"
                 ><v-btn center color="indigo lighten-3" @click="modifyNotice(notice.nno)"
@@ -45,6 +45,14 @@ https://vuetifyjs.com/en/components/lists/#action-stack
                 ><v-btn color="indigo lighten-5" @click="move2Notice">목록</v-btn></v-col
               >              
             </v-row>
+            <v-row v-else style="text-align: center">
+              <v-col cols="12" md="2"></v-col>
+
+              <v-col cols="12" md="2"
+                ><v-btn color="indigo lighten-5" @click="move2Notice">목록</v-btn></v-col
+              >              
+            </v-row>
+
         </v-card>
         <!-- board detail end -->
       <!-- </v-col> -->
@@ -58,6 +66,7 @@ import {nDelete } from "@/api/board";
 import { mapState} from "vuex";
 
 const boardStore = "boardStore";
+const memberStore = "memberStore";
 
 export default {
   name: "NoticeDetail",
@@ -65,6 +74,7 @@ export default {
     return {
       nno: 0,
       ncontent: "",
+      ntitle:"",
       board: {},
     };
   },
@@ -74,6 +84,7 @@ export default {
   },
   computed: {
     ...mapState(boardStore, [ "notice"]),
+    ...mapState(memberStore, [ "userInfo"]),
     },
   methods: {
 

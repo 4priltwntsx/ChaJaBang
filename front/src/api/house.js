@@ -25,7 +25,7 @@ function houseDetail(aptCode, success, fail) {
 }
 
 function interest(a, success, fail) {
-  http.post(`/interest`, JSON.stringify({ a })).then(success).catch(fail);
+  http.post(`/interest`, JSON.stringify( a )).then(success).catch(fail);
 }
 function uninterest(ino, success, fail) {
   http.delete(`/interest/${ino}`).then(success).catch(fail);

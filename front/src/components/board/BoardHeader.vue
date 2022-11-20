@@ -29,19 +29,39 @@
 export default {
   methods: {
     move2BList() {
-      this.$router.push({ name: "boardList" });
+      this.$router.push({ name: "boardList" }).catch((error)=>{
+        if(error.name !== 'NavigationDuplicated'){
+          this.$router.go(this.$router.currentRoute);
+        }
+      });
     },
     move2BWrite() {
-      this.$router.push({ name: "boardWrite" });
+      this.$router.push({ name: "boardWrite" }).catch((error)=>{
+        if(error.name !== 'NavigationDuplicated'){
+          this.$router.go(this.$router.currentRoute);
+        }
+      });
     },
     move2Notice() {
-      this.$router.push({ name: "notice" });
+      this.$router.push({ name: "notice" }).catch((error)=>{
+        if(error.name !== 'NavigationDuplicated'){
+          this.$router.go(this.$router.currentRoute);
+        }
+      });
     },
     move2Qna() {
-      this.$router.push({ name: "qnaWrite" });
+      this.$router.push({ name: "qnaWrite" }).catch((error)=>{
+        if(error.name !== 'NavigationDuplicated'){
+          this.$router.go(this.$router.currentRoute);
+        }
+      });
     },
     move2Home() {
-      this.$router.push({ name: "main" });
+      this.$router.push({ name: "main" }).catch((error)=>{
+        if(error.name !== 'NavigationDuplicated'){
+          this.$router.go(this.$router.currentRoute);
+        }
+      });
     },
   },
 };

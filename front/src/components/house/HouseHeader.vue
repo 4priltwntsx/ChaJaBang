@@ -124,15 +124,27 @@ export default {
         });
         this.SET_SIDO_GUGUN({ sidoName: this.sidoName, gugunName: this.gugunName });
       }
-      this.$router.push({ name: "houseTable" });
+      this.$router.push({ name: "houseTable" }).catch((error)=>{
+        if(error.name !== 'NavigationDuplicated'){
+          this.$router.go(this.$router.currentRoute);
+        }
+      });
     },
 
     move2Home() {
-      this.$router.push({ name: "main" });
+      this.$router.push({ name: "main" }).catch((error)=>{
+        if(error.name !== 'NavigationDuplicated'){
+          this.$router.go(this.$router.currentRoute);
+        }
+      });
       this.CLEAR_APT_LIST();
     },
     move2News() {
-      this.$router.push({ name: "news" });
+      this.$router.push({ name: "news" }).catch((error)=>{
+        if(error.name !== 'NavigationDuplicated'){
+          this.$router.go(this.$router.currentRoute);
+        }
+      });
     },
   },
 };
