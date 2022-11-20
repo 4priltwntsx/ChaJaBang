@@ -12,10 +12,9 @@ import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -97,6 +96,25 @@ public class NaverController {
 		String responseBody = get(apiURL, requestHeaders);
 
 		System.out.println(responseBody); // 네이버가 주는 결과데이터
+		return responseBody;
+	}
+	@GetMapping(value = "/road/{start}/{goal}/{option}", produces = "application/json; charset=utf-8")
+	public String road(@PathVariable("start") String start, @PathVariable("goal") String goal,@PathVariable("option") String option) {
+		System.out.println("!!!!!!!!!!!!들어오긴 함");
+		String clientId = "4ihh2kc4lx"; // 애플리케이션 클라이언트 아이디
+		String clientSecret = "R5xM6LM3F4FlDoItGVOtVHCxO6a3v0EvNJDZPVZk"; // 애플리케이션 클라이언트 시크릿
+		
+
+		String apiURL = "https://naveropenapi.apigw.ntruss.com/map-direction-15/v1/driving?start="+start; // JSON 결과
+		apiURL += "&goal="+goal+"&option="+option;
+		// String apiURL = "https://openapi.naver.com/v1/search/blog.xml?query="+ text;
+		// // XML 결과
+
+		Map<String, String> requestHeaders = new HashMap<>();
+		requestHeaders.put("X-NCP-APIGW-API-KEY-ID", clientId);
+		requestHeaders.put("X-NCP-APIGW-API-KEY", clientSecret);
+		String responseBody = get(apiURL, requestHeaders);
+
 		return responseBody;
 	}
 

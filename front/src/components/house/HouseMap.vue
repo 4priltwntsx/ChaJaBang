@@ -33,6 +33,10 @@ export default {
       map: null,
       isTraffic: false,
       isBicycle: false,
+      loc2: {
+        lat: "",
+        lng: "",
+      },
     };
   },
   mounted: {},
@@ -58,6 +62,7 @@ export default {
       this.initMap();
     },
     point() {
+      // detail map 보여주는 곳
       const mapContainer = document.getElementById("map");
       const options = {
         center: new kakao.maps.LatLng(36.355142, 127.298514),
@@ -67,10 +72,10 @@ export default {
       this.map = new kakao.maps.Map(mapContainer, options);
       console.log(this.point);
       if (this.point.length != 0) {
-        console.log(this.point);
+        console.log("point : ", this.point);
         this.displayMarker(this.point);
       } else {
-        console.log(this.points);
+        console.log("points : ", this.points);
         this.displayMarker(this.points);
       }
     },
@@ -89,7 +94,9 @@ export default {
       //지도 객체는 반응형 관리 대상이 아니므로 initMap에서 선언합니다.
       this.map = new kakao.maps.Map(mapContainer, options);
       this.displayMarker(this.points);
-
+      this.maps.event.addListener(this.map, "click", function (mouseEvent) {
+        this.mouseClick(mouseEvent);
+      });
       ///////////////////////////////////////////////////////////////////////
     },
     displayMarker(markerPositions) {
@@ -148,6 +155,18 @@ export default {
         this.map.removeOverlayMapTypeId(window.kakao.maps.MapTypeId.BICYCLE);
         this.isBicycle = false;
       }
+    },
+    mouseClick(mouseEvent) {
+      var latlng = mouseEvent.latLng;
+      console.log("mouseClick: ", latlng);
+      // 새로 마커 만들기
+      this.loc2.lat = latlng.getLat();
+      this.loc2.lng = latlng.getLng();
+      var marker2 = new kakao.maps.Marker({
+        // 지도 중심좌표에 마커를 생성합니다
+        position: latlng,
+      });
+      this.displayMarker(marker2);
     },
   },
 };

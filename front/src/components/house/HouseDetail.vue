@@ -7,12 +7,7 @@
     </v-btn>
     <v-btn @click="clickRoad" class="ma-2" color="indigo darken-2" dark> road </v-btn>
 
-    <v-data-table
-      :headers="headers"
-      :items="deals"
-      :search="search"
-      :custom-filter="floorFilter"
-    ></v-data-table>
+    <v-data-table :headers="headers" :items="deals" :search="search"></v-data-table>
   </div>
 </template>
 
@@ -53,9 +48,6 @@ export default {
   },
   computed: {
     ...mapState(houseStore, ["houses", "points", "house", "deals"]),
-  },
-  created() {
-    console.log("created", this.hosue);
   },
   methods: {
     move2Table() {
