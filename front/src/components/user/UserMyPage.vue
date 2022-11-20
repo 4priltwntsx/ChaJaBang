@@ -22,32 +22,31 @@ https://vuetifyjs.com/en/components/tabs/#props
 
           <v-tabs-items v-model="tab">
             <v-tab-item>
-              <v-card flat >
+              <v-card flat>
                 <v-container>
-                <v-row>
-                  <v-col cols="12">
-                    <user-detail />
-                  </v-col>
-                </v-row>
+                  <v-row>
+                    <v-col cols="12">
+                      <user-detail />
+                    </v-col>
+                  </v-row>
                 </v-container>
               </v-card>
             </v-tab-item>
             <v-tab-item>
-              <v-card flat >
+              <v-card flat>
                 <v-container>
-                
-                <v-row>
-                  <v-col cols="12">
-                    <qna-list />
-                  </v-col>
-                </v-row>
+                  <v-row>
+                    <v-col cols="12">
+                      <qna-list />
+                    </v-col>
+                  </v-row>
                 </v-container>
               </v-card>
             </v-tab-item>
             <v-tab-item>
-              <v-card flat >
+              <v-card flat>
                 <v-container>
-                <v-card-text>asdfs</v-card-text>
+                  <v-card-text><user-interest /></v-card-text>
                 </v-container>
               </v-card>
             </v-tab-item>
@@ -62,6 +61,7 @@ https://vuetifyjs.com/en/components/tabs/#props
 import UserDetail from "@/components/user/UserDetail.vue";
 import QnaList from "@/components/board/alpha/QnaList.vue";
 // import QnaDetail from "@/components/board/alpha/QnaDetail.vue";
+import UserInterest from "@/components/user/UserInterest.vue";
 export default {
   data() {
     return {
@@ -73,6 +73,7 @@ export default {
     UserDetail,
     QnaList,
     // QnaDetail,
+    UserInterest,
   },
 };
 </script>
@@ -83,7 +84,6 @@ v-container {
   flex-direction: column;
 }
 .scroll {
-
-  overflow-y: scroll
+  overflow-y: scroll;
 }
 </style>

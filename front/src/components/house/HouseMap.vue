@@ -2,12 +2,8 @@
   <div id="t">
     <v-row>
       <v-col cols="12" md="3"></v-col>
-      <v-col cols="12" md="3"
-        ><v-btn v-model="traffic" @click="clickTraffic">교통 정보 </v-btn></v-col
-      >
-      <v-col cols="12" md="3"
-        ><v-btn v-model="bicycle" @click="clickBicycle">자전거도로</v-btn></v-col
-      >
+      <v-col cols="12" md="3"><v-btn @click="clickTraffic">교통 정보 </v-btn></v-col>
+      <v-col cols="12" md="3"><v-btn @click="clickBicycle">자전거도로</v-btn></v-col>
       <v-col cols="12" md="3"></v-col>
     </v-row>
     <br />
@@ -94,9 +90,6 @@ export default {
       //지도 객체는 반응형 관리 대상이 아니므로 initMap에서 선언합니다.
       this.map = new kakao.maps.Map(mapContainer, options);
       this.displayMarker(this.points);
-      this.maps.event.addListener(this.map, "click", function (mouseEvent) {
-        this.mouseClick(mouseEvent);
-      });
       ///////////////////////////////////////////////////////////////////////
     },
     displayMarker(markerPositions) {
@@ -155,18 +148,6 @@ export default {
         this.map.removeOverlayMapTypeId(window.kakao.maps.MapTypeId.BICYCLE);
         this.isBicycle = false;
       }
-    },
-    mouseClick(mouseEvent) {
-      var latlng = mouseEvent.latLng;
-      console.log("mouseClick: ", latlng);
-      // 새로 마커 만들기
-      this.loc2.lat = latlng.getLat();
-      this.loc2.lng = latlng.getLng();
-      var marker2 = new kakao.maps.Marker({
-        // 지도 중심좌표에 마커를 생성합니다
-        position: latlng,
-      });
-      this.displayMarker(marker2);
     },
   },
 };

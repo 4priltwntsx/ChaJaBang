@@ -60,55 +60,55 @@ https://vuetifyjs.com/en/components/lists/#action-stack
                   <v-list-item-group multiple>
                     <!-- comment list start -->
 
-                      <template v-for="(item, index) in comments">
-                        <v-list-item :key="item.ccontent">
-                          <template>
-                            <v-list-item-content>
-                              <!-- <v-list-item-title v-text="item.title"></v-list-item-title> -->
+                    <template v-for="(item, index) in comments">
+                      <v-list-item :key="item.ccontent">
+                        <template>
+                          <v-list-item-content>
+                            <!-- <v-list-item-title v-text="item.title"></v-list-item-title> -->
 
-                              <v-list-item-subtitle
-                                class="text--primary"
-                                v-text="item.cwriter"
-                              ></v-list-item-subtitle>
+                            <v-list-item-subtitle
+                              class="text--primary"
+                              v-text="item.cwriter"
+                            ></v-list-item-subtitle>
 
-                              <v-list-item-subtitle v-text="item.ccontent"></v-list-item-subtitle>
-                            </v-list-item-content>
+                            <v-list-item-subtitle v-text="item.ccontent"></v-list-item-subtitle>
+                          </v-list-item-content>
 
-                            <v-list-item-action>
-                              <v-list-item-action-text v-text="item.cno"></v-list-item-action-text>
+                          <v-list-item-action>
+                            <v-list-item-action-text
+                              v-text="item.cwrite_date"
+                            ></v-list-item-action-text>
 
-                              <v-menu
-                                left
-                                bottom
-                                v-if="
-                                  userInfo.userid === item.cwriter || userInfo.userid === 'admin'
-                                "
-                              >
-                                <template v-slot:activator="{ on, attrs }">
-                                  <v-btn icon v-bind="attrs" v-on="on">
-                                    <v-icon>mdi-dots-vertical</v-icon>
-                                  </v-btn>
-                                </template>
-                                <v-list>
-                                  <v-list-item v-if="userInfo.userid === item.cwriter">
-                                    <v-list-item-title @click="modifyCommentView(item.cno)"
-                                      >수정</v-list-item-title
-                                    >
-                                  </v-list-item>
-                                  <v-list-item>
-                                    <v-list-item-title @click="deleteComment(item.cno)"
-                                      >삭제</v-list-item-title
-                                    >
-                                  </v-list-item>
-                                </v-list>
-                              </v-menu>
-                            </v-list-item-action>
-                          </template>
-                        </v-list-item>
+                            <v-menu
+                              left
+                              bottom
+                              v-if="userInfo.userid === item.cwriter || userInfo.userid === 'admin'"
+                            >
+                              <template v-slot:activator="{ on, attrs }">
+                                <v-btn icon v-bind="attrs" v-on="on">
+                                  <v-icon>mdi-dots-vertical</v-icon>
+                                </v-btn>
+                              </template>
+                              <v-list>
+                                <v-list-item v-if="userInfo.userid === item.cwriter">
+                                  <v-list-item-title @click="modifyCommentView(item.cno)"
+                                    >수정</v-list-item-title
+                                  >
+                                </v-list-item>
+                                <v-list-item>
+                                  <v-list-item-title @click="deleteComment(item.cno)"
+                                    >삭제</v-list-item-title
+                                  >
+                                </v-list-item>
+                              </v-list>
+                            </v-menu>
+                          </v-list-item-action>
+                        </template>
+                      </v-list-item>
 
-                        <v-divider :key="index"></v-divider>
-                      </template>
-<!-- 
+                      <v-divider :key="index"></v-divider>
+                    </template>
+                    <!-- 
                     <template>
                       <v-list-item>
                         <template>
@@ -155,7 +155,7 @@ https://vuetifyjs.com/en/components/lists/#action-stack
 </template>
 
 <script>
-import {  cWrite, cRead, cModify, cDelete, bDelete } from "@/api/board";
+import { cWrite, cRead, cModify, cDelete, bDelete } from "@/api/board";
 import { mapState, mapGetters, mapActions } from "vuex";
 const memberStore = "memberStore";
 const boardStore = "boardStore";
@@ -177,7 +177,7 @@ export default {
 
   created() {
     this.bno = this.$route.params.bno;
-  
+
     // let _this = this;
 
     // let param = this.bno;
@@ -202,6 +202,7 @@ export default {
       });
       */
     this.getComments(this.bno);
+    console.log("comments : ", this.comments);
     this.getDetail(this.bno);
     this.getImgPath();
     console.log(this.comments);
@@ -215,7 +216,7 @@ export default {
     comments() {},
   },
   methods: {
-    ...mapActions(boardStore, ["getComments","getDetail"]),
+    ...mapActions(boardStore, ["getComments", "getDetail"]),
 
     // getComments() {
     //   let _this = this;
