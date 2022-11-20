@@ -202,6 +202,7 @@ export default {
       });
       */
     this.getComments(this.bno);
+    this.getDetail(this.bno);
     this.getImgPath();
     console.log(this.comments);
   },

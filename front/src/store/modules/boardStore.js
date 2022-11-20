@@ -8,13 +8,15 @@ import {
   cList,
   bOrderList,
   bRead,
+  bList,
 } from "@/api/board"
 
 const boardStore = {
   namespaced: true,
   state: {
     ranking: [], // 인기글 세개
-    board:null, // 글 1개
+    board: null, // 글 1개
+    boardList:[], // 게시글 리스트
     notices: [], // 공지사항 글 리스트
     notice: null, // 공지사항 1개
     latest: [], // 최신글 4개
@@ -53,6 +55,10 @@ const boardStore = {
     },
     SET_BOARD_DETAIL(state, board) {
       state.board = board;
+    },
+    SET_BOARD_LIST(state, boards) {
+      state.boardList = [];
+      state.boardList = boards;
     }
 
 
@@ -131,6 +137,16 @@ const boardStore = {
         }
       )
     },
+    getBoardList({ commit }) {
+      bList(
+        ({ data }) => {
+          commit("SET_BOARD_LIST", data);
+        },
+        (error) => {
+          console.log(error);
+        }
+      )
+    }
   },
 
 };

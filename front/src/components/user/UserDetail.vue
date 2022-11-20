@@ -2,9 +2,11 @@
   <v-row>
     <v-col cols="12">
       <v-card title="Account Details">
+
         <v-card-text class="d-flex"> </v-card-text>
 
         <v-divider />
+
         <h2 style="text-align: center">회원 정보</h2>
         <v-card-text>
           <!-- 👉 Form -->
@@ -36,13 +38,15 @@
             </v-row>
           </v-form>
         </v-card-text>
-      </v-card>
+        </v-card>
     </v-col>
   </v-row>
 </template>
 
 <script>
 import { mapState } from "vuex";
+import http from "@/api/http";
+
 const memberStore = "memberStore";
 export default {
   data() {
@@ -79,15 +83,36 @@ export default {
     },
     modify() {
       console.log("user modify");
-      let param = {
-        userid: this.userid,
-        username: this.username,
-        email: this.email,
-      };
-      console.log(param);
+      let _this = this;
+      let param = this.userInfo;
+      param.username = _this.name;
+      param.email = _this.email
+      
+      http
+      .put(
+        `/user`,
+        JSON.stringify(param)
+      ).then((response)=> console.log(response))
+      .catch(console.log("userinfo modify fail"))
+
+      this.$router.push({name:"main"});
+
+      // console.log(param);
     },
   },
 };
 </script>
 
-<style></style>
+<style>
+v-container {
+  display: flex !important;
+  flex-direction: column;
+}
+
+.v-card {
+  flex-grow: 1;
+  overflow: auto;
+}
+.scroll {
+   overflow-y: scroll
+}</style>

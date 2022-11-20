@@ -10,4 +10,6 @@ public interface MemberService {
 	public Object getRefreshToken(String userid) throws Exception;
 	public void deleRefreshToken(String userid) throws Exception;
 	public int reigst(UserDTO memberDto) throws Exception;
+	public int modify(UserDTO memberDto) throws Exception;
+	
 }

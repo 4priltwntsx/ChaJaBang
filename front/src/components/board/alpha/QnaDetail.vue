@@ -3,7 +3,9 @@
     <v-row>
       <!-- <v-col cols="12" md="6"> -->
       <!-- board detail start -->
+      <v-container>
       <v-card class="mx-auto my-auto" min-height="550" max-width="650">
+        <v-container>
         <template slot="progress">
           <v-progress-linear color="deep-purple" height="10" indeterminate></v-progress-linear>
         </template>
@@ -32,10 +34,12 @@
           <v-col cols="12" md="2"><v-btn color="indigo lighten-5">삭제</v-btn></v-col>
           <v-col cols="12" md="2"><v-btn color="indigo lighten-5">목록</v-btn></v-col>
         </v-row>
+        </v-container>
       </v-card>
 
       <!-- board detail end -->
       <!-- </v-col> -->
+      </v-container>
     </v-row>
   </div>
 </template>
@@ -100,4 +104,9 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+v-container {
+  display: flex !important;
+  flex-direction: column;
+}
+</style>

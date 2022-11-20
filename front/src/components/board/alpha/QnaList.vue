@@ -195,6 +195,7 @@ https://vuetifyjs.com/en/components/tabs/#icons-and-text
         </v-col>
         <v-col cols="12" md="6">
           <v-card class="mx-auto my-12" min-height="550" max-width="400">
+            <v-container>
             <template slot="progress">
               <v-progress-linear color="deep-purple" height="10" indeterminate></v-progress-linear>
             </template>
@@ -251,7 +252,8 @@ https://vuetifyjs.com/en/components/tabs/#icons-and-text
             </v-card-text>
           </v-card>
           </row>
-            
+                      </v-container>
+
           </v-card>
         </v-col>
         
@@ -463,4 +465,9 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+v-container {
+  display: flex !important;
+  flex-direction: column;
+}
+</style>

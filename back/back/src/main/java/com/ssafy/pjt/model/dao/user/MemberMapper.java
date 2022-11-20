@@ -16,5 +16,5 @@ public interface MemberMapper {
 	public Object getRefreshToken(String userid) throws SQLException;
 	public void deleteRefreshToken(Map<String, String> map) throws SQLException;
 	public int regist(UserDTO memberDto) throws SQLException;
-	
+	public int modify(UserDTO memberDto) throws SQLException;
 }

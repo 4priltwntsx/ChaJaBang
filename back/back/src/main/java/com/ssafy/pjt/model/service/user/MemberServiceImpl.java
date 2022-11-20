@@ -55,4 +55,9 @@ public class MemberServiceImpl implements MemberService {
 		return sqlSession.getMapper(MemberMapper.class).regist(memberDto);
 	}
 
+	@Override
+	public int modify(UserDTO memberDto) throws Exception {
+		
+		return sqlSession.getMapper(MemberMapper.class).modify(memberDto);
+	}
 }

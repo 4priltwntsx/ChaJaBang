@@ -22,26 +22,33 @@ https://vuetifyjs.com/en/components/tabs/#props
 
           <v-tabs-items v-model="tab">
             <v-tab-item>
-              <v-card flat>
+              <v-card flat >
+                <v-container>
                 <v-row>
                   <v-col cols="12">
                     <user-detail />
                   </v-col>
                 </v-row>
+                </v-container>
               </v-card>
             </v-tab-item>
             <v-tab-item>
-              <v-card flat>
+              <v-card flat >
+                <v-container>
+                
                 <v-row>
                   <v-col cols="12">
                     <qna-list />
                   </v-col>
                 </v-row>
+                </v-container>
               </v-card>
             </v-tab-item>
             <v-tab-item>
-              <v-card flat>
+              <v-card flat >
+                <v-container>
                 <v-card-text>asdfs</v-card-text>
+                </v-container>
               </v-card>
             </v-tab-item>
           </v-tabs-items>
@@ -70,4 +77,13 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+v-container {
+  display: flex !important;
+  flex-direction: column;
+}
+.scroll {
+
+  overflow-y: scroll
+}
+</style>
