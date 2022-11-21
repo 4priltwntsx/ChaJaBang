@@ -23,32 +23,6 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin(origins = { "*" }, maxAge = 6000)
 public class NaverController {
 
-	@GetMapping(value = "/blog", produces = "application/json; charset=utf-8")
-	public String blog(String keyword) {
-		
-		String clientId = "x1Oc993krQfaly5wIXQQ"; // 애플리케이션 클라이언트 아이디
-		String clientSecret = "HsEby8pgbf"; // 애플리케이션 클라이언트 시크릿
-
-		String text = null;
-		try {
-			text = URLEncoder.encode(keyword, "UTF-8");
-		} catch (UnsupportedEncodingException e) {
-			throw new RuntimeException("검색어 인코딩 실패", e);
-		}
-
-		String apiURL = "https://openapi.naver.com/v1/search/blog?sort=sim&query=" + text; // JSON 결과
-		// String apiURL = "https://openapi.naver.com/v1/search/blog.xml?query="+ text;
-		// // XML 결과
-
-		Map<String, String> requestHeaders = new HashMap<>();
-		requestHeaders.put("X-Naver-Client-Id", clientId);
-		requestHeaders.put("X-Naver-Client-Secret", clientSecret);
-		String responseBody = get(apiURL, requestHeaders);
-
-		System.out.println(responseBody); // 네이버가 주는 결과데이터
-		return responseBody;
-	}
-
 	@GetMapping(value = "/news", produces = "application/json; charset=utf-8")
 	public String news(String keyword) {
 		String clientId = "bgbHjwmHco4MN04hAsnU"; // 애플리케이션 클라이언트 아이디
@@ -74,39 +48,20 @@ public class NaverController {
 		return responseBody;
 	}
 	
-	@GetMapping(value = "/shop", produces = "application/json; charset=utf-8")
-	public String shop(String keyword) {
-		String clientId = "bgbHjwmHco4MN04hAsnU"; // 애플리케이션 클라이언트 아이디
-		String clientSecret = "xMZq4h_hyW"; // 애플리케이션 클라이언트 시크릿
-
-		String text = null;
-		try {
-			text = URLEncoder.encode(keyword, "UTF-8");
-		} catch (UnsupportedEncodingException e) {
-			throw new RuntimeException("검색어 인코딩 실패", e);
-		}
-
-		String apiURL = "https://openapi.naver.com/v1/search/shop?query=" + text; // JSON 결과
-		// String apiURL = "https://openapi.naver.com/v1/search/blog.xml?query="+ text;
-		// // XML 결과
-
-		Map<String, String> requestHeaders = new HashMap<>();
-		requestHeaders.put("X-Naver-Client-Id", clientId);
-		requestHeaders.put("X-Naver-Client-Secret", clientSecret);
-		String responseBody = get(apiURL, requestHeaders);
-
-		System.out.println(responseBody); // 네이버가 주는 결과데이터
-		return responseBody;
-	}
-	@GetMapping(value = "/road/{start}/{goal}/{option}", produces = "application/json; charset=utf-8")
-	public String road(@PathVariable("start") String start, @PathVariable("goal") String goal,@PathVariable("option") String option) {
+	@GetMapping(value = "/road/{start}/{goal}/{fueltype}/{option}", produces = "application/json; charset=utf-8")
+	public String road(@PathVariable("start") String start, @PathVariable("goal") String goal,@PathVariable("fueltype") String fueltype,@PathVariable("option") String option) {
 		System.out.println("!!!!!!!!!!!!들어오긴 함");
+		System.out.println("start : " + start);
+		System.out.println("goal : " + goal);
+		System.out.println("fueltype : " + fueltype);
+		System.out.println("option : " + option);
+		
 		String clientId = "4ihh2kc4lx"; // 애플리케이션 클라이언트 아이디
 		String clientSecret = "R5xM6LM3F4FlDoItGVOtVHCxO6a3v0EvNJDZPVZk"; // 애플리케이션 클라이언트 시크릿
 		
 
 		String apiURL = "https://naveropenapi.apigw.ntruss.com/map-direction-15/v1/driving?start="+start; // JSON 결과
-		apiURL += "&goal="+goal+"&option="+option;
+		apiURL += "&goal="+goal+"&option="+option+"&fueltype="+ fueltype;
 		// String apiURL = "https://openapi.naver.com/v1/search/blog.xml?query="+ text;
 		// // XML 결과
 
@@ -114,7 +69,8 @@ public class NaverController {
 		requestHeaders.put("X-NCP-APIGW-API-KEY-ID", clientId);
 		requestHeaders.put("X-NCP-APIGW-API-KEY", clientSecret);
 		String responseBody = get(apiURL, requestHeaders);
-
+		System.out.println(responseBody); // 네이버가 주는 결과데이터
+		
 		return responseBody;
 	}
 

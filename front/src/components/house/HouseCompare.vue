@@ -230,9 +230,9 @@ export default {
 
     //대형마트
     getMart() {
-      getconsole.log("onClickMart");
       this.currCategory = "MT1";
       this.mart = this.searchPlaces();
+      getconsole.log("onClickMart", this.mart);
     },
     //편의점
     getConvenience() {
