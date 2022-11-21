@@ -12,7 +12,7 @@
 	</delete>
 	
 	<select id="selectAll" parameterType="String" resultType="InterestDTO">
-		SELECT APTCODE, USERID FROM INTEREST WHERE USERID = #{userid}
+		SELECT * FROM INTEREST WHERE USERID = #{userid}
 	</select>
 	
 	<select id="selectCount" parameterType="long" resultType="int">
