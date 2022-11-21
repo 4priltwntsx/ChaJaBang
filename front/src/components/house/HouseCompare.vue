@@ -3,10 +3,7 @@
     <h3>여기에 길찾기를 보여주고 싶어요!!</h3>
     <div ref="map" class="map_wrap">
       <div ref="overlay"></div>
-      <div
-        id="map"
-        style="width: 100%; height: 100%; position: relative; overflow: hidden"
-      ></div>
+      <div id="map" style="width: 100%; height: 100%; position: relative; overflow: hidden"></div>
     </div>
     <v-row>
       <v-col>
@@ -17,8 +14,8 @@
                 <v-tabs-slider color="indigo lighten-2"></v-tabs-slider>
 
                 <v-tab> 맞춤 정보 </v-tab>
+                <v-tab> 자주 가는 곳 </v-tab>
                 <v-tab> 길찾기 </v-tab>
-                <v-tab> 키워드 </v-tab>
               </v-tabs>
             </template>
           </v-toolbar>
@@ -26,69 +23,222 @@
           <v-tabs-items v-model="tab">
             <v-tab-item>
               <v-card flat>
+                <v-container fluid>
+                  <v-row>
+                    <v-col cols="12" sm="3" md="3">
+                      <v-checkbox
+                        v-model="checkedType"
+                        label="자동차"
+                        color="orange darken-3"
+                        value="car"
+                        hide-details
+                      ></v-checkbox>
+                    </v-col>
+                    <v-col cols="12" sm="3" md="3">
+                      <v-checkbox
+                        v-model="checkedType"
+                        label="자전거"
+                        color="orange darken-3"
+                        value="bicycle"
+                        hide-details
+                      ></v-checkbox>
+                    </v-col>
+                    <v-col cols="12" sm="3" md="3">
+                      <v-checkbox
+                        v-model="checkedType"
+                        label="반려동물"
+                        color="orange darken-3"
+                        value="pet"
+                        hide-details
+                      ></v-checkbox>
+                    </v-col>
+                    <v-col cols="12" sm="3" md="3">
+                      <v-checkbox
+                        v-model="checkedType"
+                        label="아이"
+                        color="orange darken-3"
+                        value="baby"
+                        hide-details
+                      ></v-checkbox>
+                    </v-col>
+                  </v-row>
+                </v-container>
+                <v-container fluid>
+                  <v-row>
+                    <v-col cols="12"> <v-divider></v-divider> </v-col>
+                    <v-col cols="12"><h3>주변 편의 시설</h3></v-col>
+                    <v-col cols="12" sm="4" md="4" v-model="storeList['MT1']"
+                      ><v-btn @click="facilityMarkers('MT1')">대형마트</v-btn>
+                    </v-col>
+                    <v-col cols="12" sm="4" md="4" v-model="storeList['CS2']"
+                      ><v-btn @click="facilityMarkers('CS2')">편의점</v-btn>
+                    </v-col>
+                    <v-col cols="12" sm="4" md="4" v-model="storeList['BK9']"
+                      ><v-btn @click="facilityMarkers('BK9')">은행</v-btn>
+                    </v-col>
+                    <v-col cols="12" sm="4" md="4" v-model="storeList['CT1']"
+                      ><v-btn @click="facilityMarkers('CT1')">문화시설</v-btn>
+                    </v-col>
+                    <v-col cols="12" sm="4" md="4" v-model="storeList['PO3']"
+                      ><v-btn @click="facilityMarkers('PO3')">공공기관</v-btn>
+                    </v-col>
+                    <v-col cols="12" sm="4" md="4" v-model="storeList['FD6']"
+                      ><v-btn @click="facilityMarkers('FD6')">음식점</v-btn>
+                    </v-col>
+                    <v-col cols="12" sm="4" md="4" v-model="storeList['CE7']"
+                      ><v-btn @click="facilityMarkers('CE7')">카페</v-btn>
+                    </v-col>
+                    <v-col cols="12" sm="4" md="4" v-model="storeList['HP8']"
+                      ><v-btn @click="facilityMarkers('HP8')">병원</v-btn>
+                    </v-col>
+                    <v-col cols="12" sm="4" md="4" v-model="storeList['PM9']"
+                      ><v-btn @click="facilityMarkers('PM9')">약국</v-btn>
+                    </v-col>
+                  </v-row>
+                </v-container>
+                <v-container fluid>
+                  <v-row v-if="checkedType.includes('car')">
+                    <v-col cols="12"> <v-divider></v-divider> </v-col>
+                    <v-col cols="12"><h3>자동차</h3></v-col>
+                    <v-col cols="12" sm="6" md="6" v-model="storeList['PK6']"
+                      ><v-btn @click="facilityMarkers('PK6')">주차장</v-btn>
+                    </v-col>
+                    <v-col cols="12" sm="6" md="6" v-model="storeList['OL7']"
+                      ><v-btn @click="facilityMarkers('OL7')">주차장</v-btn>
+                    </v-col>
+                  </v-row>
+                </v-container>
+                <v-container fluid>
+                  <v-row v-if="checkedType.includes('baby')">
+                    <v-col cols="12"> <v-divider></v-divider> </v-col>
+                    <v-col cols="12"><h3>아이</h3></v-col>
+                    <v-col cols="12" sm="4" md="4" v-model="storeList['PS3']"
+                      ><v-btn @click="facilityMarkers('PS3')">유치원</v-btn>
+                    </v-col>
+                    <v-col cols="12" sm="4" md="4" v-model="storeList['SC4']"
+                      ><v-btn @click="facilityMarkers('SC4')">학교</v-btn>
+                    </v-col>
+                    <v-col cols="12" sm="4" md="4" v-model="storeList['AC5']"
+                      ><v-btn @click="facilityMarkers('AC5')">학원</v-btn>
+                    </v-col>
+                  </v-row>
+                </v-container>
+              </v-card>
+            </v-tab-item>
+            <v-tab-item>
+              <v-card flat>
                 <v-container>
                   <v-row>
                     <v-col cols="12">
-                      <v-container fluid>
-                        <v-row>
-                          <v-col cols="12" sm="3" md="3">
-                            <v-checkbox
-                              v-model="ex4"
-                              label="자동차"
-                              color="orange darken-3"
-                              value="car"
-                              hide-details
-                            ></v-checkbox>
-                          </v-col>
-                          <v-col cols="12" sm="3" md="3">
-                            <v-checkbox
-                              v-model="ex4"
-                              label="자전거"
-                              color="orange darken-3"
-                              value="bicycle"
-                              hide-details
-                            ></v-checkbox>
-                          </v-col>
-                          <v-col cols="12" sm="3" md="3">
-                            <v-checkbox
-                              v-model="ex4"
-                              label="반려동물"
-                              color="orange darken-3"
-                              value="pet"
-                              hide-details
-                            ></v-checkbox>
-                          </v-col>
-                          <v-col cols="12" sm="3" md="3">
-                            <v-checkbox
-                              v-model="ex4"
-                              label="아이"
-                              color="orange darken-3"
-                              value="baby"
-                              hide-details
-                            ></v-checkbox>
-                          </v-col>
-                        </v-row>
-                      </v-container>
+                      현재 클릭한 지점을 자주 가는 곳에 추가 &nbsp;&nbsp;&nbsp;
+                    </v-col>
+                    <v-col cols="12" md="7">
+                      <v-text-field v-model="nickname"></v-text-field>
+                    </v-col>
+                    <v-col cols="12" md="5">
+                      <v-btn @click="freRegister">등록</v-btn>
                     </v-col>
                     <v-col cols="12"> <v-divider></v-divider> </v-col>
-                    <v-col cols="12"> 맞춤정보 </v-col>
+                    <v-col cols="12">
+                      <v-simple-table fixed-header max-width="580" height="590">
+                        <template v-slot:default>
+                          <thead>
+                            <tr>
+                              <th class="text-left">이름</th>
+                              <th class="text-left">거리</th>
+                              <th class="text-left">소요 시간</th>
+                              <th class="text-left">도착시간</th>
+                              <th class="text-left">택시비</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr v-for="item in freResult" :key="item.nickname">
+                              <td>{{ item.nickname }}</td>
+                              <td>{{ item.summary.distance }}</td>
+                              <td>{{ item.summary.duration }}</td>
+                              <td>{{ item.summary.departureTime }}</td>
+                              <td>{{ item.summary.taxiFare }}</td>
+                            </tr>
+                          </tbody>
+                        </template>
+                      </v-simple-table>
+                    </v-col>
                   </v-row>
                 </v-container>
               </v-card>
             </v-tab-item>
             <v-tab-item>
               <v-card flat>
-                <v-container>
+                <v-container fluid>
                   <v-row>
-                    <v-col cols="12"> 길찾기 </v-col>
+                    <v-col cols="12">탐색 옵션</v-col>
+                    <v-col cols="12" sm="4" md="4">
+                      <v-checkbox
+                        v-model="checkedOpt"
+                        value="trafast"
+                        label="실시간 빠른길"
+                      ></v-checkbox>
+                    </v-col>
+                    <v-col cols="12" sm="4" md="4">
+                      <v-checkbox
+                        v-model="checkedOpt"
+                        value="tracomfort"
+                        label="실시간 편한길"
+                      ></v-checkbox>
+                    </v-col>
+                    <v-col cols="12" sm="4" md="4">
+                      <v-checkbox
+                        v-model="checkedOpt"
+                        value="traoptimal"
+                        label="실시간 최적"
+                      ></v-checkbox>
+                    </v-col>
+                    <v-col cols="12" sm="4" md="4">
+                      <v-checkbox
+                        v-model="checkedOpt"
+                        value="traavoidtoll"
+                        label="무료 우선"
+                      ></v-checkbox>
+                    </v-col>
+                    <v-col cols="12" sm="4" md="4">
+                      <v-checkbox
+                        v-model="checkedOpt"
+                        value="traavoidcaronly"
+                        label="자동차 전용도로 회피 우선"
+                      ></v-checkbox>
+                    </v-col>
                   </v-row>
                 </v-container>
-              </v-card>
-            </v-tab-item>
-            <v-tab-item>
-              <v-card flat>
-                <v-container>
-                  <v-card-text>할 수 있을까</v-card-text>
+                <v-container fluid>
+                  <v-row>
+                    <v-col cols="12">유류비 계산용 유종</v-col>
+                    <v-col cols="12" sm="3" md="3">
+                      <v-checkbox
+                        v-model="checkedFuel"
+                        value="gasoline"
+                        label="휘발유"
+                      ></v-checkbox>
+                    </v-col>
+                    <v-col cols="12" sm="3" md="3">
+                      <v-checkbox
+                        v-model="checkedFuel"
+                        value="highgradegasoline"
+                        label="고급 휘발유"
+                      ></v-checkbox>
+                    </v-col>
+                    <v-col cols="12" sm="3" md="3">
+                      <v-checkbox v-model="checkedFuel" value="diesel" label="경유"></v-checkbox>
+                    </v-col>
+                    <v-col cols="12" sm="3" md="3">
+                      <v-checkbox v-model="checkedFuel" value="lpg" label="LPG "></v-checkbox>
+                    </v-col>
+                  </v-row>
+                </v-container>
+                <v-container fluid>
+                  <v-row>
+                    <v-col cols="12"> <v-divider></v-divider> </v-col>
+                    <div>셀렉트 박스 체크된 거 가지고 길찾기 하기~~!</div>
+                  </v-row>
                 </v-container>
               </v-card>
             </v-tab-item>
@@ -115,29 +265,30 @@ export default {
       goal: null,
       goalLatlng: null,
       results: [],
+      // 길찾기할 때 경로 우선순위
       checkedOpt: "",
+      // 경로 유류비 계산할 때 필요한
       checkedFuel: "",
-      mart: [],
-      convenience: [],
-      baby: [],
-      school: [],
-      academy: [],
-      park: [],
-      oil: [],
-      subway: [],
-      bank: [],
-      culture: [],
-      public: [],
-      food: [],
-      cafe: [],
-      hospital: [],
-      pharmacy: [],
+      // 체크박스 중 체크 된 것
+      checkedType: [],
+      storeList: {},
+      storeListCnt: {},
+      // 자주 가는 곳 별명
+      nickname: "",
+      // 자주 가는 곳으로 추가된 마커
+      freLoc: [],
+      // freLoc의 각 index의 마커의 위치
+      freLocLatlng: [],
+      // 자주 가는 곳과 현재 아파트 위치와의 비교
+      freResult: [],
     };
   },
   computed: {
     ...mapState(houseStore, ["houses", "points", "house", "point"]),
   },
-  watch: {},
+  watch: {
+    freResult() {},
+  },
   created() {},
   mounted() {
     let kakao = window.kakao;
@@ -160,34 +311,21 @@ export default {
       position: this.startLatlng, // 마커의 위치
     });
     this.addMarker(this.start);
-    console.log("start marker mounted");
-    this.getMart();
-    this.getConvenience();
-    this.getBaby();
-    this.getSchool();
-    this.getAcademy();
-    this.getPark();
-    this.getOil();
-    this.getSubway();
-    this.getBank();
-    this.getCulture();
-    this.getPublic();
-    this.getFood();
-    this.getCafe();
-    this.getHospital();
-    this.getPharmacy();
+
+    //편의시설 리스트 가져오기
+    this.facility();
+    this.uncheckedCar();
+    this.checkedCar();
+    this.checkedBicycle();
+    this.checkedBaby();
+    this.checkedPet();
 
     // 지도에 클릭 이벤트를 등록합니다
     // 지도를 클릭하면 마지막 파라미터로 넘어온 함수를 호출합니다
     let _this = this;
-    new kakao.maps.event.addListener(this.mapInstance, "click", function (
-      mouseEvent
-    ) {
+    new kakao.maps.event.addListener(this.mapInstance, "click", function (mouseEvent) {
       // 클릭한 위도, 경도 정보를 가져옵니다
-      let latlng = new kakao.maps.LatLng(
-        mouseEvent.latLng.getLat(),
-        mouseEvent.latLng.getLng()
-      );
+      let latlng = new kakao.maps.LatLng(mouseEvent.latLng.getLat(), mouseEvent.latLng.getLng());
       _this.goalLatlng = latlng;
       if (_this.goal != null) {
         _this.removeMarker();
@@ -213,141 +351,132 @@ export default {
       this.$router.push({ name: "houseTable" });
     },
     // 카테고리 검색을 요청하는 함수입니다
-    searchPlaces() {
+    searchPlaces(category) {
       // 지도에 표시되고 있는 마커를 제거합니다
       // this.removeMarker();
+
       let _this = this;
       this.ps.categorySearch(
-        this.currCategory,
+        category,
         (result, status) => {
           if (status === window.kakao.maps.services.Status.OK) {
-            console.log("result", result);
-            console.log("result length", result.length);
+            console.log(result);
+            console.log("category", category);
+            _this.storeList[category] = result;
+            _this.storeListCnt[category] = result.length;
+            console.log("storeList", _this.storeList);
             return result;
           } else {
             console.log(status);
+            console.log("category", category);
           }
         },
         {
           // Map 객체를 지정하지 않았으므로 좌표객체를 생성하여 넘겨준다.
-          location: new window.kakao.maps.LatLng(
-            _this.startLatlng.Ma,
-            _this.startLatlng.La
-          ),
+          location: new window.kakao.maps.LatLng(_this.startLatlng.Ma, _this.startLatlng.La),
           useMapCenter: false,
           radius: 500,
         }
       );
     },
-    click() {
+
+    checkedCar() {
+      //주차장
+      this.searchPlaces("PK6");
+      //주유소
+      this.searchPlaces("OL7");
+    },
+    uncheckedCar() {
+      //지하철역
+      this.searchPlaces("SW8");
+    },
+    checkedBicycle() {},
+    checkedPet() {},
+    checkedBaby() {
+      //유치원 어린이집
+      this.searchPlaces("PS3");
+      //학교
+      this.searchPlaces("SC4");
+      //학원
+      this.searchPlaces("AC5");
+    },
+    facility() {
+      //대형마트
+      this.searchPlaces("MT1");
+      //편의점
+      this.searchPlaces("CS2");
+      //은행
+      this.searchPlaces("BK9");
+      //문화시설
+      this.searchPlaces("CT1");
+      //공공기관
+      this.searchPlaces("PO3");
+      //음식점
+      this.searchPlaces("FD6");
+      //카페
+      this.searchPlaces("CE7");
+      //병원
+      this.searchPlaces("HP8");
+      //약국
+      this.searchPlaces("PM9");
+    },
+    facilityMarkers(keyword) {
+      if (this.storeList[keyword] == undefined) {
+        console.log(keyword, "undefined");
+      } else {
+        console.log(keyword, this.storeList[keyword]);
+      }
+    },
+    getDir(end, fuel, opt) {
       console.log("start : ", this.startLatlng.La);
-      console.log("goal : ", this.goalLatlng);
+      console.log("end : ", end);
       let url = "/naver/road/";
       url += this.startLatlng.La + "," + this.startLatlng.Ma + "/";
-      url += this.goalLatlng.La + "," + this.goalLatlng.Ma + "/";
-      url += this.checkedFuel + "/";
-      url += this.checkedOpt;
+      url += end.La + "," + end.Ma + "/";
+      url += fuel + "/";
+      url += opt;
       console.log("url", url);
       http
         .get(url)
-        .then((resp) => {
+        .then(({ data }) => {
           console.log("here@@@");
-          console.log(resp);
+          console.log(data);
+          console.log(data.message);
+          return data;
         })
         .catch((error) => {
           console.log("길찾기 error", error);
         });
     },
-    //대형마트
-    getMart() {
-      console.log("onClickMart", this.mart);
-      this.currCategory = "MT1";
-      this.mart = this.searchPlaces();
-      console.log("onClickMart", this.mart);
+    //길찾기 탭에서 등록을 누르면
+    freRegister() {
+      this.freLoc.push(this.goal);
+      this.freLocLatlng.push(this.goalLatlng);
+      console.log("freRegister, ", this.freLocLatlng);
+      // 길찾기를 한다.
+      // this.freResult.push({
+      //   nickname: this.nickname,
+      //   summary: this.getDir(this.goalLatlng, "gasoline", "trafast").route.trafast.summary,
+      // });
+      // 왜 this.getDir의 값이 undefined일까??? route를 왜 모르지
+      let temp = this.getDir(this.goalLatlng, "gasoline", "trafast");
+      setTimeout(() => {
+        console.log("temp", temp.route.trafast.summary);
+        this.freResult.push({
+          nickname: this.nickname,
+          summary: temp.route.trafast.summary,
+        });
+      }, 2000);
     },
-    //편의점
-    getConvenience() {
-      console.log("onClickConvenience");
-      this.currCategory = "CS2";
-      this.convenience = this.searchPlaces();
-    },
-    //유치원 어린이집
-    getBaby() {
-      console.log("onClickBaby");
-      this.currCategory = "PS3";
-      this.baby = this.searchPlaces();
-    },
-    //학교
-    getSchool() {
-      console.log("onClickSchool");
-      this.currCategory = "SC4";
-      this.school = this.searchPlaces();
-    },
-    // 학원
-    getAcademy() {
-      console.log("onClickAcademy");
-      this.currCategory = "AC5";
-      this.academy = this.searchPlaces();
-    },
-    // 주차장
-    getPark() {
-      console.log("onClickPark");
-      this.currCategory = "PK6";
-      this.park = this.searchPlaces();
-    },
-    // 주유소
-    getOil() {
-      console.log("onClickOil");
-      this.currCategory = "OL7";
-      this.oil = this.searchPlaces();
-    },
-    // 지하철역
-    getSubway() {
-      console.log("onClickSubway");
-      this.currCategory = "SW8";
-      this.subway = this.searchPlaces();
-    },
-    // 은행
-    getBank() {
-      console.log("onClickBank");
-      this.currCategory = "BK9";
-      this.bank = this.searchPlaces();
-    },
-    // 문화시설
-    getCulture() {
-      console.log("onClickCulture");
-      this.currCategory = "CT1";
-      this.culture = this.searchPlaces();
-    },
-    // 공공기관
-    getPublic() {
-      console.log("onClickPublic");
-      this.currCategory = "PO3";
-      this.public = this.searchPlaces();
-    },
-    //음식점
-    getFood() {
-      console.log("onClickFood");
-      this.currCategory = "FD6";
-      this.food = this.searchPlaces();
-    },
-    // 카페
-    getCafe() {
-      console.log("onClickCafe");
-      this.currCategory = "CE7";
-      this.cafe = this.searchPlaces();
-    },
-    // 병원
-    getHospital() {
-      console.log("onClickHospital");
-      this.currCategory = "HP8";
-      this.hospital = this.searchPlaces();
-    },
-    //약국
-    getPharmacy() {
-      console.log("onClickPharmacy");
-      this.currCategory = "PM9";
-      this.pharmacy = this.searchPlaces();
+  },
+  filters: {
+    count: function (value) {
+      // console.log("filter", value);
+      if (value == undefined) {
+        return "0개";
+      } else {
+        return value.length + "개";
+      }
     },
   },
 };

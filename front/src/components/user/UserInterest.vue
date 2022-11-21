@@ -30,16 +30,11 @@ https://vuetifyjs.com/en/components/data-tables/#filterable
             <td>{{ item.data.buildYear }}년</td>
             <td>
               <v-btn @click="btnClick(item.ino)"
-                ><v-icon size="small" color="indigo lighten-1"
-                  >mdi-heart</v-icon
-                ></v-btn
+                ><v-icon size="small" color="indigo lighten-1">mdi-heart</v-icon></v-btn
               >
             </td>
             <td>
-              <v-checkbox
-                v-model="checkList"
-                :value="item.data.aptCode"
-              ></v-checkbox>
+              <v-checkbox v-model="checkList" :value="item.data"></v-checkbox>
             </td>
           </tr>
         </tbody>
@@ -75,7 +70,7 @@ export default {
       interestList: [],
       err: "",
       checkList: [],
-      inumber:"",
+      inumber: "",
     };
   },
   created() {
@@ -92,7 +87,7 @@ export default {
   methods: {
     ...mapActions(houseStore, ["getDetail", "getDealList"]),
     ...mapMutations(houseStore, ["CLEAR_HOUSE_POINT"]),
-    
+
     getInterests() {
       interestList(
         this.userInfo.userid,
@@ -107,11 +102,11 @@ export default {
               (resp) => {
                 console.log("interest object resp : ", resp);
                 // resp.data["ino"] = data[i].ino;
-                console.log( "number: ",this.inumber)
+                console.log("number: ", this.inumber);
                 var param = {
-                  ino : this.inumber,
-                  data : resp.data, // 객체
-                }
+                  ino: this.inumber,
+                  data: resp.data, // 객체
+                };
                 console.log("interest object param : ", param);
                 this.interestList.push(param);
               },
@@ -128,30 +123,28 @@ export default {
         }
       );
     },
-    getlist(code){
-      console.log(code)
+    getlist(code) {
+      console.log(code);
 
       this.getDetail(code);
       this.getDealList(code);
-      this.$router.push({name: "houseDetail"});
-
+      this.$router.push({ name: "houseDetail" });
     },
 
     btnClick(no) {
       console.log(no);
       uninterest(
-        no, 
-        ({data})=>{
+        no,
+        ({ data }) => {
           console.log("interest delete", data);
           this.interestList = [];
           this.getInterests();
         },
-        (error)=>{
+        (error) => {
           console.log(error);
         }
-      )
+      );
     },
-    
 
     move2Detail() {
       // this.CLAER_HOUSE_POINT();
