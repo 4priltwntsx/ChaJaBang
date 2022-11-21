@@ -5,13 +5,13 @@
 </template>
 
 <script>
-import HouseCompare from"@/components/house/HouseCompare.vue";
+import HouseCompare from "@/components/house/HouseCategory.vue";
 export default {
-  components:{
+  components: {
     HouseCompare,
   },
-  data(){
-    return{
+  data() {
+    return {
       mapOption: {
         center: {
           lat: 37.541,
@@ -19,11 +19,10 @@ export default {
         },
         level: 3,
       },
-    }
-  }
-}
+    };
+  },
+};
 </script>
 
 <style>
-
 </style>

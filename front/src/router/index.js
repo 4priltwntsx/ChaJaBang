@@ -14,7 +14,7 @@ import BoardModify from "@/components/board/BoardModify.vue";
 import HouseDetail from "@/components/house/HouseDetail.vue";
 import HouseTable from "@/components/house/HouseTable.vue";
 import HouseNews from "@/components/house/HouseNews.vue";
-import HouseTemp from "@/components/house/HouseTemp.vue";
+import HouseTemp from "@/components/house/HouseCompare.vue";
 
 import BoardNoticeWrite from "@/components/board/alpha/BoardNoticeWrite";
 import NoticeDetail from "@/components/board/alpha/NoticeDetail";

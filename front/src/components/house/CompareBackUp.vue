@@ -8,6 +8,7 @@
         style="width: 100%; height: 100%; position: relative; overflow: hidden"
       ></div>
     </div>
+
     <v-btn @click="move2Table" class="ma-2" color="indigo darken-2" dark>
       <v-icon dark left> mdi-arrow-left </v-icon>Back
     </v-btn>
@@ -201,7 +202,7 @@ export default {
             _this.startLatlng.La
           ),
           useMapCenter: false,
-          radius: 200,
+          radius: 500,
         }
       );
     },

@@ -1,29 +1,122 @@
 <template>
-  <div ref="map" class="map_wrap">
-    <div ref="overlay"></div>
-    <div
-      id="map"
-      style="width: 100%; height: 100%; position: relative; overflow: hidden"
-    ></div>
+  <div>
+    <h3>여기에 길찾기를 보여주고 싶어요!!</h3>
+    <div ref="map" class="map_wrap">
+      <div ref="overlay"></div>
+      <div
+        id="map"
+        style="width: 100%; height: 100%; position: relative; overflow: hidden"
+      ></div>
+    </div>
+    <v-row>
+      <v-col>
+        <v-card>
+          <v-toolbar color="white" flat>
+            <template v-slot:extension>
+              <v-tabs v-model="tab" align-with-title color="indigo lighten-2">
+                <v-tabs-slider color="indigo lighten-2"></v-tabs-slider>
+
+                <v-tab> 맞춤 정보 </v-tab>
+                <v-tab> 길찾기 </v-tab>
+                <v-tab> 키워드 </v-tab>
+              </v-tabs>
+            </template>
+          </v-toolbar>
+
+          <v-tabs-items v-model="tab">
+            <v-tab-item>
+              <v-card flat>
+                <v-container>
+                  <v-row>
+                    <v-col cols="12">
+                      <v-container fluid>
+                        <v-row>
+                          <v-col cols="12" sm="3" md="3">
+                            <v-checkbox
+                              v-model="ex4"
+                              label="자동차"
+                              color="orange darken-3"
+                              value="car"
+                              hide-details
+                            ></v-checkbox>
+                          </v-col>
+                          <v-col cols="12" sm="3" md="3">
+                            <v-checkbox
+                              v-model="ex4"
+                              label="자전거"
+                              color="orange darken-3"
+                              value="bicycle"
+                              hide-details
+                            ></v-checkbox>
+                          </v-col>
+                          <v-col cols="12" sm="3" md="3">
+                            <v-checkbox
+                              v-model="ex4"
+                              label="반려동물"
+                              color="orange darken-3"
+                              value="pet"
+                              hide-details
+                            ></v-checkbox>
+                          </v-col>
+                          <v-col cols="12" sm="3" md="3">
+                            <v-checkbox
+                              v-model="ex4"
+                              label="아이"
+                              color="orange darken-3"
+                              value="baby"
+                              hide-details
+                            ></v-checkbox>
+                          </v-col>
+                        </v-row>
+                      </v-container>
+                    </v-col>
+                    <v-col cols="12"> <v-divider></v-divider> </v-col>
+                    <v-col cols="12"> 맞춤정보 </v-col>
+                  </v-row>
+                </v-container>
+              </v-card>
+            </v-tab-item>
+            <v-tab-item>
+              <v-card flat>
+                <v-container>
+                  <v-row>
+                    <v-col cols="12"> 길찾기 </v-col>
+                  </v-row>
+                </v-container>
+              </v-card>
+            </v-tab-item>
+            <v-tab-item>
+              <v-card flat>
+                <v-container>
+                  <v-card-text>할 수 있을까</v-card-text>
+                </v-container>
+              </v-card>
+            </v-tab-item>
+          </v-tabs-items>
+        </v-card>
+      </v-col>
+    </v-row>
   </div>
 </template>
 
 <script>
+import http from "@/api/http";
+import { mapState } from "vuex";
+const houseStore = "houseStore";
 export default {
   props: ["options"],
   data() {
     return {
+      tab: null,
       mapInstance: null,
-      placeOverlay: null,
-      contentNode: null,
       ps: null,
-      markers: [], // 현재 선택된 카테고리를 가지고 있을 변수입니다
+      start: null,
+      startLatlng: null,
+      goal: null,
+      goalLatlng: null,
       results: [],
-      currCategory: "", // 현재 선택된 카테고리를 가지고 있을 변수입니다
-      loc: {
-        lat: 37.541,
-        lng: 126.986,
-      },
+      checkedOpt: "",
+      checkedFuel: "",
       mart: [],
       convenience: [],
       baby: [],
@@ -41,7 +134,33 @@ export default {
       pharmacy: [],
     };
   },
-  created() {
+  computed: {
+    ...mapState(houseStore, ["houses", "points", "house", "point"]),
+  },
+  watch: {},
+  created() {},
+  mounted() {
+    let kakao = window.kakao;
+
+    console.log(this.$refs.map);
+    var container = this.$refs.map;
+
+    this.mapInstance = new kakao.maps.Map(container, {
+      center: new kakao.maps.LatLng(this.house.lat, this.house.lng),
+      level: 5,
+    }); //지도 생성 및 객체 리턴
+
+    // 장소 검색 객체를 생성합니다
+    this.ps = new kakao.maps.services.Places(this.mapInstance);
+
+    // start marker 띄우기
+    this.startLatlng = new kakao.maps.LatLng(this.house.lat, this.house.lng);
+    console.log("startLatlng", this.startLatlng);
+    this.start = new window.kakao.maps.Marker({
+      position: this.startLatlng, // 마커의 위치
+    });
+    this.addMarker(this.start);
+    console.log("start marker mounted");
     this.getMart();
     this.getConvenience();
     this.getBaby();
@@ -57,156 +176,47 @@ export default {
     this.getCafe();
     this.getHospital();
     this.getPharmacy();
-  },
-  watch: {
-    pharmacy() {
-      console.log(this.pharmacy);
-    },
-  },
-  mounted() {
-    let kakao = window.kakao;
 
-    this.placeOverlay = new kakao.maps.CustomOverlay({ zIndex: 1 });
-    this.contentNode = this.$refs.overlay; // 커스텀 오버레이의 컨텐츠 엘리먼트 입니다
-
-    console.log(this.$refs.map);
-    var container = this.$refs.map;
-
-    const { center, level } = this.options;
-    this.mapInstance = new kakao.maps.Map(container, {
-      center: new kakao.maps.LatLng(center.lat, center.lng),
-      level,
-    }); //지도 생성 및 객체 리턴
-
-    // 장소 검색 객체를 생성합니다
-    this.ps = new kakao.maps.services.Places(this.mapInstance);
-    // 지도에 idle 이벤트를 등록합니다
-    kakao.maps.event.addListener(this.mapInstance, "idle", this.searchPlaces);
-
-    // 커스텀 오버레이의 컨텐츠 노드에 css class를 추가합니다
-    this.contentNode.className = "placeinfo_wrap";
-
-    // 커스텀 오버레이의 컨텐츠 노드에 mousedown, touchstart 이벤트가 발생했을때
-    // 지도 객체에 이벤트가 전달되지 않도록 이벤트 핸들러로 kakao.maps.event.preventMap 메소드를 등록합니다
-    this.addEventHandle(
-      this.contentNode,
-      "mousedown",
-      kakao.maps.event.preventMap
-    );
-    this.addEventHandle(
-      this.contentNode,
-      "touchstart",
-      kakao.maps.event.preventMap
-    );
-
-    // 커스텀 오버레이 컨텐츠를 설정합니다
-    this.placeOverlay.setContent(this.contentNode);
+    // 지도에 클릭 이벤트를 등록합니다
+    // 지도를 클릭하면 마지막 파라미터로 넘어온 함수를 호출합니다
+    let _this = this;
+    new kakao.maps.event.addListener(this.mapInstance, "click", function (
+      mouseEvent
+    ) {
+      // 클릭한 위도, 경도 정보를 가져옵니다
+      let latlng = new kakao.maps.LatLng(
+        mouseEvent.latLng.getLat(),
+        mouseEvent.latLng.getLng()
+      );
+      _this.goalLatlng = latlng;
+      if (_this.goal != null) {
+        _this.removeMarker();
+      }
+      _this.goal = new window.kakao.maps.Marker({
+        position: latlng, // 마커의 위치
+      });
+      _this.addMarker(_this.goal);
+      // this.addMarker(new kakao.maps.LatLng(this.latlng.getLat(), this.latlng.getLng()));
+    });
   },
   methods: {
-    // 엘리먼트에 이벤트 핸들러를 등록하는 함수입니다
-    addEventHandle(target, type, callback) {
-      if (target.addEventListener) {
-        target.addEventListener(type, callback);
-      } else {
-        target.attachEvent("on" + type, callback);
-      }
-    },
-
-    // 지도에 마커를 표출하는 함수입니다
-    displayPlaces(result) {
-      console.log("displayPlaces");
-      for (var i = 0; i < result.length; i++) {
-        // 마커를 생성하고 지도에 표시합니다
-        let marker = new window.kakao.maps.Marker({
-          position: new window.kakao.maps.LatLng(result[i].y, result[i].x), // 마커의 위치
-        });
-        console.log("marker", marker);
-        marker.setMap(this.mapInstance); // 지도 위에 마커를 표출합니다
-        this.markers.push(marker); // 배열에 생성된 마커를 추가합니다
-        // 마커와 검색결과 항목을 클릭 했을 때
-        // 장소정보를 표출하도록 클릭 이벤트를 등록합니다
-        (function (marker, place) {
-          window.kakao.maps.event.addListener(marker, "click", function () {
-            this.displayPlaceInfo(place);
-          });
-        })(marker, result[i]);
-      }
-    },
-
     // 마커를 생성하고 지도 위에 마커를 표시하는 함수입니다
-    addMarker(position) {
-      var marker = new window.kakao.maps.Marker({
-        position: position, // 마커의 위치
-      });
-
+    addMarker(marker) {
       marker.setMap(this.mapInstance); // 지도 위에 마커를 표출합니다
-      this.markers.push(marker); // 배열에 생성된 마커를 추가합니다
-
-      return marker;
     },
 
     // 지도 위에 표시되고 있는 마커를 모두 제거합니다
     removeMarker() {
-      for (var i = 0; i < this.markers.length; i++) {
-        this.markers[i].setMap(null);
-      }
-      this.markers = [];
+      this.goal.setMap(null);
     },
-
-    // 클릭한 마커에 대한 장소 상세정보를 커스텀 오버레이로 표시하는 함수입니다
-    displayPlaceInfo(place) {
-      var content =
-        '<div class="placeinfo">' +
-        '   <a class="title" href="' +
-        place.place_url +
-        '" target="_blank" title="' +
-        place.place_name +
-        '">' +
-        place.place_name +
-        "</a>";
-
-      if (place.road_address_name) {
-        content +=
-          '    <span title="' +
-          place.road_address_name +
-          '">' +
-          place.road_address_name +
-          "</span>" +
-          '  <span class="jibun" title="' +
-          place.address_name +
-          '">(지번 : ' +
-          place.address_name +
-          ")</span>";
-      } else {
-        content +=
-          '    <span title="' +
-          place.address_name +
-          '">' +
-          place.address_name +
-          "</span>";
-      }
-
-      content +=
-        '    <span class="tel">' +
-        place.phone +
-        "</span>" +
-        "</div>" +
-        '<div class="after"></div>';
-
-      this.contentNode.innerHTML = content;
-      this.placeOverlay.setPosition(
-        new window.kakao.maps.LatLng(place.y, place.x)
-      );
-      this.placeOverlay.setMap(this.mapInstance);
+    move2Table() {
+      this.$router.push({ name: "houseTable" });
     },
     // 카테고리 검색을 요청하는 함수입니다
     searchPlaces() {
-      // 커스텀 오버레이를 숨깁니다
-      this.placeOverlay.setMap(null);
-
       // 지도에 표시되고 있는 마커를 제거합니다
-      this.removeMarker();
-
+      // this.removeMarker();
+      let _this = this;
       this.ps.categorySearch(
         this.currCategory,
         (result, status) => {
@@ -220,19 +230,40 @@ export default {
         },
         {
           // Map 객체를 지정하지 않았으므로 좌표객체를 생성하여 넘겨준다.
-          location: new window.kakao.maps.LatLng(this.loc.lat, this.loc.lng),
+          location: new window.kakao.maps.LatLng(
+            _this.startLatlng.Ma,
+            _this.startLatlng.La
+          ),
           useMapCenter: false,
-          radius: 200,
+          radius: 500,
         }
       );
     },
-    // 카테고리를 클릭했을 때 호출되는 함수입니다
-
+    click() {
+      console.log("start : ", this.startLatlng.La);
+      console.log("goal : ", this.goalLatlng);
+      let url = "/naver/road/";
+      url += this.startLatlng.La + "," + this.startLatlng.Ma + "/";
+      url += this.goalLatlng.La + "," + this.goalLatlng.Ma + "/";
+      url += this.checkedFuel + "/";
+      url += this.checkedOpt;
+      console.log("url", url);
+      http
+        .get(url)
+        .then((resp) => {
+          console.log("here@@@");
+          console.log(resp);
+        })
+        .catch((error) => {
+          console.log("길찾기 error", error);
+        });
+    },
     //대형마트
     getMart() {
+      console.log("onClickMart", this.mart);
       this.currCategory = "MT1";
       this.mart = this.searchPlaces();
-      getconsole.log("onClickMart", this.mart);
+      console.log("onClickMart", this.mart);
     },
     //편의점
     getConvenience() {
@@ -339,134 +370,5 @@ export default {
   position: relative;
   width: 100%;
   height: 350px;
-}
-#category {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  border-radius: 5px;
-  border: 1px solid #909090;
-  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.4);
-  background: #fff;
-  overflow: hidden;
-  z-index: 2;
-}
-#category li {
-  float: left;
-  list-style: none;
-  width: 50px;
-  border-right: 1px solid #acacac;
-  padding: 6px 0;
-  text-align: center;
-  cursor: pointer;
-}
-#category li.on {
-  background: #eee;
-}
-#category li:hover {
-  background: #ffe6e6;
-  border-left: 1px solid #acacac;
-  margin-left: -1px;
-}
-#category li:last-child {
-  margin-right: 0;
-  border-right: 0;
-}
-#category li span {
-  display: block;
-  margin: 0 auto 3px;
-  width: 27px;
-  height: 28px;
-}
-#category li .category_bg {
-  background: url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/places_category.png)
-    no-repeat;
-}
-#category li .bank {
-  background-position: -10px 0;
-}
-#category li .mart {
-  background-position: -10px -36px;
-}
-#category li .pharmacy {
-  background-position: -10px -72px;
-}
-#category li .oil {
-  background-position: -10px -108px;
-}
-#category li .cafe {
-  background-position: -10px -144px;
-}
-#category li .store {
-  background-position: -10px -180px;
-}
-#category li.on .category_bg {
-  background-position-x: -46px;
-}
-.placeinfo_wrap {
-  position: absolute;
-  bottom: 28px;
-  left: -150px;
-  width: 300px;
-}
-.placeinfo {
-  position: relative;
-  width: 100%;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-  border-bottom: 2px solid #ddd;
-  padding-bottom: 10px;
-  background: #fff;
-}
-.placeinfo:nth-of-type(n) {
-  border: 0;
-  box-shadow: 0px 1px 2px #888;
-}
-.placeinfo_wrap .after {
-  content: "";
-  position: relative;
-  margin-left: -12px;
-  left: 50%;
-  width: 22px;
-  height: 12px;
-  background: url("https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png");
-}
-.placeinfo a,
-.placeinfo a:hover,
-.placeinfo a:active {
-  color: #fff;
-  text-decoration: none;
-}
-.placeinfo a,
-.placeinfo span {
-  display: block;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
-}
-.placeinfo span {
-  margin: 5px 5px 0 5px;
-  cursor: default;
-  font-size: 13px;
-}
-.placeinfo .title {
-  font-weight: bold;
-  font-size: 14px;
-  border-radius: 6px 6px 0 0;
-  margin: -1px -1px 0 -1px;
-  padding: 10px;
-  color: #fff;
-  background: #d95050;
-  background: #d95050
-    url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/arrow_white.png)
-    no-repeat right 14px center;
-}
-.placeinfo .tel {
-  color: #0f7833;
-}
-.placeinfo .jibun {
-  color: #999;
-  font-size: 11px;
-  margin-top: 0;
 }
 </style>
