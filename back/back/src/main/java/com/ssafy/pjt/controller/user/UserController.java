@@ -145,18 +145,11 @@ public class UserController {
 	
 	@PostMapping("/join")
 	public ResponseEntity<?> register(@RequestBody UserDTO memberDto) throws Exception{
-		
-		if(service.userInfo(memberDto.getUserid())!=null) {
-			int registResult = service.reigst(memberDto);
-			if (registResult==1) {
-				return new ResponseEntity<String>("success", HttpStatus.ACCEPTED);
-			} else {
-				return new ResponseEntity<String>("error", HttpStatus.BAD_REQUEST);
-			}
-		}
-		else {
+		int registResult = service.regist(memberDto);
+		if(registResult==1) {
+			return new ResponseEntity<String>("success", HttpStatus.ACCEPTED);
+		} else {
 			return new ResponseEntity<String>("error", HttpStatus.BAD_REQUEST);
-
 		}
 	}
 	

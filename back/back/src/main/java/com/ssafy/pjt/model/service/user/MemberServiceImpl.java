@@ -50,7 +50,7 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public int reigst(UserDTO memberDto) throws Exception {
+	public int regist(UserDTO memberDto) throws Exception {
 		
 		return sqlSession.getMapper(MemberMapper.class).regist(memberDto);
 	}

@@ -41,7 +41,7 @@
 	</update>
 	 
 	<insert id="regist" parameterType="UserDTO">
-		insert into user (userid, username, userpwd, email)
+		insert into user(userid, username, userpwd, email)
 		values(#{userid},#{username},#{userpwd},#{email})
 	</insert>
 	
