@@ -1,7 +1,10 @@
 <template>
   <div ref="map" class="map_wrap">
     <div ref="overlay"></div>
-    <div id="map" style="width: 100%; height: 100%; position: relative; overflow: hidden"></div>
+    <div
+      id="map"
+      style="width: 100%; height: 100%; position: relative; overflow: hidden"
+    ></div>
   </div>
 </template>
 
@@ -85,8 +88,16 @@ export default {
 
     // 커스텀 오버레이의 컨텐츠 노드에 mousedown, touchstart 이벤트가 발생했을때
     // 지도 객체에 이벤트가 전달되지 않도록 이벤트 핸들러로 kakao.maps.event.preventMap 메소드를 등록합니다
-    this.addEventHandle(this.contentNode, "mousedown", kakao.maps.event.preventMap);
-    this.addEventHandle(this.contentNode, "touchstart", kakao.maps.event.preventMap);
+    this.addEventHandle(
+      this.contentNode,
+      "mousedown",
+      kakao.maps.event.preventMap
+    );
+    this.addEventHandle(
+      this.contentNode,
+      "touchstart",
+      kakao.maps.event.preventMap
+    );
 
     // 커스텀 오버레이 컨텐츠를 설정합니다
     this.placeOverlay.setContent(this.contentNode);
@@ -167,14 +178,25 @@ export default {
           place.address_name +
           ")</span>";
       } else {
-        content += '    <span title="' + place.address_name + '">' + place.address_name + "</span>";
+        content +=
+          '    <span title="' +
+          place.address_name +
+          '">' +
+          place.address_name +
+          "</span>";
       }
 
       content +=
-        '    <span class="tel">' + place.phone + "</span>" + "</div>" + '<div class="after"></div>';
+        '    <span class="tel">' +
+        place.phone +
+        "</span>" +
+        "</div>" +
+        '<div class="after"></div>';
 
       this.contentNode.innerHTML = content;
-      this.placeOverlay.setPosition(new window.kakao.maps.LatLng(place.y, place.x));
+      this.placeOverlay.setPosition(
+        new window.kakao.maps.LatLng(place.y, place.x)
+      );
       this.placeOverlay.setMap(this.mapInstance);
     },
     // 카테고리 검색을 요청하는 함수입니다
@@ -435,7 +457,8 @@ export default {
   padding: 10px;
   color: #fff;
   background: #d95050;
-  background: #d95050 url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/arrow_white.png)
+  background: #d95050
+    url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/arrow_white.png)
     no-repeat right 14px center;
 }
 .placeinfo .tel {

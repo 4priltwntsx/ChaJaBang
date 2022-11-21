@@ -30,11 +30,16 @@ https://vuetifyjs.com/en/components/data-tables/#filterable
             <td>{{ item.buildYear }}년</td>
             <td>
               <v-btn @click="btnClick(item.aptCode)"
-                ><v-icon size="small" color="indigo lighten-1">mdi-heart</v-icon></v-btn
+                ><v-icon size="small" color="indigo lighten-1"
+                  >mdi-heart</v-icon
+                ></v-btn
               >
             </td>
             <td>
-              <v-checkbox v-model="checkList" :value="item.aptCode"></v-checkbox>
+              <v-checkbox
+                v-model="checkList"
+                :value="item.aptCode"
+              ></v-checkbox>
             </td>
           </tr>
         </tbody>

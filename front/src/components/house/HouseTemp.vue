@@ -3,12 +3,17 @@
     <h3>여기에 길찾기를 보여주고 싶어요!!</h3>
     <div ref="map" class="map_wrap">
       <div ref="overlay"></div>
-      <div id="map" style="width: 100%; height: 100%; position: relative; overflow: hidden"></div>
+      <div
+        id="map"
+        style="width: 100%; height: 100%; position: relative; overflow: hidden"
+      ></div>
     </div>
     <v-btn @click="move2Table" class="ma-2" color="indigo darken-2" dark>
       <v-icon dark left> mdi-arrow-left </v-icon>Back
     </v-btn>
-    <v-btn @click="click" class="ma-2" color="indigo darken-2" dark> click </v-btn>
+    <v-btn @click="click" class="ma-2" color="indigo darken-2" dark>
+      click
+    </v-btn>
   </div>
 </template>
 
@@ -33,7 +38,9 @@ export default {
   },
   watch: {
     marker() {
-      this.addMarker(new window.kakao.maps.LatLng(this.marker.La, this.marker.Ma));
+      this.addMarker(
+        new window.kakao.maps.LatLng(this.marker.La, this.marker.Ma)
+      );
     },
   },
   mounted() {
@@ -50,11 +57,15 @@ export default {
     this.addMarker(new kakao.maps.LatLng(this.house.lat, this.house.lng));
     // 지도에 클릭 이벤트를 등록합니다
     // 지도를 클릭하면 마지막 파라미터로 넘어온 함수를 호출합니다
-    new kakao.maps.event.addListener(this.mapInstance, "click", function (mouseEvent) {
+    let _this = this;
+    new kakao.maps.event.addListener(this.mapInstance, "click", function (
+      mouseEvent
+    ) {
       // 클릭한 위도, 경도 정보를 가져옵니다
       var latlng = mouseEvent.latLng;
-      this.marker = new kakao.maps.LatLng(latlng.getLat(), latlng.getLng());
-      console.log("marker : ", this.marker);
+      _this.marker = new kakao.maps.LatLng(latlng.getLat(), latlng.getLng());
+      console.log("marker : ", _this.marker);
+      _this.addMarker(_this.marker);
       // this.addMarker(new kakao.maps.LatLng(this.latlng.getLat(), this.latlng.getLng()));
     });
   },
