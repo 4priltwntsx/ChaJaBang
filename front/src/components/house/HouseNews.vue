@@ -1,10 +1,16 @@
 <template>
   <!-- https://vuetifyjs.com/en/components/cards/#information-card -->
-  <v-card height="700" class="scroll">
+  <v-card height="650" class="scroll">
     
   <v-container >
-    <h4>local news</h4>
+    <v-row>
 
+    <v-btn @click="move2Table" class="ma-2" color="indigo darken-2" dark>
+      <v-icon dark left> mdi-arrow-left </v-icon>Back
+    </v-btn>
+
+        <h2>local news</h2>
+    </v-row>
     <v-row dense>
       
       <v-col v-for="news in localNews" :key="news.title" cols="12">
@@ -75,6 +81,11 @@ export default {
       window.open(link, "_blanck");
       console.log("click");
     },
+    move2Table() {
+      this.$router.push({ name: "houseTable" });
+      
+
+    }, 
   },
 };
 </script>
