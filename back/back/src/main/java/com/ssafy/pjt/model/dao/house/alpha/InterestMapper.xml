@@ -19,4 +19,7 @@
 		SELECT COUNT(*) FROM INTEREST WHERE APTCODE = #{aptcode}
 	</select>
 	
+	<select id="getId" parameterType="long" resultType="String">
+		SELECT USERID FROM INTEREST WHERE APTCODE=#{aptcode}
+	</select>
 </mapper>

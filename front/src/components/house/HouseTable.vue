@@ -40,6 +40,7 @@ export default {
   data() {
     return {
       aptCode: null,
+      getid : "",
     };
   },
   created() {
@@ -71,6 +72,7 @@ export default {
         userid: id,
       };
       console.log(param);
+      
       interest(
         param,
         ({data})=>{

@@ -3,7 +3,7 @@
     <template>
       <v-row>
         <v-col cols="12">
-          <v-img src="../assets/image1.jpg" class="home_logo" />
+          <v-img src="../assets/picture1.png" class="home_logo" />
         </v-col>
         <v-col cols="12" md="3"></v-col>
         <v-col cols="12" md="3"><main-board /></v-col>

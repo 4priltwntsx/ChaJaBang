@@ -9,5 +9,6 @@ public interface InterestMapper {
 	public int delete(int ino);
 	public List<InterestDTO> selectAll(String userid);
 	public int selectCount(long aptcode);
+	public String getId(long aptcode);
 
 }

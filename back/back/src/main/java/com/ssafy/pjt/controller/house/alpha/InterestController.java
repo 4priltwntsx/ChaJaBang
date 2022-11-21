@@ -27,10 +27,16 @@ public class InterestController {
 	@PostMapping()
 	public ResponseEntity<?> interest(@RequestBody InterestDTO interest) {
 		System.out.println("!!!!!!!!!!!!!!!"+interest);
-		if (service.interest(interest)) {
-			return new ResponseEntity<String>("interest success!!", HttpStatus.ACCEPTED);
-		} else {
-			return new ResponseEntity<String>("interest fail", HttpStatus.BAD_REQUEST);
+		System.out.println(service.getInterestId(interest.getAptcode()));
+		System.out.println("인터레스트 이벤트 누른 사람:" + interest.getUserid());
+		if(service.getInterestId(interest.getAptcode()) != interest.getUserid()) {
+			if (service.interest(interest)) {
+				return new ResponseEntity<String>("interest success!!", HttpStatus.ACCEPTED);
+			}else {
+				return new ResponseEntity<String>("interest fail!!", HttpStatus.ACCEPTED);
+			}
+		}else {
+			return new ResponseEntity<String>("interest already exists!!", HttpStatus.ACCEPTED);
 		}
 	}
 
@@ -52,5 +58,9 @@ public class InterestController {
 	public ResponseEntity<?> getCount(@PathVariable("aptcode") long aptcode) {
 		return new ResponseEntity<Integer>(service.getCount(aptcode), HttpStatus.ACCEPTED);
 	}
-
+	
+	@GetMapping("/find/{aptcode}")
+	public ResponseEntity<?> getId(@PathVariable("aptcode") long aptcode) {
+		return new ResponseEntity<String>(service.getInterestId(aptcode), HttpStatus.ACCEPTED);
+	}
 }

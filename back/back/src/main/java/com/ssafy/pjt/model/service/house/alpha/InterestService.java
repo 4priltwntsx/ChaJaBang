@@ -37,4 +37,8 @@ public class InterestService {
 	public int getCount(long aptcode) {
 		return idao.selectCount(aptcode);
 	}
+	
+	public String getInterestId(long aptcode) {
+		return idao.getId(aptcode);
+	}
 }

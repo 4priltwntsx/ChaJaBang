@@ -51,7 +51,14 @@ export default {
   },
   methods: {
     move2Table() {
+      console.log(this.houses);
+      if(this.houses.length>0){
       this.$router.push({ name: "houseTable" });
+      }
+      else{
+        this.$router.push({ name: "mypage" });
+        
+      }
     },
     clickRoad() {
       this.$router.push({ name: "houseRoad" });

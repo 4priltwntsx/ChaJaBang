@@ -36,6 +36,9 @@ function interestList(userid, success, fail) {
 function count(aptcode, success, fail) {
   http.get(`/interest/cnt/${aptcode}`).then(success).catch(fail);
 }
+function getinterestId(aptcode, success, fail) {
+  http.get(`/interest/find/${aptcode}`).then(success).catch(fail);
+}
 
 export {
   sidoList,
@@ -48,4 +51,5 @@ export {
   uninterest,
   interestList,
   count,
+  getinterestId,
 };

@@ -25,11 +25,11 @@ https://vuetifyjs.com/en/components/data-tables/#filterable
           </tr>
         </thead>
         <tbody>
-          <tr v-for="item in interestList" :key="item.aptCode">
-            <td @click="getlist(item.aptCode)">{{ item.apartmentName }}</td>
-            <td>{{ item.buildYear }}년</td>
+          <tr v-for="item in interestList" :key="item.data.aptCode">
+            <td @click="getlist(item.data.aptCode)">{{ item.data.apartmentName }}</td>
+            <td>{{ item.data.buildYear }}년</td>
             <td>
-              <v-btn @click="btnClick(item.aptCode)"
+              <v-btn @click="btnClick(item.ino)"
                 ><v-icon size="small" color="indigo lighten-1"
                   >mdi-heart</v-icon
                 ></v-btn
@@ -38,7 +38,7 @@ https://vuetifyjs.com/en/components/data-tables/#filterable
             <td>
               <v-checkbox
                 v-model="checkList"
-                :value="item.aptCode"
+                :value="item.data.aptCode"
               ></v-checkbox>
             </td>
           </tr>
@@ -56,9 +56,11 @@ https://vuetifyjs.com/en/components/data-tables/#filterable
 </template>
 
 <script>
-import { mapState } from "vuex";
-import { interestList, houseDetail } from "@/api/house";
+import { mapState, mapActions, mapMutations } from "vuex";
+import { uninterest, interestList, houseDetail } from "@/api/house";
 const memberStore = "memberStore";
+const houseStore = "houseStore";
+
 export default {
   data() {
     return {
@@ -73,6 +75,7 @@ export default {
       interestList: [],
       err: "",
       checkList: [],
+      inumber:"",
     };
   },
   created() {
@@ -87,6 +90,9 @@ export default {
     ...mapState(memberStore, ["userInfo"]),
   },
   methods: {
+    ...mapActions(houseStore, ["getDetail", "getDealList"]),
+    ...mapMutations(houseStore, ["CLEAR_HOUSE_POINT"]),
+    
     getInterests() {
       interestList(
         this.userInfo.userid,
@@ -95,13 +101,19 @@ export default {
           console.log(data.length);
           for (var i = 0; i < data.length; i++) {
             var code = data[i].aptcode;
+            this.inumber = data[i].ino;
             houseDetail(
               code,
-              ({ apart }) => {
-                console.log("interest object data : ", apart);
-                apart["ino"] = data.ino;
-                console.log("interest object data : ", apart);
-                this.interestList.push(apart);
+              (resp) => {
+                console.log("interest object resp : ", resp);
+                // resp.data["ino"] = data[i].ino;
+                console.log( "number: ",this.inumber)
+                var param = {
+                  ino : this.inumber,
+                  data : resp.data, // 객체
+                }
+                console.log("interest object param : ", param);
+                this.interestList.push(param);
               },
               (error) => {
                 this.err = error;
@@ -116,9 +128,31 @@ export default {
         }
       );
     },
-    btnClick(code) {
-      console.log(code);
+    getlist(code){
+      console.log(code)
+
+      this.getDetail(code);
+      this.getDealList(code);
+      this.$router.push({name: "houseDetail"});
+
     },
+
+    btnClick(no) {
+      console.log(no);
+      uninterest(
+        no, 
+        ({data})=>{
+          console.log("interest delete", data);
+          this.interestList = [];
+          this.getInterests();
+        },
+        (error)=>{
+          console.log(error);
+        }
+      )
+    },
+    
+
     move2Detail() {
       // this.CLAER_HOUSE_POINT();
       this.$router.push({ name: "houseDetail" });

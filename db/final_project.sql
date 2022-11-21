@@ -63,7 +63,7 @@ WHERE NNO = 0;
 drop table interest;
 create table interest(
 	ino int primary key auto_increment,
-    aptcode bigint unique,
+    aptcode bigint,
     userid varchar(16),
     foreign key(aptcode) references houseinfo(aptCode),
     foreign key (userid) references `user`(userid) 
@@ -73,7 +73,7 @@ INSERT INTO INTEREST (APTCODE, USERID)
 VALUES ("", "");
 
 DELETE FROM INTEREST WHERE INO = 0;
-
+select * from interest;
 -- SELECT USER
 SELECT APTCODE, USERID FROM INTEREST WHERE USERID = "";
 
@@ -94,7 +94,7 @@ create table qna(
 );
 
 select * from qna;
-
+select * from interest;
 INSERT INTO QNA (QTITLE, QCONTENT, QWRITER)
 VALUES( "00아파트 관련 문의", "안녕하세요. 00 아파트 매물이 별로 없는 것 같은데 정보가 누락된 것 아닌지 궁금합니다.", "ariel");
 
