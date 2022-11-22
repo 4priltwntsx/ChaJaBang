@@ -232,7 +232,6 @@ export default {
     getMart() {
       this.currCategory = "MT1";
       this.mart = this.searchPlaces();
-      getconsole.log("onClickMart", this.mart);
     },
     //편의점
     getConvenience() {

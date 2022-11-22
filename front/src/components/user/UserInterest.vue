@@ -14,7 +14,7 @@ https://vuetifyjs.com/en/components/data-tables/#filterable
       ></v-text-field>
     </v-card-title>
 
-    <v-simple-table fixed-header max-width="580" height="590">
+    <v-simple-table fixed-header max-width="580" height="700">
       <template v-slot:default>
         <thead>
           <tr>
@@ -26,20 +26,31 @@ https://vuetifyjs.com/en/components/data-tables/#filterable
         </thead>
         <tbody>
           <tr v-for="item in interestList" :key="item.data.aptCode">
-            <td @click="getlist(item.data.aptCode)">{{ item.data.apartmentName }}</td>
+            <td @click="getlist(item.data.aptCode)">
+              {{ item.data.apartmentName }}
+            </td>
             <td>{{ item.data.buildYear }}년</td>
             <td>
               <v-btn @click="btnClick(item.ino)"
-                ><v-icon size="small" color="indigo lighten-1">mdi-heart</v-icon></v-btn
+                ><v-icon size="small" color="indigo lighten-1"
+                  >mdi-heart</v-icon
+                ></v-btn
               >
             </td>
             <td>
-              <v-checkbox v-model="checkList" :value="item.data"></v-checkbox>
+              <v-checkbox v-model="checkList" :value="item"></v-checkbox>
             </td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td><v-btn @click="move2Compare">비교</v-btn></td>
           </tr>
         </tbody>
       </template>
     </v-simple-table>
+
     <!--     
     <v-data-table
       :headers="headers"
@@ -150,8 +161,11 @@ export default {
       // this.CLAER_HOUSE_POINT();
       this.$router.push({ name: "houseDetail" });
     },
-    checkClick(code) {
-      console.log("check click, ", code);
+    move2Compare() {
+      console.log("move2Compare click");
+      console.log("checkList", this.checkList);
+      let list = this.checkList;
+      this.$router.push({ name: "houseCompare", params: { list } });
     },
   },
 };

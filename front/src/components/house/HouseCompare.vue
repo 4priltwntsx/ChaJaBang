@@ -1,6 +1,7 @@
 <template>
   <div>
-    <h3>여기에 길찾기를 보여주고 싶어요!!</h3>
+    <h3>{{ house.apartmentName }}</h3>
+    <h5>건축년도 : {{ house.buildYear }}</h5>
     <div ref="map" class="map_wrap">
       <div ref="overlay"></div>
       <div
@@ -345,12 +346,12 @@
 
 <script>
 import http from "@/api/http";
-import { mapState } from "vuex";
-const houseStore = "houseStore";
 export default {
-  props: ["options"],
+  props: ["checkeditem"],
   data() {
     return {
+      house: null,
+      ino: null,
       tab: null,
       mapInstance: null,
       ps: null,
@@ -380,65 +381,69 @@ export default {
       freResult: [],
     };
   },
-  computed: {
-    ...mapState(houseStore, ["houses", "points", "house", "point"]),
-  },
+  computed: {},
   watch: {
     freResult() {},
     searchData() {},
-  },
-  created() {},
-  mounted() {
-    let kakao = window.kakao;
+    house() {
+      let kakao = window.kakao;
 
-    var container = this.$refs.map;
+      var container = this.$refs.map;
 
-    this.mapInstance = new kakao.maps.Map(container, {
-      center: new kakao.maps.LatLng(this.house.lat, this.house.lng),
-      level: 5,
-    }); //지도 생성 및 객체 리턴
+      this.mapInstance = new kakao.maps.Map(container, {
+        center: new kakao.maps.LatLng(this.house.lat, this.house.lng),
+        level: 5,
+      }); //지도 생성 및 객체 리턴
 
-    // 장소 검색 객체를 생성합니다
-    this.ps = new kakao.maps.services.Places(this.mapInstance);
+      // 장소 검색 객체를 생성합니다
+      this.ps = new kakao.maps.services.Places(this.mapInstance);
 
-    // start marker 띄우기
-    this.startLatlng = new kakao.maps.LatLng(this.house.lat, this.house.lng);
-    console.log("startLatlng", this.startLatlng);
-    this.start = new window.kakao.maps.Marker({
-      position: this.startLatlng, // 마커의 위치
-    });
-    this.addMarker(this.start);
-
-    //편의시설 리스트 가져오기
-    this.facility();
-    this.uncheckedCar();
-    this.checkedCar();
-    this.checkedBicycle();
-    this.checkedBaby();
-    this.checkedPet();
-
-    // 지도에 클릭 이벤트를 등록합니다
-    // 지도를 클릭하면 마지막 파라미터로 넘어온 함수를 호출합니다
-    let _this = this;
-    new kakao.maps.event.addListener(this.mapInstance, "click", function (
-      mouseEvent
-    ) {
-      // 클릭한 위도, 경도 정보를 가져옵니다
-      let latlng = new kakao.maps.LatLng(
-        mouseEvent.latLng.getLat(),
-        mouseEvent.latLng.getLng()
-      );
-      _this.goalLatlng = latlng;
-      if (_this.goal != null) {
-        _this.removeMarker();
-      }
-      _this.goal = new window.kakao.maps.Marker({
-        position: latlng, // 마커의 위치
+      // start marker 띄우기
+      this.startLatlng = new kakao.maps.LatLng(this.house.lat, this.house.lng);
+      console.log("startLatlng", this.startLatlng);
+      this.start = new window.kakao.maps.Marker({
+        position: this.startLatlng, // 마커의 위치
       });
-      _this.addMarker(_this.goal);
-      // this.addMarker(new kakao.maps.LatLng(this.latlng.getLat(), this.latlng.getLng()));
-    });
+      this.addMarker(this.start);
+
+      //편의시설 리스트 가져오기
+      this.facility();
+      this.uncheckedCar();
+      this.checkedCar();
+      this.checkedBicycle();
+      this.checkedBaby();
+      this.checkedPet();
+
+      // 지도에 클릭 이벤트를 등록합니다
+      // 지도를 클릭하면 마지막 파라미터로 넘어온 함수를 호출합니다
+      let _this = this;
+      new kakao.maps.event.addListener(this.mapInstance, "click", function (
+        mouseEvent
+      ) {
+        // 클릭한 위도, 경도 정보를 가져옵니다
+        let latlng = new kakao.maps.LatLng(
+          mouseEvent.latLng.getLat(),
+          mouseEvent.latLng.getLng()
+        );
+        _this.goalLatlng = latlng;
+        if (_this.goal != null) {
+          _this.removeMarker();
+        }
+        _this.goal = new window.kakao.maps.Marker({
+          position: latlng, // 마커의 위치
+        });
+        _this.addMarker(_this.goal);
+        // this.addMarker(new kakao.maps.LatLng(this.latlng.getLat(), this.latlng.getLng()));
+      });
+    },
   },
+  created() {
+    this.house = this.checkeditem.data;
+    this.ino = this.checkeditem.ino;
+    console.log("this.house", this.house);
+    console.log("this.ino ", this.ino);
+  },
+  mounted() {},
   methods: {
     // 마커를 생성하고 지도 위에 마커를 표시하는 함수입니다
     addMarker(marker) {

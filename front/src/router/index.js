@@ -14,7 +14,7 @@ import BoardModify from "@/components/board/BoardModify.vue";
 import HouseDetail from "@/components/house/HouseDetail.vue";
 import HouseTable from "@/components/house/HouseTable.vue";
 import HouseNews from "@/components/house/HouseNews.vue";
-import HouseTemp from "@/components/house/HouseCompare.vue";
+import HouseCompareView from "@/views/HouseCompareView";
 
 import BoardNoticeWrite from "@/components/board/alpha/BoardNoticeWrite";
 import NoticeDetail from "@/components/board/alpha/NoticeDetail";
@@ -75,12 +75,12 @@ const routes = [
         name: "news",
         component: HouseNews,
       },
-      {
-        path: "road",
-        name: "houseRoad",
-        component: HouseTemp,
-      },
     ],
+  },
+  {
+    path: "/housecomapre",
+    name: "houseCompare",
+    component: HouseCompareView,
   },
   {
     path: "/board",
