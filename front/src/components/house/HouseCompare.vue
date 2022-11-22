@@ -30,13 +30,20 @@
                 <v-container fluid>
                   <v-row>
                     <v-col cols="12" sm="3" md="3">
-                      <v-checkbox
-                        v-model="checkedType"
-                        label="자동차"
-                        color="orange darken-3"
-                        value="car"
-                        hide-details
-                      ></v-checkbox>
+                      <span flat>
+                        <v-checkbox
+                          v-model="checkedType"
+                          label="자동차"
+                          color="orange darken-3"
+                          value="car"
+                          hide-details
+                          >자동차</v-checkbox
+                        >
+                        <v-img
+                          :src="require(`@/assets/car.png`)"
+                          class="iconImage"
+                        />
+                      </span>
                     </v-col>
                     <v-col cols="12" sm="3" md="3">
                       <v-checkbox
@@ -46,6 +53,10 @@
                         value="bicycle"
                         hide-details
                       ></v-checkbox>
+                      <v-img
+                        :src="require(`@/assets/bike.png`)"
+                        class="iconImage"
+                      />
                     </v-col>
                     <v-col cols="12" sm="3" md="3">
                       <v-checkbox
@@ -55,6 +66,10 @@
                         value="pet"
                         hide-details
                       ></v-checkbox>
+                      <v-img
+                        :src="require(`@/assets/pets.png`)"
+                        class="iconImage"
+                      />
                     </v-col>
                     <v-col cols="12" sm="3" md="3">
                       <v-checkbox
@@ -64,6 +79,10 @@
                         value="baby"
                         hide-details
                       ></v-checkbox>
+                      <v-img
+                        :src="require(`@/assets/child.png`)"
+                        class="iconImage"
+                      />
                     </v-col>
                   </v-row>
                 </v-container>
@@ -71,14 +90,22 @@
                   <v-row>
                     <v-col cols="12"> <v-divider></v-divider> </v-col>
                     <v-col cols="12"><h3>주변 편의 시설</h3></v-col>
-                    <v-col cols="12" sm="4" md="4" v-model="storeList['MT1']"
-                      ><v-btn @click="facilityMarkers('MT1')">대형마트</v-btn>
+                    <v-col cols="12" sm="4" md="4" v-model="storeList['MT1']">
+                      <v-img
+                        :src="require(`@/assets/mart.png`)"
+                        class="iconImage"
+                        @click="facilityMarkers('MT1')"
+                      />
                     </v-col>
                     <v-col cols="12" sm="4" md="4" v-model="storeList['CS2']"
                       ><v-btn @click="facilityMarkers('CS2')">편의점</v-btn>
                     </v-col>
-                    <v-col cols="12" sm="4" md="4" v-model="storeList['BK9']"
-                      ><v-btn @click="facilityMarkers('BK9')">은행</v-btn>
+                    <v-col cols="12" sm="4" md="4" v-model="storeList['BK9']">
+                      <v-img
+                        :src="require(`@/assets/bank.png`)"
+                        class="iconImage"
+                        @click="facilityMarkers('BK9')"
+                      />
                     </v-col>
                     <v-col cols="12" sm="4" md="4" v-model="storeList['CT1']"
                       ><v-btn @click="facilityMarkers('CT1')">문화시설</v-btn>
@@ -86,17 +113,33 @@
                     <v-col cols="12" sm="4" md="4" v-model="storeList['PO3']"
                       ><v-btn @click="facilityMarkers('PO3')">공공기관</v-btn>
                     </v-col>
-                    <v-col cols="12" sm="4" md="4" v-model="storeList['FD6']"
-                      ><v-btn @click="facilityMarkers('FD6')">음식점</v-btn>
+                    <v-col cols="12" sm="4" md="4" v-model="storeList['FD6']">
+                      <v-img
+                        :src="require(`@/assets/restaurant.png`)"
+                        class="iconImage"
+                        @click="facilityMarkers('FD6')"
+                      />
                     </v-col>
-                    <v-col cols="12" sm="4" md="4" v-model="storeList['CE7']"
-                      ><v-btn @click="facilityMarkers('CE7')">카페</v-btn>
+                    <v-col cols="12" sm="4" md="4" v-model="storeList['CE7']">
+                      <v-img
+                        :src="require(`@/assets/cafe.png`)"
+                        class="iconImage"
+                        @click="facilityMarkers('CE7')"
+                      />
                     </v-col>
-                    <v-col cols="12" sm="4" md="4" v-model="storeList['HP8']"
-                      ><v-btn @click="facilityMarkers('HP8')">병원</v-btn>
+                    <v-col cols="12" sm="4" md="4" v-model="storeList['HP8']">
+                      <v-img
+                        :src="require(`@/assets/hospital.png`)"
+                        class="iconImage"
+                        @click="facilityMarkers('HP8')"
+                      />
                     </v-col>
                     <v-col cols="12" sm="4" md="4" v-model="storeList['PM9']"
-                      ><v-btn @click="facilityMarkers('PM9')">약국</v-btn>
+                      ><v-img
+                        :src="require(`@/assets/pharmacy.png`)"
+                        class="iconImage"
+                        @click="facilityMarkers('PM9')"
+                      />
                     </v-col>
                   </v-row>
                 </v-container>
@@ -614,5 +657,9 @@ export default {
   position: relative;
   width: 100%;
   height: 350px;
+}
+.iconImage {
+  height: 40px;
+  width: 40px;
 }
 </style>
