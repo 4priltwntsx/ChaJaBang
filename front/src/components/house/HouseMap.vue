@@ -1,5 +1,5 @@
 <template>
-  <div id="t">
+  <div id="app">
     <v-row>
       <v-col cols="12" md="3"></v-col>
       <v-col cols="12" md="3"><v-btn @click="clickTraffic">교통 정보 </v-btn></v-col>
@@ -35,8 +35,7 @@ export default {
       },
     };
   },
-  mounted: {},
-  created() {
+  mounted() {
     if (window.kakao && window.kakao.maps) {
       this.initMap();
     } else {
@@ -48,6 +47,9 @@ export default {
       document.head.appendChild(script);
     }
   },
+  created() {
+
+  },
   computed: {
     ...mapState(houseStore, ["houses", "points", "point"]),
   },
@@ -55,7 +57,16 @@ export default {
     points() {
       // this.$forceUpdate();
       this.map = null;
+    if (window.kakao && window.kakao.maps) {
       this.initMap();
+    } else {
+      const script = document.createElement("script");
+
+script.onload = () => kakao.maps.load(this.initMap);
+      script.src =
+        "//dapi.kakao.com/v2/maps/sdk.js?autoload=false?appkey=78b26667d20a38aa946ea1f6a8384730&libraries=services";
+      document.head.appendChild(script);
+    }
     },
     point() {
       // detail map 보여주는 곳
