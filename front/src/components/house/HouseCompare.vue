@@ -3,7 +3,10 @@
     <h3>여기에 길찾기를 보여주고 싶어요!!</h3>
     <div ref="map" class="map_wrap">
       <div ref="overlay"></div>
-      <div id="map" style="width: 100%; height: 100%; position: relative; overflow: hidden"></div>
+      <div
+        id="map"
+        style="width: 100%; height: 100%; position: relative; overflow: hidden"
+      ></div>
     </div>
     <v-row>
       <v-col>
@@ -227,17 +230,108 @@
                       ></v-checkbox>
                     </v-col>
                     <v-col cols="12" sm="3" md="3">
-                      <v-checkbox v-model="checkedFuel" value="diesel" label="경유"></v-checkbox>
+                      <v-checkbox
+                        v-model="checkedFuel"
+                        value="diesel"
+                        label="경유"
+                      ></v-checkbox>
                     </v-col>
                     <v-col cols="12" sm="3" md="3">
-                      <v-checkbox v-model="checkedFuel" value="lpg" label="LPG "></v-checkbox>
+                      <v-checkbox
+                        v-model="checkedFuel"
+                        value="lpg"
+                        label="LPG "
+                      ></v-checkbox>
                     </v-col>
+                    <v-col cols="12" sm="4" md="4"></v-col>
+                    <v-col cols="12" sm="4" md="4">
+                      <v-btn @click="searchClick">길찾기</v-btn>
+                    </v-col>
+                    <v-col cols="12" sm="4" md="4"></v-col>
                   </v-row>
                 </v-container>
                 <v-container fluid>
                   <v-row>
                     <v-col cols="12"> <v-divider></v-divider> </v-col>
                     <div>셀렉트 박스 체크된 거 가지고 길찾기 하기~~!</div>
+                    <v-col cols="12" v-if="searchData != null">
+                      <v-list-item two-line>
+                        <v-list-item-content>
+                          <v-list-item-title>{{
+                            searchData.message
+                          }}</v-list-item-title>
+                          <v-list-item-subtitle>{{
+                            searchData.currentDateTime
+                          }}</v-list-item-subtitle>
+                        </v-list-item-content>
+                      </v-list-item>
+                      <v-list-item>
+                        <v-list-item-content>
+                          <v-list-item-title>guide</v-list-item-title>
+                          <v-simple-table fixed-header height="300px">
+                            <template v-slot:default>
+                              <thead>
+                                <tr>
+                                  <th class="text-left">instructions</th>
+                                  <th class="text-left">이동거리</th>
+                                  <th class="text-left">예상 소요시간</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr
+                                  v-for="(item, idx) in searchRoute.guide"
+                                  :key="idx"
+                                >
+                                  <td>{{ item.instructions }}</td>
+                                  <td>{{ item.distance }}</td>
+                                  <td>{{ item.duration }}초</td>
+                                </tr>
+                              </tbody>
+                            </template>
+                          </v-simple-table>
+                        </v-list-item-content>
+                      </v-list-item>
+                      <v-list-item two-line>
+                        <v-list-item-content>
+                          <v-list-item-title>예상 도착 시간</v-list-item-title>
+                          <v-list-item-subtitle>
+                            {{ searchRoute.summary.departureTime }}
+                          </v-list-item-subtitle>
+                        </v-list-item-content>
+                      </v-list-item>
+                      <v-list-item two-line>
+                        <v-list-item-content>
+                          <v-list-item-title>총 이동 거리</v-list-item-title>
+                          <v-list-item-subtitle>
+                            {{ searchRoute.summary.distance }}
+                          </v-list-item-subtitle>
+                        </v-list-item-content>
+                      </v-list-item>
+                      <v-list-item two-line>
+                        <v-list-item-content>
+                          <v-list-item-title>예상 소요 시간</v-list-item-title>
+                          <v-list-item-subtitle>
+                            {{ searchRoute.summary.duration }}
+                          </v-list-item-subtitle>
+                        </v-list-item-content>
+                      </v-list-item>
+                      <v-list-item two-line>
+                        <v-list-item-content>
+                          <v-list-item-title>예상 유류비</v-list-item-title>
+                          <v-list-item-subtitle>
+                            {{ searchRoute.summary.fuelPrice }}
+                          </v-list-item-subtitle>
+                        </v-list-item-content>
+                      </v-list-item>
+                      <v-list-item two-line>
+                        <v-list-item-content>
+                          <v-list-item-title>예상 택시비</v-list-item-title>
+                          <v-list-item-subtitle>
+                            {{ searchRoute.summary.taxiFare }}
+                          </v-list-item-subtitle>
+                        </v-list-item-content>
+                      </v-list-item>
+                    </v-col>
                   </v-row>
                 </v-container>
               </v-card>
@@ -269,6 +363,9 @@ export default {
       checkedOpt: "",
       // 경로 유류비 계산할 때 필요한
       checkedFuel: "",
+      // 길찾기 결과
+      searchData: null,
+      searchRoute: null,
       // 체크박스 중 체크 된 것
       checkedType: [],
       storeList: {},
@@ -288,12 +385,12 @@ export default {
   },
   watch: {
     freResult() {},
+    searchData() {},
   },
   created() {},
   mounted() {
     let kakao = window.kakao;
 
-    console.log(this.$refs.map);
     var container = this.$refs.map;
 
     this.mapInstance = new kakao.maps.Map(container, {
@@ -323,9 +420,14 @@ export default {
     // 지도에 클릭 이벤트를 등록합니다
     // 지도를 클릭하면 마지막 파라미터로 넘어온 함수를 호출합니다
     let _this = this;
-    new kakao.maps.event.addListener(this.mapInstance, "click", function (mouseEvent) {
+    new kakao.maps.event.addListener(this.mapInstance, "click", function (
+      mouseEvent
+    ) {
       // 클릭한 위도, 경도 정보를 가져옵니다
-      let latlng = new kakao.maps.LatLng(mouseEvent.latLng.getLat(), mouseEvent.latLng.getLng());
+      let latlng = new kakao.maps.LatLng(
+        mouseEvent.latLng.getLat(),
+        mouseEvent.latLng.getLng()
+      );
       _this.goalLatlng = latlng;
       if (_this.goal != null) {
         _this.removeMarker();
@@ -360,20 +462,23 @@ export default {
         category,
         (result, status) => {
           if (status === window.kakao.maps.services.Status.OK) {
-            console.log(result);
-            console.log("category", category);
+            // console.log(result);
+            // console.log("category", category);
             _this.storeList[category] = result;
             _this.storeListCnt[category] = result.length;
-            console.log("storeList", _this.storeList);
+            // console.log("storeList", _this.storeList);
             return result;
           } else {
             console.log(status);
-            console.log("category", category);
+            // console.log("category", category);
           }
         },
         {
           // Map 객체를 지정하지 않았으므로 좌표객체를 생성하여 넘겨준다.
-          location: new window.kakao.maps.LatLng(_this.startLatlng.Ma, _this.startLatlng.La),
+          location: new window.kakao.maps.LatLng(
+            _this.startLatlng.Ma,
+            _this.startLatlng.La
+          ),
           useMapCenter: false,
           radius: 500,
         }
@@ -420,6 +525,8 @@ export default {
       //약국
       this.searchPlaces("PM9");
     },
+
+    // 편의 시설
     facilityMarkers(keyword) {
       if (this.storeList[keyword] == undefined) {
         console.log(keyword, "undefined");
@@ -427,7 +534,9 @@ export default {
         console.log(keyword, this.storeList[keyword]);
       }
     },
-    getDir(end, fuel, opt) {
+
+    // 길찾기 하는 함수
+    async getDir(end, fuel, opt) {
       console.log("start : ", this.startLatlng.La);
       console.log("end : ", end);
       let url = "/naver/road/";
@@ -436,42 +545,39 @@ export default {
       url += fuel + "/";
       url += opt;
       console.log("url", url);
-      http
-        .get(url)
-        .then(({ data }) => {
-          console.log("here@@@");
-          console.log(data);
-          console.log(data.message);
-          return data;
-        })
-        .catch((error) => {
-          console.log("길찾기 error", error);
-        });
+
+      let resp = await http.get(url);
+      console.log(resp);
+      return resp.data;
     },
     //길찾기 탭에서 등록을 누르면
-    freRegister() {
+    async freRegister() {
       this.freLoc.push(this.goal);
       this.freLocLatlng.push(this.goalLatlng);
-      console.log("freRegister, ", this.freLocLatlng);
+      console.log("freRegister, ", this.goalLatlng);
       // 길찾기를 한다.
-      // this.freResult.push({
-      //   nickname: this.nickname,
-      //   summary: this.getDir(this.goalLatlng, "gasoline", "trafast").route.trafast.summary,
-      // });
-      // 왜 this.getDir의 값이 undefined일까??? route를 왜 모르지
-      let temp = this.getDir(this.goalLatlng, "gasoline", "trafast");
-      setTimeout(() => {
-        console.log("temp", temp.route.trafast.summary);
-        this.freResult.push({
-          nickname: this.nickname,
-          summary: temp.route.trafast.summary,
-        });
-      }, 2000);
+      let temp = await this.getDir(this.goalLatlng, "gasoline", "trafast");
+      console.log("temp", temp.route.trafast[0].summary);
+      this.freResult.push({
+        nickname: this.nickname,
+        summary: temp.route.trafast[0].summary,
+      });
+    },
+    async searchClick() {
+      this.searchData = await this.getDir(
+        this.goalLatlng,
+        this.checkedFuel,
+        this.checkedOpt
+      );
+      console.log("searchData keys", Object.keys(this.searchData.route));
+      let key = Object.keys(this.searchData.route);
+      this.searchRoute = this.searchData.route[key][0];
+      console.log("searchRoute", this.searchRoute);
     },
   },
+
   filters: {
     count: function (value) {
-      // console.log("filter", value);
       if (value == undefined) {
         return "0개";
       } else {
