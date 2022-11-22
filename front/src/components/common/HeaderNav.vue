@@ -27,12 +27,11 @@ https://vuetifyjs.com/en/components/app-bars/#dense
       <v-card>
           <v-list-item-content class="justify-center">
             <div class="mx-auto text-center">
-              <v-avatar
-                color="brown"
+              <v-avatar color="indigo"
               >
-                <span class="white--text text-h5"></span>
+                <v-icon large color="white">mdi-account-circle</v-icon>
               </v-avatar>
-              
+              <h6><br></h6>
               <h3>{{userInfo.username}}</h3>
               <p class="text-caption mt-1">
                 

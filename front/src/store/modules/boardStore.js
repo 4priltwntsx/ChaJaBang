@@ -21,6 +21,7 @@ const boardStore = {
     notice: null, // 공지사항 1개
     latest: [], // 최신글 4개
     comments: [], // 댓글 리스트
+    bno:"",
   },
   getter: {
     
@@ -102,6 +103,7 @@ const boardStore = {
     ///////////////// commets ////////////////////////
     getComments({ commit }, bno) {
       const param = bno;
+      this.bno = bno;
       cList(
         param, 
         ({ data }) => {
@@ -126,6 +128,7 @@ const boardStore = {
       )
     },
     getDetail({ commit }, bno) {
+      this.bno = bno;
       const param = bno;
       bRead(
         param,

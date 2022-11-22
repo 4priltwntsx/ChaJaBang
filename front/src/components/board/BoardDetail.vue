@@ -76,7 +76,7 @@ https://vuetifyjs.com/en/components/lists/#action-stack
 
                           <v-list-item-action>
                             <v-list-item-action-text
-                              v-text="item.cwrite_date"
+                              v-text="$options.filters.yyyyMMdd(item.cwrite_date)"
                             ></v-list-item-action-text>
 
                             <v-menu
@@ -205,7 +205,7 @@ export default {
     console.log("comments : ", this.comments);
     this.getDetail(this.bno);
     this.getImgPath();
-    console.log(this.comments);
+    // console.log(this.comments);
   },
   computed: {
     ...mapState(boardStore, ["comments", "ranking", "board"]),

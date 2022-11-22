@@ -59,6 +59,8 @@ export default {
         console.log(error);
       }
     );
+    this.getBoardList();
+    this.getRanking();
     /*
     fetch("http://localhost:8888/board/order", { method: "get" })
       .then((response) => response.json())
@@ -70,12 +72,12 @@ export default {
       */
   },
   watch:{
-    ranking(){
-      this.getRanking();
-    }
+    // ranking(){
+    //   this.getRanking();
+    // }
   },
   methods: {
-    ...mapActions(boardStore, ["getRanking","getDetail","getComments"]),
+    ...mapActions(boardStore, ["getRanking","getDetail","getComments","getBoardList"]),
     move2Detail(el) {
       let bno = el;
       this.getDetail(bno);
