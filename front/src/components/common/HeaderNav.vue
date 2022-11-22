@@ -11,11 +11,54 @@ https://vuetifyjs.com/en/components/app-bars/#dense
       </v-toolbar-title>
 
       <v-spacer></v-spacer>
-
-      <v-btn icon @click="move2MyPage">
+            <v-menu
+        bottom
+        min-width="200px"
+        rounded
+        offset-y
+        v-if="userInfo"
+      >
+        <template v-slot:activator="{ on }">
+      <v-btn icon v-on="on">
         <v-icon>mdi-heart</v-icon>
       </v-btn>
+              </template>
 
+      <v-card>
+          <v-list-item-content class="justify-center">
+            <div class="mx-auto text-center">
+              <v-avatar
+                color="brown"
+              >
+                <span class="white--text text-h5"></span>
+              </v-avatar>
+              
+              <h3>{{userInfo.username}}</h3>
+              <p class="text-caption mt-1">
+                
+              </p>
+              <v-divider class="my-3"></v-divider>
+              <v-btn
+                depressed
+                rounded
+                text
+                @click="move2MyPage"
+              >
+                Edit Account
+              </v-btn>
+              <v-divider class="my-3"></v-divider>
+              <v-btn
+                depressed
+                rounded
+                text
+                 @click="onClickLogout"
+              >
+                Disconnect
+              </v-btn>
+            </div>
+          </v-list-item-content>
+        </v-card>
+            </v-menu>
       <v-btn icon>
         <v-icon>mdi-magnify</v-icon>
       </v-btn>
@@ -28,25 +71,52 @@ https://vuetifyjs.com/en/components/app-bars/#dense
         <v-btn text @click="move2Register">Join</v-btn>
       </div>
     </v-app-bar>
-    <v-navigation-drawer v-model="drawer" absolute left temporary>
-      <v-list nav dense>
-        <v-list-item-group v-model="group" active-class="indigo lighten-2--text white--text">
-          <v-list-item>
-            <v-list-item-title>Foo</v-list-item-title>
-          </v-list-item>
+    <v-navigation-drawer v-model="drawer" absolute left temporary
+      >
+      <v-list-item class="px-2" v-if="userInfo">
+        <v-list-item-avatar>
+          <v-img src="https://randomuser.me/api/portraits/men/85.jpg"></v-img>
+        </v-list-item-avatar>
 
-          <v-list-item>
-            <v-list-item-title>Bar</v-list-item-title>
-          </v-list-item>
+        <v-list-item-title>{{userInfo.username}}</v-list-item-title>
+        <v-icon color="red">mdi-access-point</v-icon>
+        <v-btn
+          icon
+          @click="drawer = !drawer"
+        >
+          <v-icon>mdi-chevron-left</v-icon>
+        </v-btn>
+      </v-list-item>
 
-          <v-list-item>
-            <v-list-item-title>Fizz</v-list-item-title>
-          </v-list-item>
+      <v-divider></v-divider>
 
-          <v-list-item>
-            <v-list-item-title>Buzz</v-list-item-title>
-          </v-list-item>
-        </v-list-item-group>
+      <v-list dense>
+        <v-list-item v-if="userInfo"  @click="move2MyPage">
+                    <v-list-item-icon>
+            <v-icon>mdi-badge-account-horizontal</v-icon>
+          </v-list-item-icon>
+        <v-list-item-content>
+            <v-list-item-title>Mypage</v-list-item-title>
+        </v-list-item-content>
+        </v-list-item>
+        <v-divider></v-divider>
+
+        <v-list-item
+          v-for="item in items"
+          :key="item.title"
+          @click="move2Page(item)"
+        >
+          <v-list-item-icon>
+            <v-icon>{{ item.icon }}</v-icon>
+          </v-list-item-icon>
+
+          <v-list-item-content>
+            <v-list-item-title>{{ item.title }}
+            </v-list-item-title>
+            
+          </v-list-item-content>
+        </v-list-item>
+
       </v-list>
     </v-navigation-drawer>
   </div>
@@ -61,6 +131,14 @@ export default {
     return {
       drawer: false,
       group: null,
+              items: [
+          { title: 'Home', icon: 'mdi-home', path:'/'},
+          
+          { title: 'Boards', icon: 'mdi-clipboard-text' , path:'/board'},
+          { title: 'Apart deals', icon: ' mdi-domain' , path:'/house'},
+          { title: 'Notice', icon: 'mdi-bullhorn' , path:'/board/notice'},                    
+        ],
+        mini: true,
     };
   },
   watch: {
@@ -104,6 +182,15 @@ export default {
         }
       });
     },
+    move2Page(el){
+            this.$router.push({ path: el.path }).catch((error)=>{
+        if(error.name !== 'NavigationDuplicated'){
+          this.$router.go(this.$router.currentRoute);
+        }
+      });
+    },
+
+
     ...mapActions(memberStore, ["userLogout"]),
     // ...mapMutations(memberStore, ["SET_IS_LOGIN", "SET_USER_INFO"]),
     onClickLogout() {
