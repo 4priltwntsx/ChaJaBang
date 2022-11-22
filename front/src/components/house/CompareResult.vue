@@ -4,10 +4,7 @@
     <h5>건축년도 : {{ house.buildYear }}</h5>
     <div ref="map" class="map_wrap">
       <div ref="overlay"></div>
-      <div
-        id="map"
-        style="width: 100%; height: 100%; position: relative; overflow: hidden"
-      ></div>
+      <div id="map" style="width: 100%; height: 100%; position: relative; overflow: hidden"></div>
     </div>
     <v-row>
       <v-col>
@@ -73,7 +70,7 @@
                   </v-row>
                 </v-container>
                 <v-container fluid>
-                  <v-row v-if="checkedType.includes('baby')">
+                  <v-row v-if="checkedTypes.includes('baby')">
                     <v-col cols="12"> <v-divider></v-divider> </v-col>
                     <v-col cols="12"><h3>아이</h3></v-col>
                     <v-col cols="12" sm="4" md="4" v-model="storeList['PS3']"
@@ -94,11 +91,7 @@
                 <v-container>
                   <v-row>
                     <v-col cols="12">
-                      <v-simple-table
-                        fixed-header
-                        max-width="580"
-                        min-height="350"
-                      >
+                      <v-simple-table fixed-header max-width="580" min-height="350">
                         <template v-slot:default>
                           <thead>
                             <tr>
@@ -134,9 +127,7 @@
                     <v-col cols="12" v-if="searchData != null">
                       <v-list-item two-line>
                         <v-list-item-content>
-                          <v-list-item-title>{{
-                            searchData.message
-                          }}</v-list-item-title>
+                          <v-list-item-title>{{ searchData.message }}</v-list-item-title>
                           <v-list-item-subtitle>{{
                             searchData.currentDateTime
                           }}</v-list-item-subtitle>
@@ -155,10 +146,7 @@
                                 </tr>
                               </thead>
                               <tbody>
-                                <tr
-                                  v-for="(item, idx) in searchRoute.guide"
-                                  :key="idx"
-                                >
+                                <tr v-for="(item, idx) in searchRoute.guide" :key="idx">
                                   <td>{{ item.instructions }}</td>
                                   <td>{{ item.distance }}</td>
                                   <td>{{ item.duration }}초</td>
@@ -222,7 +210,7 @@
 
 <script>
 import http from "@/api/http";
-import { mapState, mapMutations } from "vuex";
+import { mapState } from "vuex";
 const compareStore = "compareStore";
 
 export default {
@@ -243,11 +231,15 @@ export default {
       searchRoute: null,
 
       storeList: {},
-
-      freLocList: [],
       // 자주 가는 곳과 현재 아파트 위치와의 비교
       freResult: [],
     };
+  },
+  created() {
+    this.house = this.checkeditem.data;
+    this.ino = this.checkeditem.ino;
+    console.log("this.house", this.house);
+    console.log("this.ino ", this.ino);
   },
   computed: {
     ...mapState(compareStore, [
@@ -256,11 +248,20 @@ export default {
       "checkedOpt",
       "checkedFuel",
       "freLoc",
+      "isChange",
     ]),
   },
   watch: {
     freResult() {},
     searchData() {},
+    checkedTypes() {},
+    isChange() {
+      // 자주 가는 장소
+      console.log("getFreResult,", this.freLoc.length);
+      this.getFreResult();
+      // 길찾기
+      this.getSearch();
+    },
     house() {
       let kakao = window.kakao;
 
@@ -293,14 +294,9 @@ export default {
       // 지도에 클릭 이벤트를 등록합니다
       // 지도를 클릭하면 마지막 파라미터로 넘어온 함수를 호출합니다
       let _this = this;
-      new kakao.maps.event.addListener(this.mapInstance, "click", function (
-        mouseEvent
-      ) {
+      new kakao.maps.event.addListener(this.mapInstance, "click", function (mouseEvent) {
         // 클릭한 위도, 경도 정보를 가져옵니다
-        let latlng = new kakao.maps.LatLng(
-          mouseEvent.latLng.getLat(),
-          mouseEvent.latLng.getLng()
-        );
+        let latlng = new kakao.maps.LatLng(mouseEvent.latLng.getLat(), mouseEvent.latLng.getLng());
         _this.goalLatlng = latlng;
         if (_this.goal != null) {
           _this.removeMarker();
@@ -313,12 +309,7 @@ export default {
       });
     },
   },
-  created() {
-    this.house = this.checkeditem.data;
-    this.ino = this.checkeditem.ino;
-    console.log("this.house", this.house);
-    console.log("this.ino ", this.ino);
-  },
+
   mounted() {},
   methods: {
     // 마커를 생성하고 지도 위에 마커를 표시하는 함수입니다
@@ -356,10 +347,7 @@ export default {
         },
         {
           // Map 객체를 지정하지 않았으므로 좌표객체를 생성하여 넘겨준다.
-          location: new window.kakao.maps.LatLng(
-            _this.startLatlng.Ma,
-            _this.startLatlng.La
-          ),
+          location: new window.kakao.maps.LatLng(_this.startLatlng.Ma, _this.startLatlng.La),
           useMapCenter: false,
           radius: 500,
         }
@@ -431,25 +419,22 @@ export default {
       console.log(resp);
       return resp.data;
     },
-    //길찾기 탭에서 등록을 누르면
-    async freRegister() {
-      this.freLoc.push(this.goal);
-      this.freLocLatlng.push(this.goalLatlng);
-      console.log("freRegister, ", this.goalLatlng);
+    // 자주 가는 곳에 대한 정보 가져오기
+    async getFreResult() {
       // 길찾기를 한다.
-      let temp = await this.getDir(this.goalLatlng, "gasoline", "trafast");
-      console.log("temp", temp.route.trafast[0].summary);
-      this.freResult.push({
-        nickname: this.nickname,
-        summary: temp.route.trafast[0].summary,
-      });
+      console.log("freLoc", this.freLoc);
+      let tempList = [];
+      for (var i = 0; i < this.freLoc.length; i++) {
+        let temp = await this.getDir(this.freLoc[i].loc, "gasoline", "trafast");
+        tempList.push({
+          nickname: this.freLoc[i].nickname,
+          summary: temp.route.trafast[0].summary,
+        });
+      }
+      this.freResult = tempList;
     },
-    async searchClick() {
-      this.searchData = await this.getDir(
-        this.goalLatlng,
-        this.checkedFuel,
-        this.checkedOpt
-      );
+    async getSearch() {
+      this.searchData = await this.getDir(this.goalLatlng, this.checkedFuel, this.checkedOpt);
       console.log("searchData keys", Object.keys(this.searchData.route));
       let key = Object.keys(this.searchData.route);
       this.searchRoute = this.searchData.route[key][0];

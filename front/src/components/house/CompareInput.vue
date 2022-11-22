@@ -2,10 +2,7 @@
   <div>
     <div ref="map" class="map_wrap">
       <div ref="overlay"></div>
-      <div
-        id="map"
-        style="width: 100%; height: 100%; position: relative; overflow: hidden"
-      ></div>
+      <div id="map" style="width: 100%; height: 100%; position: relative; overflow: hidden"></div>
     </div>
     <v-row>
       <v-col>
@@ -82,6 +79,29 @@
                       <v-btn @click="freRegister">등록</v-btn>
                     </v-col>
                   </v-row>
+                  <v-row v-if="freLoc.length != 0">
+                    <v-col cols="12"><v-divider></v-divider></v-col>
+                    <v-col cols="12">
+                      <v-simple-table fixed-header max-width="580" min-height="350">
+                        <template v-slot:default>
+                          <thead>
+                            <tr>
+                              <th class="text-left">이름</th>
+                              <th class="text-left">lat</th>
+                              <th class="text-left">lng</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr v-for="item in freLoc" :key="item.nickname">
+                              <td>{{ item.nickname }}</td>
+                              <td>{{ item.loc.Ma }}</td>
+                              <td>{{ item.loc.La }}</td>
+                            </tr>
+                          </tbody>
+                        </template>
+                      </v-simple-table>
+                    </v-col>
+                  </v-row>
                 </v-container>
               </v-card>
             </v-tab-item>
@@ -145,18 +165,10 @@
                       ></v-checkbox>
                     </v-col>
                     <v-col cols="12" sm="3" md="3">
-                      <v-checkbox
-                        v-model="checkedFuel"
-                        value="diesel"
-                        label="경유"
-                      ></v-checkbox>
+                      <v-checkbox v-model="checkedFuel" value="diesel" label="경유"></v-checkbox>
                     </v-col>
                     <v-col cols="12" sm="3" md="3">
-                      <v-checkbox
-                        v-model="checkedFuel"
-                        value="lpg"
-                        label="LPG "
-                      ></v-checkbox>
+                      <v-checkbox v-model="checkedFuel" value="lpg" label="LPG "></v-checkbox>
                     </v-col>
                   </v-row>
                 </v-container>
@@ -195,68 +207,53 @@ export default {
       nickname: "",
       // 자주 가는 곳으로 추가된 마커
       freLoc: [],
-      // freLoc의 각 index의 마커의 위치
-      freLocLatlng: [],
       // 자주 가는 곳과 현재 아파트 위치와의 비교
       freResult: [],
     };
   },
+  created() {
+    console.log("CompareInput created checkList", this.checkList);
+  },
   computed: {},
   watch: {
     checkList() {
-      let kakao = window.kakao;
-
-      var container = this.$refs.map;
-
-      this.mapInstance = new kakao.maps.Map(container, {
-        center: new kakao.maps.LatLng(this.house.lat, this.house.lng),
-        level: 5,
-      }); //지도 생성 및 객체 리턴
-
-      // 장소 검색 객체를 생성합니다
-      this.ps = new kakao.maps.services.Places(this.mapInstance);
-
-      // start marker 띄우기
-      this.startLatlng = new kakao.maps.LatLng(this.house.lat, this.house.lng);
-      console.log("startLatlng", this.startLatlng);
-      this.start = new window.kakao.maps.Marker({
-        position: this.startLatlng, // 마커의 위치
-      });
-      this.addMarker(this.start);
-
-      //편의시설 리스트 가져오기
-      this.facility();
-      this.uncheckedCar();
-      this.checkedCar();
-      this.checkedBicycle();
-      this.checkedBaby();
-      this.checkedPet();
-
-      // 지도에 클릭 이벤트를 등록합니다
-      // 지도를 클릭하면 마지막 파라미터로 넘어온 함수를 호출합니다
-      let _this = this;
-      new kakao.maps.event.addListener(this.mapInstance, "click", function (
-        mouseEvent
-      ) {
-        // 클릭한 위도, 경도 정보를 가져옵니다
-        let latlng = new kakao.maps.LatLng(
-          mouseEvent.latLng.getLat(),
-          mouseEvent.latLng.getLng()
-        );
-        _this.goalLatlng = latlng;
-        if (_this.goal != null) {
-          _this.removeMarker();
-        }
-        _this.goal = new window.kakao.maps.Marker({
-          position: latlng, // 마커의 위치
-        });
-        _this.addMarker(_this.goal);
-        // this.addMarker(new kakao.maps.LatLng(this.latlng.getLat(), this.latlng.getLng()));
-      });
+      console.log("checklist watch");
     },
   },
-  created() {},
-  mounted() {},
+  mounted() {
+    let kakao = window.kakao;
+
+    var container = this.$refs.map;
+
+    this.mapInstance = new kakao.maps.Map(container, {
+      center: new kakao.maps.LatLng(this.checkList[0].data.lat, this.checkList[0].data.lng),
+      level: 5,
+    }); //지도 생성 및 객체 리턴
+
+    // checkList 마커 띄우기
+    let markerPositions = [];
+    for (var i = 0; i < this.checkList.length; i++) {
+      markerPositions.push([this.checkList[i].data.lat, this.checkList[i].data.lng]);
+    }
+    this.displayMarker(markerPositions);
+
+    // 지도에 클릭 이벤트를 등록합니다
+    // 지도를 클릭하면 마지막 파라미터로 넘어온 함수를 호출합니다
+    let _this = this;
+    new kakao.maps.event.addListener(this.mapInstance, "click", function (mouseEvent) {
+      // 클릭한 위도, 경도 정보를 가져옵니다
+      let latlng = new kakao.maps.LatLng(mouseEvent.latLng.getLat(), mouseEvent.latLng.getLng());
+      _this.goalLatlng = latlng;
+      if (_this.goal != null) {
+        _this.removeMarker();
+      }
+      _this.goal = new window.kakao.maps.Marker({
+        position: latlng, // 마커의 위치
+      });
+      _this.addMarker(_this.goal);
+      // this.addMarker(new kakao.maps.LatLng(this.latlng.getLat(), this.latlng.getLng()));
+    });
+  },
   methods: {
     ...mapMutations(compareStore, [
       "SET_GOAL_LATLNG",
@@ -264,36 +261,60 @@ export default {
       "SET_CHECKED_FUEL",
       "SET_CHECKED_TYPES",
       "SET_FRE_LOC",
+      "SET_IS_CHANGE",
     ]),
     // 마커를 생성하고 지도 위에 마커를 표시하는 함수입니다
     addMarker(marker) {
       marker.setMap(this.mapInstance); // 지도 위에 마커를 표출합니다
+    },
+    // 지도 위에 표시되고 있는 마커를 모두 제거합니다
+    removeMarker() {
+      this.goal.setMap(null);
+    },
+    displayMarker(markerPositions) {
+      console.log("displayMarker", markerPositions);
+      const positions = markerPositions.map(
+        (position) => new window.kakao.maps.LatLng(...position)
+      );
+
+      if (positions.length > 0) {
+        this.markers = positions.map(
+          (position) =>
+            new window.kakao.maps.Marker({
+              map: this.mapInstance,
+              position,
+            })
+        );
+
+        const bounds = positions.reduce(
+          (bounds, latlng) => bounds.extend(latlng),
+          new window.kakao.maps.LatLngBounds()
+        );
+
+        this.mapInstance.setBounds(bounds);
+      }
     },
     move2Table() {
       this.$router.push({ name: "houseTable" });
     },
 
     //자주가는 곳 탭에서 등록을 누르면
-    async freRegister() {
-      this.freLoc.push(this.goal);
-      this.freLocLatlng.push(this.goalLatlng);
-      console.log("freRegister, ", this.goalLatlng);
+    freRegister() {
+      this.freLoc.push({ nickname: this.nickname, loc: this.goalLatlng });
+      (this.nickname = ""), console.log("fre loc", this.freLoc);
     },
     compareClick() {
-      this.SET_GOAL_LATLNG(this.goal);
-      this.SET_CHECKED_OPT(this.checkedOpt);
-      this.SET_CHECKED_FUEL(this.checkedFuel);
-      this.SET_CHECKED_TYPES(this.checkedType);
-    },
-  },
-
-  filters: {
-    count: function (value) {
-      if (value == undefined) {
-        return "0개";
-      } else {
-        return value.length + "개";
-      }
+      this.SET_GOAL_LATLNG({ goalLL: this.goalLatlng });
+      this.SET_CHECKED_OPT({ opt: this.checkedOpt });
+      this.SET_CHECKED_FUEL({ fuel: this.checkedFuel });
+      this.SET_CHECKED_TYPES({ types: this.checkedType });
+      this.SET_FRE_LOC({ list: this.freLoc });
+      this.SET_IS_CHANGE();
+      console.log("goal", this.goalLatlng);
+      console.log("checkedOpt", this.checkedOpt);
+      console.log("checkedFuel", this.checkedFuel);
+      console.log("checkedType", this.checkedType);
+      console.log("fre loc", this.freLoc);
     },
   },
 };

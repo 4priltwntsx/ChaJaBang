@@ -47,9 +47,7 @@ export default {
       document.head.appendChild(script);
     }
   },
-  created() {
-
-  },
+  created() {},
   computed: {
     ...mapState(houseStore, ["houses", "points", "point"]),
   },
@@ -57,16 +55,16 @@ export default {
     points() {
       // this.$forceUpdate();
       this.map = null;
-    if (window.kakao && window.kakao.maps) {
-      this.initMap();
-    } else {
-      const script = document.createElement("script");
+      if (window.kakao && window.kakao.maps) {
+        this.initMap();
+      } else {
+        const script = document.createElement("script");
 
-      script.onload = () => kakao.maps.load(this.initMap);
-      script.src =
-        "//dapi.kakao.com/v2/maps/sdk.js?autoload=false?appkey=78b26667d20a38aa946ea1f6a8384730&libraries=services";
-      document.head.appendChild(script);
-    }
+        script.onload = () => kakao.maps.load(this.initMap);
+        script.src =
+          "//dapi.kakao.com/v2/maps/sdk.js?autoload=false?appkey=78b26667d20a38aa946ea1f6a8384730&libraries=services";
+        document.head.appendChild(script);
+      }
     },
     point() {
       // detail map 보여주는 곳
@@ -104,7 +102,7 @@ export default {
       ///////////////////////////////////////////////////////////////////////
     },
     displayMarker(markerPositions) {
-      console.log("display Marker");
+      console.log("display Marker", markerPositions);
       if (this.markers.length > 0) {
         this.markers.forEach((marker) => marker.setMap(null));
       }
