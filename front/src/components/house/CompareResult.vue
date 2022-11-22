@@ -29,46 +29,6 @@
               <v-card flat>
                 <v-container fluid>
                   <v-row>
-                    <v-col cols="12" sm="3" md="3">
-                      <v-checkbox
-                        v-model="checkedType"
-                        label="자동차"
-                        color="orange darken-3"
-                        value="car"
-                        hide-details
-                      ></v-checkbox>
-                    </v-col>
-                    <v-col cols="12" sm="3" md="3">
-                      <v-checkbox
-                        v-model="checkedType"
-                        label="자전거"
-                        color="orange darken-3"
-                        value="bicycle"
-                        hide-details
-                      ></v-checkbox>
-                    </v-col>
-                    <v-col cols="12" sm="3" md="3">
-                      <v-checkbox
-                        v-model="checkedType"
-                        label="반려동물"
-                        color="orange darken-3"
-                        value="pet"
-                        hide-details
-                      ></v-checkbox>
-                    </v-col>
-                    <v-col cols="12" sm="3" md="3">
-                      <v-checkbox
-                        v-model="checkedType"
-                        label="아이"
-                        color="orange darken-3"
-                        value="baby"
-                        hide-details
-                      ></v-checkbox>
-                    </v-col>
-                  </v-row>
-                </v-container>
-                <v-container fluid>
-                  <v-row>
                     <v-col cols="12"> <v-divider></v-divider> </v-col>
                     <v-col cols="12"><h3>주변 편의 시설</h3></v-col>
                     <v-col cols="12" sm="4" md="4" v-model="storeList['MT1']"
@@ -101,7 +61,7 @@
                   </v-row>
                 </v-container>
                 <v-container fluid>
-                  <v-row v-if="checkedType.includes('car')">
+                  <v-row v-if="checkedTypes.includes('car')">
                     <v-col cols="12"> <v-divider></v-divider> </v-col>
                     <v-col cols="12"><h3>자동차</h3></v-col>
                     <v-col cols="12" sm="6" md="6" v-model="storeList['PK6']"
@@ -133,16 +93,6 @@
               <v-card flat>
                 <v-container>
                   <v-row>
-                    <v-col cols="12">
-                      현재 클릭한 지점을 자주 가는 곳에 추가 &nbsp;&nbsp;&nbsp;
-                    </v-col>
-                    <v-col cols="12" md="7">
-                      <v-text-field v-model="nickname"></v-text-field>
-                    </v-col>
-                    <v-col cols="12" md="5">
-                      <v-btn @click="freRegister">등록</v-btn>
-                    </v-col>
-                    <v-col cols="12"> <v-divider></v-divider> </v-col>
                     <v-col cols="12">
                       <v-simple-table
                         fixed-header
@@ -177,84 +127,6 @@
             </v-tab-item>
             <v-tab-item>
               <v-card flat>
-                <v-container fluid>
-                  <v-row>
-                    <v-col cols="12">탐색 옵션</v-col>
-                    <v-col cols="12" sm="4" md="4">
-                      <v-checkbox
-                        v-model="checkedOpt"
-                        value="trafast"
-                        label="실시간 빠른길"
-                      ></v-checkbox>
-                    </v-col>
-                    <v-col cols="12" sm="4" md="4">
-                      <v-checkbox
-                        v-model="checkedOpt"
-                        value="tracomfort"
-                        label="실시간 편한길"
-                      ></v-checkbox>
-                    </v-col>
-                    <v-col cols="12" sm="4" md="4">
-                      <v-checkbox
-                        v-model="checkedOpt"
-                        value="traoptimal"
-                        label="실시간 최적"
-                      ></v-checkbox>
-                    </v-col>
-                    <v-col cols="12" sm="4" md="4">
-                      <v-checkbox
-                        v-model="checkedOpt"
-                        value="traavoidtoll"
-                        label="무료 우선"
-                      ></v-checkbox>
-                    </v-col>
-                    <v-col cols="12" sm="4" md="4">
-                      <v-checkbox
-                        v-model="checkedOpt"
-                        value="traavoidcaronly"
-                        label="자동차 전용도로 회피 우선"
-                      ></v-checkbox>
-                    </v-col>
-                  </v-row>
-                </v-container>
-                <v-container fluid>
-                  <v-row>
-                    <v-col cols="12">유류비 계산용 유종</v-col>
-                    <v-col cols="12" sm="3" md="3">
-                      <v-checkbox
-                        v-model="checkedFuel"
-                        value="gasoline"
-                        label="휘발유"
-                      ></v-checkbox>
-                    </v-col>
-                    <v-col cols="12" sm="3" md="3">
-                      <v-checkbox
-                        v-model="checkedFuel"
-                        value="highgradegasoline"
-                        label="고급 휘발유"
-                      ></v-checkbox>
-                    </v-col>
-                    <v-col cols="12" sm="3" md="3">
-                      <v-checkbox
-                        v-model="checkedFuel"
-                        value="diesel"
-                        label="경유"
-                      ></v-checkbox>
-                    </v-col>
-                    <v-col cols="12" sm="3" md="3">
-                      <v-checkbox
-                        v-model="checkedFuel"
-                        value="lpg"
-                        label="LPG "
-                      ></v-checkbox>
-                    </v-col>
-                    <v-col cols="12" sm="4" md="4"></v-col>
-                    <v-col cols="12" sm="4" md="4">
-                      <v-btn @click="searchClick">길찾기</v-btn>
-                    </v-col>
-                    <v-col cols="12" sm="4" md="4"></v-col>
-                  </v-row>
-                </v-container>
                 <v-container fluid>
                   <v-row>
                     <v-col cols="12"> <v-divider></v-divider> </v-col>
@@ -350,6 +222,9 @@
 
 <script>
 import http from "@/api/http";
+import { mapState, mapMutations } from "vuex";
+const compareStore = "compareStore";
+
 export default {
   props: ["checkeditem"],
   data() {
@@ -362,30 +237,27 @@ export default {
       start: null,
       startLatlng: null,
       goal: null,
-      goalLatlng: null,
-      results: [],
-      // 길찾기할 때 경로 우선순위
-      checkedOpt: "",
-      // 경로 유류비 계산할 때 필요한
-      checkedFuel: "",
+
       // 길찾기 결과
       searchData: null,
       searchRoute: null,
-      // 체크박스 중 체크 된 것
-      checkedType: [],
+
       storeList: {},
-      storeListCnt: {},
-      // 자주 가는 곳 별명
-      nickname: "",
-      // 자주 가는 곳으로 추가된 마커
-      freLoc: [],
-      // freLoc의 각 index의 마커의 위치
-      freLocLatlng: [],
+
+      freLocList: [],
       // 자주 가는 곳과 현재 아파트 위치와의 비교
       freResult: [],
     };
   },
-  computed: {},
+  computed: {
+    ...mapState(compareStore, [
+      "checkedTypes",
+      "goalLatlng",
+      "checkedOpt",
+      "checkedFuel",
+      "freLoc",
+    ]),
+  },
   watch: {
     freResult() {},
     searchData() {},
