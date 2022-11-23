@@ -20,6 +20,7 @@
                 <v-tab> 길찾기 </v-tab>
               </v-tabs>
               <v-btn @click="compareClick">비교</v-btn>
+              <v-btn @click="resetClick">초기화</v-btn>
             </template>
           </v-toolbar>
 
@@ -350,11 +351,19 @@ export default {
       this.SET_CHECKED_TYPES({ types: this.checkedType });
       this.SET_FRE_LOC({ list: this.freLoc });
       this.SET_IS_CHANGE();
-      console.log("goal", this.goalLatlng);
-      console.log("checkedOpt", this.checkedOpt);
-      console.log("checkedFuel", this.checkedFuel);
-      console.log("checkedType", this.checkedType);
-      console.log("fre loc", this.freLoc);
+    },
+    resetClick() {
+      this.goalLatlng = null;
+      this.checkedOpt = "";
+      this.checkedFuel = "";
+      this.checkedType = [];
+      this.freLoc = [];
+      this.SET_GOAL_LATLNG({ goalLL: this.goalLatlng });
+      this.SET_CHECKED_OPT({ opt: this.checkedOpt });
+      this.SET_CHECKED_FUEL({ fuel: this.checkedFuel });
+      this.SET_CHECKED_TYPES({ types: this.checkedType });
+      this.SET_FRE_LOC({ list: this.freLoc });
+      this.SET_IS_CHANGE();
     },
   },
 };

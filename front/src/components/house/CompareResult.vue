@@ -288,7 +288,6 @@ export default {
       ps: null,
       start: null,
       startLatlng: null,
-      goal: null,
 
       // 마커
       markers: [],
@@ -329,7 +328,9 @@ export default {
     ]),
   },
   watch: {
-    freResult() {},
+    freResult() {
+      this.removeMarker();
+    },
     searchData() {},
     checkedTypes() {},
     isChange() {
@@ -338,6 +339,19 @@ export default {
       this.getFreResult();
       // 길찾기
       this.getSearch();
+      this.isTraffic = false;
+      this.isBicycle = false;
+
+      // 길찾기 결과
+      this.searchData = null;
+      this.searchRoute = null;
+
+      // 편의시설
+      this.keywordList = {};
+      this.categoryList = {};
+
+      // 자주 가는 곳과 현재 아파트 위치와의 비교
+      this.freResult = [];
     },
     house() {
       console.log("house watch");
@@ -377,28 +391,6 @@ export default {
       this.checkedBicycle();
       this.checkedBaby();
       this.checkedPet();
-
-      // 지도에 클릭 이벤트를 등록합니다
-      // 지도를 클릭하면 마지막 파라미터로 넘어온 함수를 호출합니다
-      let _this = this;
-      new kakao.maps.event.addListener(this.mapInstance, "click", function (
-        mouseEvent
-      ) {
-        // 클릭한 위도, 경도 정보를 가져옵니다
-        let latlng = new kakao.maps.LatLng(
-          mouseEvent.latLng.getLat(),
-          mouseEvent.latLng.getLng()
-        );
-        _this.goalLatlng = latlng;
-        if (_this.goal != null) {
-          _this.removeMarker();
-        }
-        _this.goal = new window.kakao.maps.Marker({
-          position: latlng, // 마커의 위치
-        });
-        _this.addMarker(_this.goal);
-        // this.addMarker(new kakao.maps.LatLng(this.latlng.getLat(), this.latlng.getLng()));
-      });
     },
   },
 
@@ -416,9 +408,7 @@ export default {
       }
       this.markers = [];
     },
-    move2Table() {
-      this.$router.push({ name: "houseTable" });
-    },
+
     // 카테고리 검색을 요청하는 함수입니다
     categorySearchPlaces(category) {
       // 지도에 표시되고 있는 마커를 제거합니다
@@ -536,6 +526,7 @@ export default {
 
     // 편의 시설
     categoryFacility(category) {
+      this.removeMarker();
       if (this.categoryList[category] == undefined) {
         alert("반경 500m 내에 해당 시설이 없어요 (๑•́ㅿ•̀๑) ᔆᵒʳʳᵞ");
       } else {
@@ -554,11 +545,12 @@ export default {
       }
     },
     keywordFacility(keyword) {
+      this.removeMarker();
       if (this.keywordList[keyword] == undefined) {
         alert("반경 500m 내에 해당 시설이 없어요 (๑•́ㅿ•̀๑) ᔆᵒʳʳᵞ");
       } else {
         console.log(keyword, this.keywordList[keyword]);
-        this.removeMarker();
+
         for (let i = 0; i < this.keywordList[keyword].length; i++) {
           let newMarker = new window.kakao.maps.Marker({
             position: new window.kakao.maps.LatLng(
@@ -644,16 +636,6 @@ export default {
           window.kakao.maps.MapTypeId.BICYCLE
         );
         this.isBicycle = false;
-      }
-    },
-  },
-
-  filters: {
-    count: function (value) {
-      if (value == undefined) {
-        return "0개";
-      } else {
-        return value.length + "개";
       }
     },
   },
