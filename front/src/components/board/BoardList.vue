@@ -73,7 +73,7 @@ export default {
       console.log("el", el);
       let bno = el.bno;
       console.log(bno);
-      this.$router.push({ name: "boardDetail", params: { bno } });
+      this.$router.push({ name: "boardDetail", query: { bno } });
     },
   },
 };

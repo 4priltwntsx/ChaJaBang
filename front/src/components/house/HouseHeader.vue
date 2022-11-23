@@ -268,6 +268,8 @@ export default {
       }
     },
     searchApt() {
+          this.CLEAR_APT_LIST();
+
       if (this.dongName) {
         this.getHouseList({
           sidoName: this.sidoName,
@@ -292,7 +294,7 @@ export default {
           this.$router.go(this.$router.currentRoute);
         }
       });
-      this.CLEAR_APT_LIST();
+      // this.CLEAR_APT_LIST();
     },
     move2News() {
       this.$router.push({ name: "news" }).catch((error) => {

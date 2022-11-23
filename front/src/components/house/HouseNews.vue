@@ -4,12 +4,15 @@
     
   <v-container >
     <v-row>
-
-    <v-btn @click="move2Table" class="ma-2" color="indigo darken-2" dark>
-      <v-icon dark left> mdi-arrow-left </v-icon>Back
-    </v-btn>
-
-        <h2>local news</h2>
+      <v-col cols="12" md="3">
+        <v-btn @click="move2Table" class="ma-2" color="indigo darken-2" dark>
+        <v-icon dark left> mdi-arrow-left </v-icon>Back
+        </v-btn>
+      </v-col>
+      <v-col cols="12" md="1"></v-col>
+      <v-col id="tttt" cols="12" md="4" style="text-align:center; vertical-align:base-line;">
+        <h2 >local news</h2></v-col>
+      <v-col cols="12" md="4"></v-col>
     </v-row>
     <v-row dense>
       

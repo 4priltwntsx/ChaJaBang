@@ -48,7 +48,7 @@ const houseStore = {
     },
     CLEAR_APT_LIST(state) {
       state.houses = [];
-      state.house = null;
+      // state.house = null;
       state.points = [];
 
     },

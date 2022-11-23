@@ -68,7 +68,8 @@ create table interest(
     foreign key(aptcode) references houseinfo(aptCode),
     foreign key (userid) references `user`(userid) 
 );
-
+select * from interest;
+select * from qna;
 INSERT INTO INTEREST (APTCODE, USERID)
 VALUES ("", "");
 
@@ -92,6 +93,8 @@ create table qna(
     is_checked boolean default(1),
 	foreign key (qwriter) references `user`(userid)
 );
+
+	UPDATE QNA SET IS_CHECKED=1 WHERE QNO = 2;
 
 select * from qna;
 select * from interest;

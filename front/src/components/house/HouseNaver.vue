@@ -6,7 +6,7 @@
     max-width="1000"
   >
     <v-container fluid>
-      <h3>News</h3>
+      <h3>부동산 News</h3>
       <v-row dense>
         <v-col
           v-for="(news, index) in news3"

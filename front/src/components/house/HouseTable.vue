@@ -3,7 +3,8 @@ https://vuetifyjs.com/en/components/simple-tables/#usage
 -->
 <template>
   <div>
-    <h3>asdf</h3>
+    <h3>아파트 매물 목록</h3>
+    <h6> <br></h6>
     <v-simple-table fixed-header max-width="580" height="590">
       <template v-slot:default>
         <thead>
@@ -44,7 +45,7 @@ export default {
     };
   },
   created() {
-    this.CLEAR_HOUSE_POINT();
+    // this.CLEAR_HOUSE_POINT();
   },
   computed: {
     ...mapState(houseStore, ["houses", "points", "house", "deals"]),

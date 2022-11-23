@@ -161,6 +161,7 @@ const memberStore = "memberStore";
 const boardStore = "boardStore";
 
 export default {
+  name:"BoardDetail",
   data() {
     return {
       bno: "",
@@ -176,7 +177,7 @@ export default {
   },
 
   created() {
-    this.bno = this.$route.params.bno;
+    this.bno = this.$route.query.bno;
 
     // let _this = this;
 
@@ -239,7 +240,9 @@ export default {
         });
         */
     // },
-
+refreshAll() {
+  this.$router.go();
+},
     modifyBoard(bno) {
       this.$router.push({ name: "boardModify", params: { bno } });
     },

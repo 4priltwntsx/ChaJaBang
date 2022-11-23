@@ -8,6 +8,7 @@ https://vuetifyjs.com/en/components/lists/#action-stack
       <!-- <v-col cols="12" md="6"> -->
         <!-- board detail start -->
         <v-card class="mx-auto my-12" min-height="550" max-width="650">
+          <v-container>
           <template slot="progress">
             <v-progress-linear color="deep-purple" height="10" indeterminate></v-progress-linear>
           </template>
@@ -22,7 +23,7 @@ https://vuetifyjs.com/en/components/lists/#action-stack
               운영자 &nbsp;&nbsp;&nbsp;
             </h4>
           </div>
-          <v-card-text>
+          <div style="height:400px">
             <div style="text-align: right">
               <span class="my-4 text-subtitle-1"> 작성일 : {{ notice.nwriteDate | yyyyMMdd }} </span>
             </div>
@@ -30,9 +31,12 @@ https://vuetifyjs.com/en/components/lists/#action-stack
             <h3 v-html="notice.ncontent"></h3>
             <br />
 
-          </v-card-text>
+          </div>
+
+          <v-card-actions>
             <v-row v-if="userInfo.userid==='admin'" style="text-align: center">
-              <v-col cols="12" md="2"></v-col>
+              <v-col cols="12" md="3"></v-col>
+              
               <v-col cols="12" md="2"
                 ><v-btn center color="indigo lighten-3" @click="modifyNotice(notice.nno)"
                   >수정</v-btn
@@ -43,16 +47,12 @@ https://vuetifyjs.com/en/components/lists/#action-stack
               >
               <v-col cols="12" md="2"
                 ><v-btn color="indigo lighten-5" @click="move2Notice">목록</v-btn></v-col
-              >              
-            </v-row>
-            <v-row v-else style="text-align: center">
-              <v-col cols="12" md="2"></v-col>
+              >     
+                            <v-col cols="12" md="2"></v-col>
 
-              <v-col cols="12" md="2"
-                ><v-btn color="indigo lighten-5" @click="move2Notice">목록</v-btn></v-col
-              >              
             </v-row>
-
+          </v-card-actions>
+          </v-container>
         </v-card>
         <!-- board detail end -->
       <!-- </v-col> -->
@@ -136,5 +136,17 @@ export default {
   },
 };
 </script>
+<style>
+v-container {
+  display: flex !important;
+  flex-direction: column;
+}
 
-<style></style>
+.v-card {
+  flex-grow: 1;
+  overflow: auto;
+}
+.scroll {
+   overflow-y: scroll
+}
+</style>

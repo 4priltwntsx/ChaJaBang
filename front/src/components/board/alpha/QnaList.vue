@@ -394,6 +394,7 @@ export default {
             console.log("qna list, notcomplete list fail");
           };
       }
+      this.updateNckQna(id);
     },
     getDetail(el) {
       console.log("qna list el", el);
@@ -439,6 +440,17 @@ export default {
       )
       // this.SET_CHECK_STATUS();
     },
+    updateNckQna(userid){
+        if (this.userInfo != null) {
+          // let tmp = this.userInfo;
+          // this.id = tmp.userid;
+          if (userid === "admin") {
+            this.getManagerNotAnswer();
+          } else {
+            this.getUserNotCheck(userid);
+          }
+        }
+    }
   },
   filters: {
     ox: function (value) {
