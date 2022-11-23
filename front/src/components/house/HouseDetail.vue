@@ -53,6 +53,7 @@ export default {
     move2Table() {
       console.log(this.houses);
       if(this.houses.length>0){
+        console.log("points : ", this.points)
       this.$router.push({ name: "houseTable" });
       }
       else{

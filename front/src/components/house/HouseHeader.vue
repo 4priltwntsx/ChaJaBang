@@ -54,7 +54,7 @@
           <div class="text-center">
             <v-dialog v-model="dialog" width="600">
               <template v-slot:activator="{ on, attrs }">
-                <v-btn color="" v-bind="attrs" v-on="on"> Click Me </v-btn>
+                <v-btn color="" v-bind="attrs" v-on="on"> Accident </v-btn>
               </template>
 
               <v-card>
@@ -78,17 +78,17 @@
                 >
                 </v-sparkline>
                 <v-row style="text-align: center">
-                  <v-col cols="12" sm="4" md="4"
+                  <v-col 
                     ><v-btn small @click="changeChild"
                       >보행 어린이 사고 다발 지역</v-btn
                     ></v-col
-                  >
-                  <v-col cols="12" sm="4" md="4"
+                  ><v-spacer></v-spacer>
+                  <v-col
                     ><v-btn small @click="changeOldman"
                       >보행 노인 사고 다발 지역</v-btn
                     ></v-col
-                  >
-                  <v-col cols="12" sm="4" md="4"
+                  ><v-spacer></v-spacer>
+                  <v-col 
                     ><v-btn small @click="changeBicycle"
                       >자전거 사고 다발지역</v-btn
                     ></v-col
@@ -268,7 +268,7 @@ export default {
       }
     },
     searchApt() {
-          this.CLEAR_APT_LIST();
+          // this.CLEAR_APT_LIST();
 
       if (this.dongName) {
         this.getHouseList({

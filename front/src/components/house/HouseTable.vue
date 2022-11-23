@@ -45,7 +45,7 @@ export default {
     };
   },
   created() {
-    // this.CLEAR_HOUSE_POINT();
+    this.CLEAR_HOUSE_POINT();
   },
   computed: {
     ...mapState(houseStore, ["houses", "points", "house", "deals"]),
@@ -84,7 +84,7 @@ export default {
       )
     },
     move2Detail() {
-      // this.CLAER_HOUSE_POINT();
+      // this.CLEAR_HOUSE_POINT();
       this.$router.push({ name: "houseDetail" });
     },
   },

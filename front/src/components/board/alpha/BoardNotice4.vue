@@ -2,7 +2,7 @@
 https://vuetifyjs.com/en/components/simple-tables/#fixed-header
 -->
 <template>
-  <v-simple-table fixed-header max-width="580" height="240">
+  <v-simple-table class="ttt" fixed-header max-width="580" height="240">
     <template v-slot:default>
       <thead>
         <tr>
@@ -90,4 +90,8 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.ttt{
+  font-family: 'NanumSquare';
+}
+</style>

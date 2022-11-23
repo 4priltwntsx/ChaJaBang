@@ -12,13 +12,17 @@ https://vuetifyjs.com/en/components/app-bars/#dense
         theme--right
         @click.stop="drawer = !drawer"
       ></v-app-bar-nav-icon>
-
-      <v-toolbar-title>
+      <v-toolbar-title class="px-0">
         <router-link
           to="/"
           id="none-a"
+          class="d-flex align-center justify-center"
         >
-          MyHome
+                  <v-img class="mr-1" height="30" width="30" :src="require(`@/assets/house.png`)"></v-img>
+
+<div style="font-family: NanumSquare">
+          차자방
+</div>
         </router-link>
       </v-toolbar-title>
 
@@ -59,7 +63,7 @@ https://vuetifyjs.com/en/components/app-bars/#dense
                 text
                 @click="move2MyPage"
               >
-                Edit Account
+                My Page
               </v-btn>
               <v-divider class="my-3"></v-divider>
               <v-btn
@@ -68,15 +72,13 @@ https://vuetifyjs.com/en/components/app-bars/#dense
                 text
                 @click="onClickLogout"
               >
-                Disconnect
+                Logout
               </v-btn>
             </div>
           </v-list-item-content>
         </v-card>
       </v-menu>
-      <v-btn icon>
-        <v-icon>mdi-magnify</v-icon>
-      </v-btn>
+
       <div v-if="userInfo">
         <v-btn
           text
@@ -319,5 +321,8 @@ https://vuetifyjs.com/en/components/app-bars/#dense
   #none-a {
     text-decoration: none;
     color: white;
+  }
+  v-toolbar-title{
+    font-family: 'NanumBarunGothic';
   }
 </style>

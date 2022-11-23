@@ -220,11 +220,12 @@ https://vuetifyjs.com/en/components/tabs/#icons-and-text
             </v-card-text>
             <v-row style="text-align: center">
               <v-col cols="12" md="3"></v-col>
-              <v-col cols="12" md="3"><v-btn center color="indigo lighten-3">수정</v-btn></v-col>
+              <v-spacer></v-spacer>
+              <!-- <v-col cols="12" md="3"><v-btn center color="indigo lighten-3">수정</v-btn></v-col> -->
               <v-col cols="12" md="3"
                 ><v-btn color="indigo lighten-5" @click="qnaDelete">삭제</v-btn></v-col
               >
-              <v-col cols="12" md="3"></v-col>
+              <!-- <v-col cols="12" md="3"></v-col> -->
             </v-row>
 
             <v-row>
@@ -411,6 +412,8 @@ export default {
           console.log("qna detail fail");
         }
       );
+      this.updateNckQna(this.userInfo.userid);
+      
     },
     qnaDelete() {
       qDelete(

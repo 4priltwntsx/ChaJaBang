@@ -95,21 +95,25 @@ const routes = [
       {
         path: "write",
         name: "boardWrite",
+        beforeEnter: onlyAuthUser,
         component: BoardWrite,
       },
       {
         path: "detail",
         name: "boardDetail",
+        beforeEnter: onlyAuthUser,
         component: BoardDetail,
       },
       {
         path: "notice",
         name: "notice",
+        beforeEnter: onlyAuthUser,
         component: BoardNotice,
       },
       {
         path: "modify",
         name: "boardModify",
+        beforeEnter: onlyAuthUser,
         component: BoardModify,
       },
       {
@@ -125,11 +129,13 @@ const routes = [
       {
         path: "ndetail",
         name: "noticeDetail",
+        beforeEnter: onlyAuthUser,
         component: NoticeDetail,
       },
       {
         path: "qna",
         name: "qna",
+        beforeEnter: onlyAuthUser,
         component: QnaList,
       },
       {
