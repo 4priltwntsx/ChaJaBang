@@ -2,7 +2,10 @@
   <div>
     <div ref="map" class="map_wrap">
       <div ref="overlay"></div>
-      <div id="map" style="width: 100%; height: 100%; position: relative; overflow: hidden"></div>
+      <div
+        id="map"
+        style="width: 100%; height: 100%; position: relative; overflow: hidden"
+      ></div>
     </div>
     <v-row>
       <v-col>
@@ -82,7 +85,11 @@
                   <v-row v-if="freLoc.length != 0">
                     <v-col cols="12"><v-divider></v-divider></v-col>
                     <v-col cols="12">
-                      <v-simple-table fixed-header max-width="580" min-height="350">
+                      <v-simple-table
+                        fixed-header
+                        max-width="580"
+                        min-height="350"
+                      >
                         <template v-slot:default>
                           <thead>
                             <tr>
@@ -165,10 +172,18 @@
                       ></v-checkbox>
                     </v-col>
                     <v-col cols="12" sm="3" md="3">
-                      <v-checkbox v-model="checkedFuel" value="diesel" label="경유"></v-checkbox>
+                      <v-checkbox
+                        v-model="checkedFuel"
+                        value="diesel"
+                        label="경유"
+                      ></v-checkbox>
                     </v-col>
                     <v-col cols="12" sm="3" md="3">
-                      <v-checkbox v-model="checkedFuel" value="lpg" label="LPG "></v-checkbox>
+                      <v-checkbox
+                        v-model="checkedFuel"
+                        value="lpg"
+                        label="LPG "
+                      ></v-checkbox>
                     </v-col>
                   </v-row>
                 </v-container>
@@ -193,6 +208,11 @@ export default {
       tab: null,
       mapInstance: null,
       ps: null,
+
+      homeSrc: "https://cdn-icons-png.flaticon.com/512/4827/4827543.png",
+      homeSize: null,
+      homeOption: null,
+      homeImg: null,
 
       goal: null,
       goalLatlng: null,
@@ -226,23 +246,42 @@ export default {
     var container = this.$refs.map;
 
     this.mapInstance = new kakao.maps.Map(container, {
-      center: new kakao.maps.LatLng(this.checkList[0].data.lat, this.checkList[0].data.lng),
+      center: new kakao.maps.LatLng(
+        this.checkList[0].data.lat,
+        this.checkList[0].data.lng
+      ),
       level: 5,
     }); //지도 생성 및 객체 리턴
+
+    this.homeSize = new kakao.maps.Size(50, 50);
+    this.homeOption = { offset: new kakao.maps.Point(18, 50) };
+    this.homeImg = new kakao.maps.MarkerImage(
+      this.homeSrc,
+      this.homeSize,
+      this.homeOption
+    );
 
     // checkList 마커 띄우기
     let markerPositions = [];
     for (var i = 0; i < this.checkList.length; i++) {
-      markerPositions.push([this.checkList[i].data.lat, this.checkList[i].data.lng]);
+      markerPositions.push([
+        this.checkList[i].data.lat,
+        this.checkList[i].data.lng,
+      ]);
     }
     this.displayMarker(markerPositions);
 
     // 지도에 클릭 이벤트를 등록합니다
     // 지도를 클릭하면 마지막 파라미터로 넘어온 함수를 호출합니다
     let _this = this;
-    new kakao.maps.event.addListener(this.mapInstance, "click", function (mouseEvent) {
+    new kakao.maps.event.addListener(this.mapInstance, "click", function (
+      mouseEvent
+    ) {
       // 클릭한 위도, 경도 정보를 가져옵니다
-      let latlng = new kakao.maps.LatLng(mouseEvent.latLng.getLat(), mouseEvent.latLng.getLng());
+      let latlng = new kakao.maps.LatLng(
+        mouseEvent.latLng.getLat(),
+        mouseEvent.latLng.getLng()
+      );
       _this.goalLatlng = latlng;
       if (_this.goal != null) {
         _this.removeMarker();
@@ -283,6 +322,7 @@ export default {
             new window.kakao.maps.Marker({
               map: this.mapInstance,
               position,
+              image: this.homeImg, // 마커 이미지 설정
             })
         );
 

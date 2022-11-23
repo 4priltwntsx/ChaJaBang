@@ -15,9 +15,16 @@
           <v-toolbar color="white" flat>
             <v-toolbar-title>
               <v-row>
-                <v-btn @click="clickTraffic">교통 정보 </v-btn>
-
-                <v-btn @click="clickBicycle">자전거도로</v-btn>
+                <v-col cols="12" sm="3">
+                  <v-btn small @click="clickTraffic">교통 정보 </v-btn></v-col
+                >
+                <v-col cols="12" sm="3">
+                  <v-btn small @click="clickBicycle">자전거도로</v-btn></v-col
+                >
+                <v-col cols="12" sm="3"> </v-col>
+                <v-col cols="12" sm="3">
+                  <v-btn small @click="removeMarker">마커X</v-btn></v-col
+                >
               </v-row>
             </v-toolbar-title>
             <template v-slot:extension>
@@ -270,7 +277,6 @@
 import http from "@/api/http";
 import { mapState } from "vuex";
 const compareStore = "compareStore";
-
 export default {
   props: ["checkeditem"],
   data() {
@@ -284,6 +290,12 @@ export default {
       startLatlng: null,
       goal: null,
 
+      // 마커
+      markers: [],
+      homeSrc: "https://cdn-icons-png.flaticon.com/512/4827/4827543.png",
+      homeSize: null,
+      homeOption: null,
+      homeImg: null,
       //교통정보, 자전거도로정보
       isTraffic: false,
       isBicycle: false,
@@ -292,8 +304,10 @@ export default {
       searchData: null,
       searchRoute: null,
 
+      // 편의시설
       keywordList: {},
       categoryList: {},
+
       // 자주 가는 곳과 현재 아파트 위치와의 비교
       freResult: [],
     };
@@ -339,11 +353,20 @@ export default {
       // 장소 검색 객체를 생성합니다
       this.ps = new kakao.maps.services.Places(this.mapInstance);
 
+      this.homeSize = new kakao.maps.Size(50, 50);
+      this.homeOption = { offset: new kakao.maps.Point(18, 50) };
+      this.homeImg = new kakao.maps.MarkerImage(
+        this.homeSrc,
+        this.homeSize,
+        this.homeOption
+      );
+
       // start marker 띄우기
       this.startLatlng = new kakao.maps.LatLng(this.house.lat, this.house.lng);
       console.log("startLatlng", this.startLatlng);
       this.start = new window.kakao.maps.Marker({
         position: this.startLatlng, // 마커의 위치
+        image: this.homeImg, // 마커 이미지 설정
       });
       this.addMarker(this.start);
 
@@ -388,7 +411,10 @@ export default {
 
     // 지도 위에 표시되고 있는 마커를 모두 제거합니다
     removeMarker() {
-      this.goal.setMap(null);
+      for (var i = 0; i < this.markers.length; i++) {
+        this.markers[i].setMap(null);
+      }
+      this.markers = [];
     },
     move2Table() {
       this.$router.push({ name: "houseTable" });
@@ -514,6 +540,17 @@ export default {
         alert("반경 500m 내에 해당 시설이 없어요 (๑•́ㅿ•̀๑) ᔆᵒʳʳᵞ");
       } else {
         console.log(category, this.categoryList[category]);
+        this.removeMarker();
+        for (let i = 0; i < this.categoryList[category].length; i++) {
+          let newMarker = new window.kakao.maps.Marker({
+            position: new window.kakao.maps.LatLng(
+              this.categoryList[category][i].y,
+              this.categoryList[category][i].x
+            ), // 마커의 위치
+          });
+          this.markers.push(newMarker);
+          this.addMarker(newMarker);
+        }
       }
     },
     keywordFacility(keyword) {
@@ -521,6 +558,17 @@ export default {
         alert("반경 500m 내에 해당 시설이 없어요 (๑•́ㅿ•̀๑) ᔆᵒʳʳᵞ");
       } else {
         console.log(keyword, this.keywordList[keyword]);
+        this.removeMarker();
+        for (let i = 0; i < this.keywordList[keyword].length; i++) {
+          let newMarker = new window.kakao.maps.Marker({
+            position: new window.kakao.maps.LatLng(
+              this.keywordList[keyword][i].y,
+              this.keywordList[keyword][i].x
+            ), // 마커의 위치
+          });
+          this.markers.push(newMarker);
+          this.addMarker(newMarker);
+        }
       }
     },
 
