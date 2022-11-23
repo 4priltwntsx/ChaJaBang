@@ -50,7 +50,7 @@ https://vuetifyjs.com/en/components/app-bars/#dense
                 depressed
                 rounded
                 text
-                 @click="onClickLogout"
+                @click="onClickLogout"
               >
                 Disconnect
               </v-btn>
@@ -78,7 +78,10 @@ https://vuetifyjs.com/en/components/app-bars/#dense
         </v-list-item-avatar>
 
         <v-list-item-title>{{userInfo.username}}</v-list-item-title>
-        <v-icon color="red">mdi-access-point</v-icon>
+        <v-btn @click="move2Qna">
+        <v-icon color="red" v-if="nchQna.length>0">mdi-access-point</v-icon>
+        <v-icon colcr="grey" v-else-if="nchQna.length==0">mdi-access-point</v-icon>
+        </v-btn>
         <v-btn
           icon
           @click="drawer = !drawer"
@@ -124,6 +127,7 @@ https://vuetifyjs.com/en/components/app-bars/#dense
 <script>
 import { mapState, mapGetters, mapActions } from "vuex";
 const memberStore = "memberStore";
+const boardStore = "boardStore"
 export default {
   name: "HeaderNav",
   data() {
@@ -138,15 +142,47 @@ export default {
           { title: 'Notice', icon: 'mdi-bullhorn' , path:'/board/notice'},                    
         ],
         mini: true,
+        id:"",
     };
   },
   watch: {
     group() {
       this.drawer = false;
     },
+    id(){
+      if(this.userInfo!=null){
+      let tmp = this.userInfo;
+      this.id = tmp.userid; 
+      if(this.id==='admin'){
+        this.getManagerNotAnswer();
+      } else{
+        this.getUserNotCheck(this.id);
+      }    
+      }
+    },
+    check(){
+      if(this.userInfo){
+      let tmp = this.userInfo;
+      this.id = tmp.userid; 
+      if(this.id==='admin'){
+        this.getManagerNotAnswer();
+      } else{
+        this.getUserNotCheck(this.id);
+      }    
+      }
+    },
+
+
+  },
+  created(){
+    if(this.userInfo){
+    let tmp = this.userInfo;
+    this.id = tmp.userid;
+    }
   },
   computed: {
     ...mapState(memberStore, ["isLogin", "userInfo"]),
+    ...mapState(boardStore, ["nchQna","check"]),
     ...mapGetters(["checkUserInfo"]),
   },
   methods: {
@@ -175,7 +211,17 @@ export default {
     },
     move2MyPage() {
       console.log("move mypage");
-      this.$router.push({ name: "mypage" }).catch((error)=>{
+      var tab = 0
+      this.$router.push({ name: "mypage", params:{tab}}).catch((error)=>{
+        if(error.name !== 'NavigationDuplicated'){
+          this.$router.go(this.$router.currentRoute);
+        }
+      });
+    },
+        move2Qna() {
+      console.log("move mypage");
+      var tab = 1
+      this.$router.push({ name: "mypage", params:{tab}}).catch((error)=>{
         if(error.name !== 'NavigationDuplicated'){
           this.$router.go(this.$router.currentRoute);
         }
@@ -191,6 +237,7 @@ export default {
 
 
     ...mapActions(memberStore, ["userLogout"]),
+    ...mapActions(boardStore, [ "getUserNotCheck" ,"getManagerNotAnswer"]),
     // ...mapMutations(memberStore, ["SET_IS_LOGIN", "SET_USER_INFO"]),
     onClickLogout() {
       // this.SET_IS_LOGIN(false);

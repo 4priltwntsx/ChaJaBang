@@ -56,7 +56,8 @@ export default {
       this.$router.push({ name: "houseTable" });
       }
       else{
-        this.$router.push({ name: "mypage" });
+        var tab = 2
+        this.$router.push({ name: "mypage", params:{tab} });
         
       }
     },

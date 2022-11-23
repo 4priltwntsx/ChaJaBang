@@ -33,4 +33,7 @@ public interface QnaMapper {
 
 	// select one
 	public QnaDTO selectOne(int qno);
+
+	// update user check status
+	public int updateChck(int qno);
 }

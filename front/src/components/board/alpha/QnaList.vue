@@ -266,11 +266,13 @@ https://vuetifyjs.com/en/components/tabs/#icons-and-text
 
 <script>
 import { qModifyManager, qgetManagerNotAnswer, qgetManagerQna, qgetUserQna, qgetUserAnswered, qgetUserNotAnswer } from "@/api/board";
-import { mapState } from "vuex";
+import { mapActions, mapState, mapMutations } from "vuex";
 import { qRead, qDelete } from "@/api/board";
 const memberStore = "memberStore";
+const boardStore = "boardStore";
 
 export default {
+  name: "QnaList",
   data() {
     return {
       qno: "",
@@ -327,16 +329,24 @@ export default {
   },
   computed: {
     ...mapState(memberStore, ["userInfo"]),
+    ...mapMutations(boardStore, ["SET_CHECK_STATUS"]),
   },
   watch: {
     qna() {
       console.log("qna list qna watch");
     },
     allList() {},
-    complete() {},
+    complete() {      let tmp = this.userInfo;
+      this.id = tmp.userid; 
+      if(this.id==='admin'){
+        this.getManagerNotAnswer();
+      } else{
+        this.getUserNotCheck(this.id);
+      }    },
     notcomplete() {},
   },
   methods: {
+    ...mapActions(boardStore, ["getManagerNotAnswer","getUserNotCheck"]),
     init() {
       let _this = this;
       let id = _this.userInfo.userid;
@@ -427,6 +437,7 @@ export default {
           console.log("qna answer", error);
         }
       )
+      this.SET_CHECK_STATUS();
     },
   },
   filters: {

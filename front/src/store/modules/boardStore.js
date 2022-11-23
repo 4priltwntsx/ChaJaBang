@@ -9,6 +9,8 @@ import {
   bOrderList,
   bRead,
   bList,
+  qgetManagerNotAnswer,
+  qgetUserNotCheck,
 } from "@/api/board"
 
 const boardStore = {
@@ -21,7 +23,11 @@ const boardStore = {
     notice: null, // 공지사항 1개
     latest: [], // 최신글 4개
     comments: [], // 댓글 리스트
-    bno:"",
+    bno: "",
+    userid: "",
+    nchQna: [],
+    nonComplete: [],
+    check:"",
   },
   getter: {
     
@@ -60,6 +66,16 @@ const boardStore = {
     SET_BOARD_LIST(state, boards) {
       state.boardList = [];
       state.boardList = boards;
+    },
+
+    ////////////////////QNA ////////////////////////
+    SET_NCH_QNA_LIST(state, qnas) {
+      state.nchQna = [];
+      state.nchQna = qnas
+    },
+    SET_CHECK_STATUS(state) {
+      state.check = "";
+      state.check = "O";
     }
 
 
@@ -149,8 +165,37 @@ const boardStore = {
           console.log(error);
         }
       )
-    }
+    },
+      ////////////////// QNA ///////////////////////
+    getUserNotCheck({ commit }, userid) {
+      this.userid = userid;
+      const param = userid;
+      qgetUserNotCheck(
+        param,
+        ({ data }) => {
+          commit("SET_NCH_QNA_LIST", data)
+          console.log("non-check lsit: ", data);
+        },
+        (error) => {
+          console.log(error);
+        }
+      )
+    },
+    getManagerNotAnswer({ commit }) {
+      qgetManagerNotAnswer(
+        ({ data }) => {
+          commit("SET_NCH_QNA_LIST", data)
+          console.log("non-check lsit: ", data);
+
+        },
+        (error) => {
+          console.log(error);
+        }
+      )
+    },
+
   },
+
 
 };
 

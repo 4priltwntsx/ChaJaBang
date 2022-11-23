@@ -107,7 +107,20 @@ public class QnaController {
 	// select one
 	@GetMapping("/one/{qno}")
 	public ResponseEntity<?> getQna(@PathVariable("qno") int qno) {
-		return new ResponseEntity<>(service.getQna(qno), HttpStatus.ACCEPTED);
+		QnaDTO cur = service.getQna(qno);
+		if(cur!=null) {
+			if(!cur.isAnswered()) {
+				return new ResponseEntity<>(cur, HttpStatus.ACCEPTED);
+			}else {
+				service.updateChck(qno);
+				return new ResponseEntity<>(cur, HttpStatus.ACCEPTED);
+			}
+		}
+		
+		return new ResponseEntity<>(cur, HttpStatus.ACCEPTED);
 
 	}
+	
+	
+	
 }

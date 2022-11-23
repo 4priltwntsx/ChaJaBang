@@ -80,4 +80,10 @@ public class QnaService {
 		public QnaDTO getQna(int qno) {
 			return qdao.selectOne(qno);
 		}
+		
+		// update user check status
+		public boolean updateChck(int qno) {
+			if(qdao.updateChck(qno)==1) return true;
+			else return false;
+		}
 }

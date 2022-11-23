@@ -75,6 +75,10 @@ export default {
     // QnaDetail,
     UserInterest,
   },
+  mounted(){
+    this.tab = this.$route.params.tab;
+
+  }
 };
 </script>
 

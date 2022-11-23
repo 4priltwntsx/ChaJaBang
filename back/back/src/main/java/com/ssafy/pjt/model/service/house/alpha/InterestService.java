@@ -1,5 +1,6 @@
 package com.ssafy.pjt.model.service.house.alpha;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +39,7 @@ public class InterestService {
 		return idao.selectCount(aptcode);
 	}
 	
-	public String getInterestId(long aptcode) {
+	public List<String> getInterestId(long aptcode) {
 		return idao.getId(aptcode);
 	}
 }

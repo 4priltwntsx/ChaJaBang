@@ -71,7 +71,7 @@ export default {
     ...mapState(memberStore, ["isLogin", "isLoginError", "userInfo"]),
   },
   methods: {
-    ...mapActions(memberStore, ["userConfirm", "getUserInfo"]),
+    ...mapActions(memberStore, ["userConfirm", "getUserInfo", "getUserNotCheck" ,"getManagerNotAnswer"]),
     async confirm() {
       await this.userConfirm(this.user);
       let token = sessionStorage.getItem("access-token");
@@ -79,6 +79,8 @@ export default {
       if (this.isLogin) {
         await this.getUserInfo(token);
         // console.log("4. confirm() userInfo :: ", this.userInfo);
+
+
         this.$router.push({ name: "main" });
       }
     },

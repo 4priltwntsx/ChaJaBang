@@ -111,7 +111,7 @@ function qgetUserQna(userid, success, fail) {
   http.get(`/qna/${userid}`).then(success).catch(fail);
 }
 
-// qna getUserNotCheck
+// qna getUserNotCheck 
 function qgetUserNotCheck(userid, success, fail) {
   http.get(`/qna/nchk/${userid}`).then(success).catch(fail);
 }

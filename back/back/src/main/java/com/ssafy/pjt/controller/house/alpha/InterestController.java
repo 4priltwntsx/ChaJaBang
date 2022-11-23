@@ -1,5 +1,6 @@
 package com.ssafy.pjt.controller.house.alpha;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,9 +28,12 @@ public class InterestController {
 	@PostMapping()
 	public ResponseEntity<?> interest(@RequestBody InterestDTO interest) {
 		System.out.println("!!!!!!!!!!!!!!!"+interest);
+		
 		System.out.println(service.getInterestId(interest.getAptcode()));
 		System.out.println("인터레스트 이벤트 누른 사람:" + interest.getUserid());
-		if(service.getInterestId(interest.getAptcode()) != interest.getUserid()) {
+		List<String> userList = service.getInterestId(interest.getAptcode());
+		
+		if(!userList.contains(interest.getUserid())) {
 			if (service.interest(interest)) {
 				return new ResponseEntity<String>("interest success!!", HttpStatus.ACCEPTED);
 			}else {
@@ -59,8 +63,8 @@ public class InterestController {
 		return new ResponseEntity<Integer>(service.getCount(aptcode), HttpStatus.ACCEPTED);
 	}
 	
-	@GetMapping("/find/{aptcode}")
-	public ResponseEntity<?> getId(@PathVariable("aptcode") long aptcode) {
-		return new ResponseEntity<String>(service.getInterestId(aptcode), HttpStatus.ACCEPTED);
-	}
+//	@GetMapping("/find/{aptcode}")
+//	public ResponseEntity<?> getId(@PathVariable("aptcode") long aptcode) {
+//		return new ResponseEntity<String>(service.getInterestId(aptcode), HttpStatus.ACCEPTED);
+//	}
 }

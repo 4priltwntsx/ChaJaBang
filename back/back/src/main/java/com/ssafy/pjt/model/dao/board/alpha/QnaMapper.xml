@@ -19,6 +19,10 @@ UPDATE QNA SET QTITLE = #{qtitle}, QCONTENT =#{qcontent} WHERE QNO = #{qno}
 UPDATE QNA SET ACONTENT=#{acontent}, IS_ANSWERED=1, IS_CHECKED=0, AWRITE_DATE=now()  WHERE QNO=#{qno};
 </update>
 
+<update id="updateChck" parameterType="int">
+	UPDATE QNA SET IS_CHECKED=1 WHERE QNO = #{qno};
+</update>
+
 
 <resultMap type = "QnaDTO" id= "Qna">
 	<result column="qwrite_date" property="qwriteDate"/>
