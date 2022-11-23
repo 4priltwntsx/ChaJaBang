@@ -4,10 +4,7 @@
     <h5>건축년도 : {{ house.buildYear }}</h5>
     <div ref="map" class="map_wrap">
       <div ref="overlay"></div>
-      <div
-        id="map"
-        style="width: 100%; height: 100%; position: relative; overflow: hidden"
-      ></div>
+      <div id="map" style="width: 100%; height: 100%; position: relative; overflow: hidden"></div>
     </div>
     <v-row>
       <v-col>
@@ -22,9 +19,7 @@
                   <v-btn small @click="clickBicycle">자전거도로</v-btn></v-col
                 >
                 <v-col cols="12" sm="3"> </v-col>
-                <v-col cols="12" sm="3">
-                  <v-btn small @click="removeMarker">마커X</v-btn></v-col
-                >
+                <v-col cols="12" sm="3"> <v-btn small @click="removeMarker">마커X</v-btn></v-col>
               </v-row>
             </v-toolbar-title>
             <template v-slot:extension>
@@ -73,14 +68,10 @@
                       ><v-btn @click="categoryFacility('PM9')">약국</v-btn>
                     </v-col>
                     <v-col cols="12" sm="4" md="4"
-                      ><v-btn @click="keywordFacility('올리브영')"
-                        >올리브영</v-btn
-                      >
+                      ><v-btn @click="keywordFacility('올리브영')">올리브영</v-btn>
                     </v-col>
                     <v-col cols="12" sm="4" md="4"
-                      ><v-btn @click="keywordFacility('스타벅스')"
-                        >스타벅스</v-btn
-                      >
+                      ><v-btn @click="keywordFacility('스타벅스')">스타벅스</v-btn>
                     </v-col>
                     <v-col cols="12" sm="4" md="4"
                       ><v-btn @click="keywordFacility('헬스장')">헬스장</v-btn>
@@ -103,26 +94,14 @@
                   <v-row v-if="checkedTypes.includes('pet')">
                     <v-col cols="12"> <v-divider></v-divider> </v-col>
                     <v-col cols="12"><h3>반려동물</h3></v-col>
-                    <v-col
-                      cols="12"
-                      sm="4"
-                      md="4"
-                      v-model="keywordList['동물병원']"
-                      ><v-btn @click="keywordFacility('동물병원')"
-                        >동물병원</v-btn
-                      >
+                    <v-col cols="12" sm="4" md="4" v-model="keywordList['동물병원']"
+                      ><v-btn @click="keywordFacility('동물병원')">동물병원</v-btn>
                     </v-col>
                     <v-col cols="12" sm="4" md="4" v-model="keywordList['공원']"
                       ><v-btn @click="keywordFacility('공원')">공원</v-btn>
                     </v-col>
-                    <v-col
-                      cols="12"
-                      sm="4"
-                      md="4"
-                      v-model="keywordList['반려동물용품점']"
-                      ><v-btn @click="keywordFacility('반려동물용품점')"
-                        >반려동물용품점</v-btn
-                      >
+                    <v-col cols="12" sm="4" md="4" v-model="keywordList['반려동물용품점']"
+                      ><v-btn @click="keywordFacility('반려동물용품점')">반려동물용품점</v-btn>
                     </v-col>
                   </v-row>
                 </v-container>
@@ -148,11 +127,7 @@
                 <v-container>
                   <v-row>
                     <v-col cols="12">
-                      <v-simple-table
-                        fixed-header
-                        max-width="580"
-                        min-height="350"
-                      >
+                      <v-simple-table fixed-header max-width="580" min-height="350">
                         <template v-slot:default>
                           <thead>
                             <tr>
@@ -166,10 +141,10 @@
                           <tbody>
                             <tr v-for="item in freResult" :key="item.nickname">
                               <td>{{ item.nickname }}</td>
-                              <td>{{ item.summary.distance }}</td>
-                              <td>{{ item.summary.duration }}</td>
+                              <td>{{ item.summary.distance | distance }}</td>
+                              <td>{{ item.summary.duration | time }}</td>
                               <td>{{ item.summary.departureTime }}</td>
-                              <td>{{ item.summary.taxiFare }}</td>
+                              <td>{{ item.summary.taxiFare }}원</td>
                             </tr>
                           </tbody>
                         </template>
@@ -187,9 +162,7 @@
                     <v-col cols="12" v-if="searchData != null">
                       <v-list-item two-line>
                         <v-list-item-content>
-                          <v-list-item-title>{{
-                            searchData.message
-                          }}</v-list-item-title>
+                          <v-list-item-title>{{ searchData.message }}</v-list-item-title>
                           <v-list-item-subtitle>{{
                             searchData.currentDateTime
                           }}</v-list-item-subtitle>
@@ -208,13 +181,10 @@
                                 </tr>
                               </thead>
                               <tbody>
-                                <tr
-                                  v-for="(item, idx) in searchRoute.guide"
-                                  :key="idx"
-                                >
+                                <tr v-for="(item, idx) in searchRoute.guide" :key="idx">
                                   <td>{{ item.instructions }}</td>
-                                  <td>{{ item.distance }}</td>
-                                  <td>{{ item.duration }}초</td>
+                                  <td>{{ item.distance | distance }}</td>
+                                  <td>{{ item.duration | time }}</td>
                                 </tr>
                               </tbody>
                             </template>
@@ -233,7 +203,7 @@
                         <v-list-item-content>
                           <v-list-item-title>총 이동 거리</v-list-item-title>
                           <v-list-item-subtitle>
-                            {{ searchRoute.summary.distance }}
+                            {{ searchRoute.summary.distance | distance }}
                           </v-list-item-subtitle>
                         </v-list-item-content>
                       </v-list-item>
@@ -241,7 +211,7 @@
                         <v-list-item-content>
                           <v-list-item-title>예상 소요 시간</v-list-item-title>
                           <v-list-item-subtitle>
-                            {{ searchRoute.summary.duration }}
+                            {{ searchRoute.summary.duration | time }}
                           </v-list-item-subtitle>
                         </v-list-item-content>
                       </v-list-item>
@@ -249,7 +219,7 @@
                         <v-list-item-content>
                           <v-list-item-title>예상 유류비</v-list-item-title>
                           <v-list-item-subtitle>
-                            {{ searchRoute.summary.fuelPrice }}
+                            {{ searchRoute.summary.fuelPrice }}원
                           </v-list-item-subtitle>
                         </v-list-item-content>
                       </v-list-item>
@@ -257,7 +227,7 @@
                         <v-list-item-content>
                           <v-list-item-title>예상 택시비</v-list-item-title>
                           <v-list-item-subtitle>
-                            {{ searchRoute.summary.taxiFare }}
+                            {{ searchRoute.summary.taxiFare }}원
                           </v-list-item-subtitle>
                         </v-list-item-content>
                       </v-list-item>
@@ -369,11 +339,7 @@ export default {
 
       this.homeSize = new kakao.maps.Size(50, 50);
       this.homeOption = { offset: new kakao.maps.Point(18, 50) };
-      this.homeImg = new kakao.maps.MarkerImage(
-        this.homeSrc,
-        this.homeSize,
-        this.homeOption
-      );
+      this.homeImg = new kakao.maps.MarkerImage(this.homeSrc, this.homeSize, this.homeOption);
 
       // start marker 띄우기
       this.startLatlng = new kakao.maps.LatLng(this.house.lat, this.house.lng);
@@ -411,9 +377,6 @@ export default {
 
     // 카테고리 검색을 요청하는 함수입니다
     categorySearchPlaces(category) {
-      // 지도에 표시되고 있는 마커를 제거합니다
-      // this.removeMarker();
-
       let _this = this;
       this.ps.categorySearch(
         category,
@@ -430,10 +393,7 @@ export default {
         },
         {
           // Map 객체를 지정하지 않았으므로 좌표객체를 생성하여 넘겨준다.
-          location: new window.kakao.maps.LatLng(
-            _this.startLatlng.Ma,
-            _this.startLatlng.La
-          ),
+          location: new window.kakao.maps.LatLng(_this.startLatlng.Ma, _this.startLatlng.La),
           useMapCenter: false,
           radius: 500,
         }
@@ -460,10 +420,7 @@ export default {
         },
         {
           // Map 객체를 지정하지 않았으므로 좌표객체를 생성하여 넘겨준다.
-          location: new window.kakao.maps.LatLng(
-            _this.startLatlng.Ma,
-            _this.startLatlng.La
-          ),
+          location: new window.kakao.maps.LatLng(_this.startLatlng.Ma, _this.startLatlng.La),
           useMapCenter: false,
           radius: 500,
         }
@@ -594,11 +551,7 @@ export default {
       this.freResult = tempList;
     },
     async getSearch() {
-      this.searchData = await this.getDir(
-        this.goalLatlng,
-        this.checkedFuel,
-        this.checkedOpt
-      );
+      this.searchData = await this.getDir(this.goalLatlng, this.checkedFuel, this.checkedOpt);
       console.log("searchData keys", Object.keys(this.searchData.route));
       let key = Object.keys(this.searchData.route);
       this.searchRoute = this.searchData.route[key][0];
@@ -608,16 +561,12 @@ export default {
       if (!this.isTraffic) {
         console.log("addTraffic click");
         // 지도에 교통정보를 표시하도록 지도타입을 추가합니다
-        this.mapInstance.addOverlayMapTypeId(
-          window.kakao.maps.MapTypeId.TRAFFIC
-        );
+        this.mapInstance.addOverlayMapTypeId(window.kakao.maps.MapTypeId.TRAFFIC);
         this.isTraffic = true;
       } else {
         console.log("removeTraffic click");
         //교통정보 지도타입을 제거합니다
-        this.mapInstance.removeOverlayMapTypeId(
-          window.kakao.maps.MapTypeId.TRAFFIC
-        );
+        this.mapInstance.removeOverlayMapTypeId(window.kakao.maps.MapTypeId.TRAFFIC);
         this.isTraffic = false;
       }
     },
@@ -625,18 +574,25 @@ export default {
       if (!this.isBicycle) {
         console.log("addBicycle click");
         // 지도에 자전거도로를 표시하도록 지도타입을 추가합니다
-        this.mapInstance.addOverlayMapTypeId(
-          window.kakao.maps.MapTypeId.BICYCLE
-        );
+        this.mapInstance.addOverlayMapTypeId(window.kakao.maps.MapTypeId.BICYCLE);
         this.isBicycle = true;
       } else {
         console.log("removeBicycle click");
         //자전거 지도타입을 제거합니다
-        this.mapInstance.removeOverlayMapTypeId(
-          window.kakao.maps.MapTypeId.BICYCLE
-        );
+        this.mapInstance.removeOverlayMapTypeId(window.kakao.maps.MapTypeId.BICYCLE);
         this.isBicycle = false;
       }
+    },
+  },
+  filters: {
+    time: function (value) {
+      let svalue = value / 1000;
+      svalue /= 60;
+      return Math.ceil(svalue) + "분";
+    },
+    distance: function (value) {
+      let temp = Math.ceil(value / 100);
+      return temp / 10 + "km";
     },
   },
 };
