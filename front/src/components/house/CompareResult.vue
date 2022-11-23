@@ -86,7 +86,7 @@
                       ><v-btn @click="categoryFacility('PK6')">주차장</v-btn>
                     </v-col>
                     <v-col cols="12" sm="6" md="6" v-model="categoryList['OL7']"
-                      ><v-btn @click="categoryFacility('OL7')">주차장</v-btn>
+                      ><v-btn @click="categoryFacility('OL7')">주유소</v-btn>
                     </v-col>
                   </v-row>
                 </v-container>
@@ -588,7 +588,7 @@ export default {
     time: function (value) {
       let svalue = value / 1000;
       svalue /= 60;
-      return Math.ceil(svalue) + "분";
+      return "약 " + Math.ceil(svalue) + "분";
     },
     distance: function (value) {
       let temp = Math.ceil(value / 100);
