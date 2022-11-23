@@ -4,12 +4,22 @@
     <h5>건축년도 : {{ house.buildYear }}</h5>
     <div ref="map" class="map_wrap">
       <div ref="overlay"></div>
-      <div id="map" style="width: 100%; height: 100%; position: relative; overflow: hidden"></div>
+      <div
+        id="map"
+        style="width: 100%; height: 100%; position: relative; overflow: hidden"
+      ></div>
     </div>
     <v-row>
       <v-col>
         <v-card>
           <v-toolbar color="white" flat>
+            <v-toolbar-title>
+              <v-row>
+                <v-btn @click="clickTraffic">교통 정보 </v-btn>
+
+                <v-btn @click="clickBicycle">자전거도로</v-btn>
+              </v-row>
+            </v-toolbar-title>
             <template v-slot:extension>
               <v-tabs v-model="tab" align-with-title color="indigo lighten-2">
                 <v-tabs-slider color="indigo lighten-2"></v-tabs-slider>
@@ -28,32 +38,45 @@
                   <v-row>
                     <v-col cols="12"> <v-divider></v-divider> </v-col>
                     <v-col cols="12"><h3>주변 편의 시설</h3></v-col>
-                    <v-col cols="12" sm="4" md="4" v-model="storeList['MT1']"
-                      ><v-btn @click="facilityMarkers('MT1')">대형마트</v-btn>
+                    <v-col cols="12" sm="4" md="4" v-model="categoryList['MT1']"
+                      ><v-btn @click="categoryFacility('MT1')">대형마트</v-btn>
                     </v-col>
-                    <v-col cols="12" sm="4" md="4" v-model="storeList['CS2']"
-                      ><v-btn @click="facilityMarkers('CS2')">편의점</v-btn>
+                    <v-col cols="12" sm="4" md="4" v-model="categoryList['CS2']"
+                      ><v-btn @click="categoryFacility('CS2')">편의점</v-btn>
                     </v-col>
-                    <v-col cols="12" sm="4" md="4" v-model="storeList['BK9']"
-                      ><v-btn @click="facilityMarkers('BK9')">은행</v-btn>
+                    <v-col cols="12" sm="4" md="4" v-model="categoryList['BK9']"
+                      ><v-btn @click="categoryFacility('BK9')">은행</v-btn>
                     </v-col>
-                    <v-col cols="12" sm="4" md="4" v-model="storeList['CT1']"
-                      ><v-btn @click="facilityMarkers('CT1')">문화시설</v-btn>
+                    <v-col cols="12" sm="4" md="4" v-model="categoryList['CT1']"
+                      ><v-btn @click="categoryFacility('CT1')">문화시설</v-btn>
                     </v-col>
-                    <v-col cols="12" sm="4" md="4" v-model="storeList['PO3']"
-                      ><v-btn @click="facilityMarkers('PO3')">공공기관</v-btn>
+                    <v-col cols="12" sm="4" md="4" v-model="categoryList['PO3']"
+                      ><v-btn @click="categoryFacility('PO3')">공공기관</v-btn>
                     </v-col>
-                    <v-col cols="12" sm="4" md="4" v-model="storeList['FD6']"
-                      ><v-btn @click="facilityMarkers('FD6')">음식점</v-btn>
+                    <v-col cols="12" sm="4" md="4" v-model="categoryList['FD6']"
+                      ><v-btn @click="categoryFacility('FD6')">음식점</v-btn>
                     </v-col>
-                    <v-col cols="12" sm="4" md="4" v-model="storeList['CE7']"
-                      ><v-btn @click="facilityMarkers('CE7')">카페</v-btn>
+                    <v-col cols="12" sm="4" md="4" v-model="categoryList['CE7']"
+                      ><v-btn @click="categoryFacility('CE7')">카페</v-btn>
                     </v-col>
-                    <v-col cols="12" sm="4" md="4" v-model="storeList['HP8']"
-                      ><v-btn @click="facilityMarkers('HP8')">병원</v-btn>
+                    <v-col cols="12" sm="4" md="4" v-model="categoryList['HP8']"
+                      ><v-btn @click="categoryFacility('HP8')">병원</v-btn>
                     </v-col>
-                    <v-col cols="12" sm="4" md="4" v-model="storeList['PM9']"
-                      ><v-btn @click="facilityMarkers('PM9')">약국</v-btn>
+                    <v-col cols="12" sm="4" md="4" v-model="categoryList['PM9']"
+                      ><v-btn @click="categoryFacility('PM9')">약국</v-btn>
+                    </v-col>
+                    <v-col cols="12" sm="4" md="4"
+                      ><v-btn @click="keywordFacility('올리브영')"
+                        >올리브영</v-btn
+                      >
+                    </v-col>
+                    <v-col cols="12" sm="4" md="4"
+                      ><v-btn @click="keywordFacility('스타벅스')"
+                        >스타벅스</v-btn
+                      >
+                    </v-col>
+                    <v-col cols="12" sm="4" md="4"
+                      ><v-btn @click="keywordFacility('헬스장')">헬스장</v-btn>
                     </v-col>
                   </v-row>
                 </v-container>
@@ -61,11 +84,38 @@
                   <v-row v-if="checkedTypes.includes('car')">
                     <v-col cols="12"> <v-divider></v-divider> </v-col>
                     <v-col cols="12"><h3>자동차</h3></v-col>
-                    <v-col cols="12" sm="6" md="6" v-model="storeList['PK6']"
-                      ><v-btn @click="facilityMarkers('PK6')">주차장</v-btn>
+                    <v-col cols="12" sm="6" md="6" v-model="categoryList['PK6']"
+                      ><v-btn @click="categoryFacility('PK6')">주차장</v-btn>
                     </v-col>
-                    <v-col cols="12" sm="6" md="6" v-model="storeList['OL7']"
-                      ><v-btn @click="facilityMarkers('OL7')">주차장</v-btn>
+                    <v-col cols="12" sm="6" md="6" v-model="categoryList['OL7']"
+                      ><v-btn @click="categoryFacility('OL7')">주차장</v-btn>
+                    </v-col>
+                  </v-row>
+                </v-container>
+                <v-container fluid>
+                  <v-row v-if="checkedTypes.includes('pet')">
+                    <v-col cols="12"> <v-divider></v-divider> </v-col>
+                    <v-col cols="12"><h3>반려동물</h3></v-col>
+                    <v-col
+                      cols="12"
+                      sm="4"
+                      md="4"
+                      v-model="keywordList['동물병원']"
+                      ><v-btn @click="keywordFacility('동물병원')"
+                        >동물병원</v-btn
+                      >
+                    </v-col>
+                    <v-col cols="12" sm="4" md="4" v-model="keywordList['공원']"
+                      ><v-btn @click="keywordFacility('공원')">공원</v-btn>
+                    </v-col>
+                    <v-col
+                      cols="12"
+                      sm="4"
+                      md="4"
+                      v-model="keywordList['반려동물용품점']"
+                      ><v-btn @click="keywordFacility('반려동물용품점')"
+                        >반려동물용품점</v-btn
+                      >
                     </v-col>
                   </v-row>
                 </v-container>
@@ -73,14 +123,14 @@
                   <v-row v-if="checkedTypes.includes('baby')">
                     <v-col cols="12"> <v-divider></v-divider> </v-col>
                     <v-col cols="12"><h3>아이</h3></v-col>
-                    <v-col cols="12" sm="4" md="4" v-model="storeList['PS3']"
-                      ><v-btn @click="facilityMarkers('PS3')">유치원</v-btn>
+                    <v-col cols="12" sm="4" md="4" v-model="categoryList['PS3']"
+                      ><v-btn @click="categoryFacility('PS3')">유치원</v-btn>
                     </v-col>
-                    <v-col cols="12" sm="4" md="4" v-model="storeList['SC4']"
-                      ><v-btn @click="facilityMarkers('SC4')">학교</v-btn>
+                    <v-col cols="12" sm="4" md="4" v-model="categoryList['SC4']"
+                      ><v-btn @click="categoryFacility('SC4')">학교</v-btn>
                     </v-col>
-                    <v-col cols="12" sm="4" md="4" v-model="storeList['AC5']"
-                      ><v-btn @click="facilityMarkers('AC5')">학원</v-btn>
+                    <v-col cols="12" sm="4" md="4" v-model="categoryList['AC5']"
+                      ><v-btn @click="categoryFacility('AC5')">학원</v-btn>
                     </v-col>
                   </v-row>
                 </v-container>
@@ -91,7 +141,11 @@
                 <v-container>
                   <v-row>
                     <v-col cols="12">
-                      <v-simple-table fixed-header max-width="580" min-height="350">
+                      <v-simple-table
+                        fixed-header
+                        max-width="580"
+                        min-height="350"
+                      >
                         <template v-slot:default>
                           <thead>
                             <tr>
@@ -123,11 +177,12 @@
                 <v-container fluid>
                   <v-row>
                     <v-col cols="12"> <v-divider></v-divider> </v-col>
-                    <div>셀렉트 박스 체크된 거 가지고 길찾기 하기~~!</div>
                     <v-col cols="12" v-if="searchData != null">
                       <v-list-item two-line>
                         <v-list-item-content>
-                          <v-list-item-title>{{ searchData.message }}</v-list-item-title>
+                          <v-list-item-title>{{
+                            searchData.message
+                          }}</v-list-item-title>
                           <v-list-item-subtitle>{{
                             searchData.currentDateTime
                           }}</v-list-item-subtitle>
@@ -146,7 +201,10 @@
                                 </tr>
                               </thead>
                               <tbody>
-                                <tr v-for="(item, idx) in searchRoute.guide" :key="idx">
+                                <tr
+                                  v-for="(item, idx) in searchRoute.guide"
+                                  :key="idx"
+                                >
                                   <td>{{ item.instructions }}</td>
                                   <td>{{ item.distance }}</td>
                                   <td>{{ item.duration }}초</td>
@@ -226,11 +284,16 @@ export default {
       startLatlng: null,
       goal: null,
 
+      //교통정보, 자전거도로정보
+      isTraffic: false,
+      isBicycle: false,
+
       // 길찾기 결과
       searchData: null,
       searchRoute: null,
 
-      storeList: {},
+      keywordList: {},
+      categoryList: {},
       // 자주 가는 곳과 현재 아파트 위치와의 비교
       freResult: [],
     };
@@ -263,6 +326,7 @@ export default {
       this.getSearch();
     },
     house() {
+      console.log("house watch");
       let kakao = window.kakao;
 
       var container = this.$refs.map;
@@ -294,9 +358,14 @@ export default {
       // 지도에 클릭 이벤트를 등록합니다
       // 지도를 클릭하면 마지막 파라미터로 넘어온 함수를 호출합니다
       let _this = this;
-      new kakao.maps.event.addListener(this.mapInstance, "click", function (mouseEvent) {
+      new kakao.maps.event.addListener(this.mapInstance, "click", function (
+        mouseEvent
+      ) {
         // 클릭한 위도, 경도 정보를 가져옵니다
-        let latlng = new kakao.maps.LatLng(mouseEvent.latLng.getLat(), mouseEvent.latLng.getLng());
+        let latlng = new kakao.maps.LatLng(
+          mouseEvent.latLng.getLat(),
+          mouseEvent.latLng.getLng()
+        );
         _this.goalLatlng = latlng;
         if (_this.goal != null) {
           _this.removeMarker();
@@ -325,7 +394,7 @@ export default {
       this.$router.push({ name: "houseTable" });
     },
     // 카테고리 검색을 요청하는 함수입니다
-    searchPlaces(category) {
+    categorySearchPlaces(category) {
       // 지도에 표시되고 있는 마커를 제거합니다
       // this.removeMarker();
 
@@ -336,9 +405,7 @@ export default {
           if (status === window.kakao.maps.services.Status.OK) {
             // console.log(result);
             // console.log("category", category);
-            _this.storeList[category] = result;
-            _this.storeListCnt[category] = result.length;
-            // console.log("storeList", _this.storeList);
+            _this.categoryList[category] = result;
             return result;
           } else {
             console.log(status);
@@ -347,7 +414,40 @@ export default {
         },
         {
           // Map 객체를 지정하지 않았으므로 좌표객체를 생성하여 넘겨준다.
-          location: new window.kakao.maps.LatLng(_this.startLatlng.Ma, _this.startLatlng.La),
+          location: new window.kakao.maps.LatLng(
+            _this.startLatlng.Ma,
+            _this.startLatlng.La
+          ),
+          useMapCenter: false,
+          radius: 500,
+        }
+      );
+    },
+    // 키워드 검색을 요청하는 함수입니다
+    keywordSearchPlaces(keyword) {
+      // 지도에 표시되고 있는 마커를 제거합니다
+      // this.removeMarker();
+
+      let _this = this;
+      this.ps.keywordSearch(
+        keyword,
+        (result, status) => {
+          if (status === window.kakao.maps.services.Status.OK) {
+            // console.log(result);
+            // console.log("category", category);
+            _this.keywordList[keyword] = result;
+            return result;
+          } else {
+            console.log(status);
+            // console.log("category", category);
+          }
+        },
+        {
+          // Map 객체를 지정하지 않았으므로 좌표객체를 생성하여 넘겨준다.
+          location: new window.kakao.maps.LatLng(
+            _this.startLatlng.Ma,
+            _this.startLatlng.La
+          ),
           useMapCenter: false,
           radius: 500,
         }
@@ -356,51 +456,71 @@ export default {
 
     checkedCar() {
       //주차장
-      this.searchPlaces("PK6");
+      this.categorySearchPlaces("PK6");
       //주유소
-      this.searchPlaces("OL7");
+      this.categorySearchPlaces("OL7");
     },
     uncheckedCar() {
       //지하철역
-      this.searchPlaces("SW8");
+      this.categorySearchPlaces("SW8");
     },
     checkedBicycle() {},
-    checkedPet() {},
+    checkedPet() {
+      // 동물병원
+      this.keywordSearchPlaces("동물병원");
+      // 공원
+      this.keywordSearchPlaces("공원");
+      // 반려동물용품점
+      this.keywordSearchPlaces("반려동물용품점");
+    },
     checkedBaby() {
       //유치원 어린이집
-      this.searchPlaces("PS3");
+      this.categorySearchPlaces("PS3");
       //학교
-      this.searchPlaces("SC4");
+      this.categorySearchPlaces("SC4");
       //학원
-      this.searchPlaces("AC5");
+      this.categorySearchPlaces("AC5");
     },
     facility() {
       //대형마트
-      this.searchPlaces("MT1");
+      this.categorySearchPlaces("MT1");
       //편의점
-      this.searchPlaces("CS2");
+      this.categorySearchPlaces("CS2");
       //은행
-      this.searchPlaces("BK9");
+      this.categorySearchPlaces("BK9");
       //문화시설
-      this.searchPlaces("CT1");
+      this.categorySearchPlaces("CT1");
       //공공기관
-      this.searchPlaces("PO3");
+      this.categorySearchPlaces("PO3");
       //음식점
-      this.searchPlaces("FD6");
+      this.categorySearchPlaces("FD6");
       //카페
-      this.searchPlaces("CE7");
+      this.categorySearchPlaces("CE7");
       //병원
-      this.searchPlaces("HP8");
+      this.categorySearchPlaces("HP8");
       //약국
-      this.searchPlaces("PM9");
+      this.categorySearchPlaces("PM9");
+      //올리브영
+      this.keywordSearchPlaces("올리브영");
+      //스타벅스
+      this.keywordSearchPlaces("스타벅스");
+      //헬스장
+      this.keywordSearchPlaces("헬스장");
     },
 
     // 편의 시설
-    facilityMarkers(keyword) {
-      if (this.storeList[keyword] == undefined) {
-        console.log(keyword, "undefined");
+    categoryFacility(category) {
+      if (this.categoryList[category] == undefined) {
+        alert("반경 500m 내에 해당 시설이 없어요 (๑•́ㅿ•̀๑) ᔆᵒʳʳᵞ");
       } else {
-        console.log(keyword, this.storeList[keyword]);
+        console.log(category, this.categoryList[category]);
+      }
+    },
+    keywordFacility(keyword) {
+      if (this.keywordList[keyword] == undefined) {
+        alert("반경 500m 내에 해당 시설이 없어요 (๑•́ㅿ•̀๑) ᔆᵒʳʳᵞ");
+      } else {
+        console.log(keyword, this.keywordList[keyword]);
       }
     },
 
@@ -434,11 +554,49 @@ export default {
       this.freResult = tempList;
     },
     async getSearch() {
-      this.searchData = await this.getDir(this.goalLatlng, this.checkedFuel, this.checkedOpt);
+      this.searchData = await this.getDir(
+        this.goalLatlng,
+        this.checkedFuel,
+        this.checkedOpt
+      );
       console.log("searchData keys", Object.keys(this.searchData.route));
       let key = Object.keys(this.searchData.route);
       this.searchRoute = this.searchData.route[key][0];
       console.log("searchRoute", this.searchRoute);
+    },
+    clickTraffic() {
+      if (!this.isTraffic) {
+        console.log("addTraffic click");
+        // 지도에 교통정보를 표시하도록 지도타입을 추가합니다
+        this.mapInstance.addOverlayMapTypeId(
+          window.kakao.maps.MapTypeId.TRAFFIC
+        );
+        this.isTraffic = true;
+      } else {
+        console.log("removeTraffic click");
+        //교통정보 지도타입을 제거합니다
+        this.mapInstance.removeOverlayMapTypeId(
+          window.kakao.maps.MapTypeId.TRAFFIC
+        );
+        this.isTraffic = false;
+      }
+    },
+    clickBicycle() {
+      if (!this.isBicycle) {
+        console.log("addBicycle click");
+        // 지도에 자전거도로를 표시하도록 지도타입을 추가합니다
+        this.mapInstance.addOverlayMapTypeId(
+          window.kakao.maps.MapTypeId.BICYCLE
+        );
+        this.isBicycle = true;
+      } else {
+        console.log("removeBicycle click");
+        //자전거 지도타입을 제거합니다
+        this.mapInstance.removeOverlayMapTypeId(
+          window.kakao.maps.MapTypeId.BICYCLE
+        );
+        this.isBicycle = false;
+      }
     },
   },
 
