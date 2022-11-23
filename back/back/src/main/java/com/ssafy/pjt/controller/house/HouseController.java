@@ -52,6 +52,16 @@ public class HouseController {
 		}
 	}
 	
+	@GetMapping("/code/{sido}/{gugun}")
+	public ResponseEntity<?> getSidoGugun(@PathVariable("sido") String sido, @PathVariable("gugun") String gugun) {
+		String str = hservice.getSidoGugun(sido, gugun);
+		if (str == null) {
+			return new ResponseEntity<String>("fail", HttpStatus.BAD_REQUEST);
+		} else {
+			return new ResponseEntity<String>(str, HttpStatus.ACCEPTED);
+		}
+	}
+	
 	@GetMapping("/{sido}/{gugun}/{dong}")
 	public ResponseEntity<?> dongHouse(@PathVariable("sido") String sido, @PathVariable("gugun") String gugun, @PathVariable("dong") String dong) {
 		String code = hservice.getCode(sido, gugun, dong);

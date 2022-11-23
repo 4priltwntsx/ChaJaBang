@@ -51,5 +51,9 @@
 	<select id="selectDongCodes" resultType="String">
 		select dongcode from dongcode where sidoname = #{sido} and gugunname= #{gugun} and dongname = #{dong}
 	</select>
+	
+	<select id="selectSidoGugunCode" resultType="String">
+		select dongCode from dongcode where sidoName=#{sido} and gugunName=#{gugun} and dongName is null
+	</select>
 
 </mapper>

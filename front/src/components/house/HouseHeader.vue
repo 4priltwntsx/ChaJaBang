@@ -1,5 +1,9 @@
 <template>
-  <v-card style="text-align: center" title="House! 🎉" class="position-relative">
+  <v-card
+    style="text-align: center"
+    title="House! 🎉"
+    class="position-relative"
+  >
     <v-card-text>
       <h1 style="text-align: center">House</h1>
       <v-select
@@ -45,17 +49,72 @@
         </option>
       </v-select>
 
-      <v-btn size="small"> select box </v-btn>
-      &nbsp;&nbsp;&nbsp;
-      <v-btn size="small" @click="move2Home"> Home </v-btn>
-      &nbsp;&nbsp;&nbsp;
-      <v-btn size="small" @click="move2News"> Local News</v-btn>
+      <v-row>
+        <v-col cols="12" sm="4" md="4">
+          <div class="text-center">
+            <v-dialog v-model="dialog" width="600">
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn color="" v-bind="attrs" v-on="on"> Click Me </v-btn>
+              </template>
+
+              <v-card>
+                <v-toolbar color="indigo" dark
+                  >해당 지역 교통사고 정보</v-toolbar
+                >
+                <v-sparkline
+                  :labels="labels"
+                  :value="value"
+                  :gradient="gradient"
+                  :smooth="radius || false"
+                  :padding="padding"
+                  :line-width="width"
+                  :stroke-linecap="lineCap"
+                  :gradient-direction="gradientDirection"
+                  :fill="fill"
+                  :type="type"
+                  :auto-line-width="autoLineWidth"
+                  auto-draw
+                >
+                </v-sparkline>
+                <v-row style="text-align: center">
+                  <v-col cols="12" sm="4" md="4"
+                    ><v-btn small @click="changeChild"
+                      >보행 어린이 사고 다발 지역</v-btn
+                    ></v-col
+                  >
+                  <v-col cols="12" sm="4" md="4"
+                    ><v-btn small @click="changeOldman"
+                      >보행 노인 사고 다발 지역</v-btn
+                    ></v-col
+                  >
+                  <v-col cols="12" sm="4" md="4"
+                    ><v-btn small @click="changeBicycle"
+                      >자전거 사고 다발지역</v-btn
+                    ></v-col
+                  >
+                </v-row>
+
+                <v-card-actions class="justify-end">
+                  <v-btn text @click="dialog = false">Close</v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
+          </div>
+        </v-col>
+        <v-col cols="12" sm="4" md="4"
+          ><v-btn size="small" @click="move2Home"> Home </v-btn></v-col
+        >
+        <v-col cols="12" sm="4" md="4"
+          ><v-btn size="small" @click="move2News"> Local News</v-btn></v-col
+        >
+      </v-row>
     </v-card-text>
   </v-card>
 </template>
 
 <script>
 import { mapState, mapActions, mapMutations } from "vuex";
+import { sidoGugunCode, getChild, getOldman, getBicycle } from "@/api/house";
 /*
   namespaced: true를 사용했기 때문에 선언해줍니다.
   index.js 에서 modules 객체의 '키' 이름입니다.
@@ -67,7 +126,14 @@ import { mapState, mapActions, mapMutations } from "vuex";
   }
 */
 const houseStore = "houseStore";
-
+const gradients = [
+  ["#222"],
+  ["#42b3f4"],
+  ["red", "orange", "yellow"],
+  ["purple", "violet"],
+  ["#00c6ff", "#F0F", "#FF0"],
+  ["#f72047", "#ffd200", "#1feaea"],
+];
 export default {
   name: "HouseHeader",
   data() {
@@ -75,10 +141,41 @@ export default {
       sidoName: null,
       gugunName: null,
       dongName: null,
+      code: "",
+      dialog: false,
+      child: [],
+      oldman: [],
+      bicycle: [],
+      ///////sparkline//////
+      width: 2,
+      radius: 10,
+      padding: 8,
+      lineCap: "round",
+      gradient: gradients[5],
+      labels: [
+        "2012",
+        "2013",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2020",
+      ],
+      value: [],
+      gradientDirection: "top",
+      gradients,
+      fill: false,
+      type: "trend",
+      autoLineWidth: false,
     };
   },
   computed: {
     ...mapState(houseStore, ["sidos", "guguns", "dongs", "houses"]),
+  },
+  watch: {
+    value() {},
   },
 
   created() {
@@ -90,7 +187,12 @@ export default {
   },
 
   methods: {
-    ...mapActions(houseStore, ["getSido", "getGugun", "getDong", "getHouseList"]),
+    ...mapActions(houseStore, [
+      "getSido",
+      "getGugun",
+      "getDong",
+      "getHouseList",
+    ]),
     ...mapMutations(houseStore, [
       "SET_SIDO_GUGUN",
       "CLEAR_SIDO_LIST",
@@ -108,6 +210,54 @@ export default {
     },
     dongList() {
       console.log(this.gugunName);
+      let param = {
+        sidoName: this.sidoName,
+        gugunName: this.gugunName,
+      };
+      let _this = this;
+      sidoGugunCode(
+        param,
+        ({ data }) => {
+          this.code = data;
+          console.log("this code!!!!!!", this.code);
+          getChild(
+            this.code,
+            ({ data }) => {
+              console.log("getChild data", data);
+              _this.child = data;
+              _this.value = data;
+            },
+            (error) => {
+              console.log("getChild error", error);
+            }
+          );
+          getOldman(
+            this.code,
+            ({ data }) => {
+              console.log("getOldman data", data);
+              _this.oldman = data;
+            },
+            (error) => {
+              console.log("getOldman error", error);
+            }
+          );
+          getBicycle(
+            this.code,
+            ({ data }) => {
+              console.log("getBicycle data", data);
+              _this.bicycle = data;
+            },
+            (error) => {
+              console.log("getBicycle error", error);
+            }
+          );
+        },
+        (error) => {
+          console.log("sidogugun code error!!!!!!");
+          console.log(error);
+        }
+      );
+
       this.CLEAR_DONG_LIST();
       this.dongName = null;
       if (this.gugunName) {
@@ -122,29 +272,41 @@ export default {
           gugunName: this.gugunName,
           dongName: this.dongName,
         });
-        this.SET_SIDO_GUGUN({ sidoName: this.sidoName, gugunName: this.gugunName });
+        this.SET_SIDO_GUGUN({
+          sidoName: this.sidoName,
+          gugunName: this.gugunName,
+        });
       }
-      this.$router.push({ name: "houseTable" }).catch((error)=>{
-        if(error.name !== 'NavigationDuplicated'){
+      this.$router.push({ name: "houseTable" }).catch((error) => {
+        if (error.name !== "NavigationDuplicated") {
           this.$router.go(this.$router.currentRoute);
         }
       });
     },
 
     move2Home() {
-      this.$router.push({ name: "main" }).catch((error)=>{
-        if(error.name !== 'NavigationDuplicated'){
+      this.$router.push({ name: "main" }).catch((error) => {
+        if (error.name !== "NavigationDuplicated") {
           this.$router.go(this.$router.currentRoute);
         }
       });
       this.CLEAR_APT_LIST();
     },
     move2News() {
-      this.$router.push({ name: "news" }).catch((error)=>{
-        if(error.name !== 'NavigationDuplicated'){
+      this.$router.push({ name: "news" }).catch((error) => {
+        if (error.name !== "NavigationDuplicated") {
           this.$router.go(this.$router.currentRoute);
         }
       });
+    },
+    changeChild() {
+      this.value = this.child;
+    },
+    changeOldman() {
+      this.value = this.oldman;
+    },
+    changeBicycle() {
+      this.value = this.bicycle;
     },
   },
 };

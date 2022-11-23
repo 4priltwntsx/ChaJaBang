@@ -39,7 +39,6 @@ public class HouseService {
 	public dongCode getDongCode(long code) {
 		return dao.selectDongCode(code);
 	}
-	
 	// 동에 있는 아파트 리스트 얻기
 	public List<HouseInfo> getApts(String code){
 		return dao.selectHouseInfo(code);
@@ -53,6 +52,10 @@ public class HouseService {
 	// 아파트 정보
 	public HouseInfo getApt(long aptCode) {
 		return dao.selectOneByAptCode(aptCode);
+	}
+	
+	public String getSidoGugun(String sido, String gugun) {
+		return dao.selectSidoGugunCode(sido, gugun);
 	}
 
 

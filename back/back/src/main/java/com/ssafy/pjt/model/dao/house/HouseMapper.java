@@ -32,4 +32,6 @@ public interface HouseMapper {
 			@RequestParam("dong") String dong);
 
 	public dongCode selectDongCode(long aptcode);
+	
+	public String selectSidoGugunCode(@RequestParam("sido") String sido, @RequestParam("gugun") String gugun);
 }

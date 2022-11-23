@@ -12,6 +12,10 @@ function dongList({ sidoName, gugunName }, success, fail) {
   http.get(`/house/${sidoName}/${gugunName}`).then(success).catch(fail);
 }
 
+function sidoGugunCode({ sidoName, gugunName }, success, fail) {
+  http.get(`/house/code/${sidoName}/${gugunName}`).then(success).catch(fail);
+}
+
 function houseList({ sidoName, gugunName, dongName }, success, fail) {
   http.get(`/house/${sidoName}/${gugunName}/${dongName}`).then(success).catch(fail);
 }
@@ -40,6 +44,17 @@ function getinterestId(aptcode, success, fail) {
   http.get(`/interest/find/${aptcode}`).then(success).catch(fail);
 }
 
+function getChild(sidogugun, success, fail) {
+  http.get(`/frequent/child/${sidogugun}`).then(success).catch(fail);
+}
+
+function getOldman(sidogugun, success, fail) {
+  http.get(`/frequent/oldman/${sidogugun}`).then(success).catch(fail);
+}
+function getBicycle(sidogugun, success, fail) {
+  http.get(`/frequent/bicycle/${sidogugun}`).then(success).catch(fail);
+}
+
 export {
   sidoList,
   gugunList,
@@ -52,4 +67,8 @@ export {
   interestList,
   count,
   getinterestId,
+  sidoGugunCode,
+  getChild,
+  getOldman,
+  getBicycle
 };
