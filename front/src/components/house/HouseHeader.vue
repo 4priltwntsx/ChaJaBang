@@ -58,6 +58,7 @@
               </template>
 
               <v-card>
+                <v-container>
                 <v-toolbar color="indigo" dark
                   >해당 지역 교통사고 정보</v-toolbar
                 >
@@ -97,6 +98,7 @@
                 <v-card-actions class="justify-end">
                   <v-btn text @click="dialog = false">Close</v-btn>
                 </v-card-actions>
+                </v-container>
               </v-card>
             </v-dialog>
           </div>
@@ -312,4 +314,17 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+v-container {
+  display: flex !important;
+  flex-direction: column;
+}
+
+.v-card {
+  flex-grow: 1;
+  overflow: auto;
+}
+.scroll {
+  overflow-y: scroll
+}
+</style>

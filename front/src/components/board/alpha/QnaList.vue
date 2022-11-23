@@ -227,7 +227,7 @@ https://vuetifyjs.com/en/components/tabs/#icons-and-text
               <v-col cols="12" md="3"></v-col>
             </v-row>
 
-            <row>
+            <v-row>
               <v-card class="overflow-hidden" v-if="userInfo.userid==='admin' && qna.acontent===null">
             <v-card-text>
               <v-text-field
@@ -251,7 +251,7 @@ https://vuetifyjs.com/en/components/tabs/#icons-and-text
               {{qna.acontent}}
             </v-card-text>
           </v-card>
-          </row>
+          </v-row>
                       </v-container>
 
           </v-card>
@@ -437,7 +437,7 @@ export default {
           console.log("qna answer", error);
         }
       )
-      this.SET_CHECK_STATUS();
+      // this.SET_CHECK_STATUS();
     },
   },
   filters: {
