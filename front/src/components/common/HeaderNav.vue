@@ -21,7 +21,7 @@ https://vuetifyjs.com/en/components/app-bars/#dense
             :src="require(`@/assets/house.png`)"
           ></v-img>
 
-          <div style="font-family: NanumSquare">차자방</div>
+          <div style="font-family: JuaRegular; font-size: 21pt">차자방</div>
         </router-link>
       </v-toolbar-title>
 
@@ -67,7 +67,7 @@ https://vuetifyjs.com/en/components/app-bars/#dense
     <v-navigation-drawer v-model="drawer" absolute left temporary>
       <v-list-item class="px-2" v-if="userInfo">
         <v-list-item-avatar>
-          <v-img :src="require(`@/assets/profile/${imgPath}`)"></v-img>
+          <v-img src="https://randomuser.me/api/portraits/men/85.jpg"></v-img>
         </v-list-item-avatar>
 
         <v-list-item-title>{{ userInfo.username }}</v-list-item-title>
@@ -131,7 +131,6 @@ export default {
         { title: "Notice", icon: "mdi-bullhorn", path: "/board/notice" },
       ],
       mini: true,
-      imgPath: "",
       // id: "",
     };
   },
@@ -165,7 +164,6 @@ export default {
       let tmp = this.userInfo;
       this.id = tmp.userid;
     }
-    this.getImgPath();
   },
   computed: {
     ...mapState(memberStore, ["isLogin", "userInfo"]),
@@ -255,10 +253,6 @@ export default {
         }
       }
     },
-    getImgPath() {
-      let n = Math.floor(Math.random() * 8) + 1;
-      this.imgPath = "avatar-" + n + ".png";
-    },
   },
 };
 </script>
@@ -269,6 +263,6 @@ export default {
   color: white;
 }
 v-toolbar-title {
-  font-family: "NanumBarunGothic";
+  font-family: "JuaRegular";
 }
 </style>
