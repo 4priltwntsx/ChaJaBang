@@ -20,7 +20,7 @@ https://vuetifyjs.com/en/components/app-bars/#dense
         >
                   <v-img class="mr-1" height="30" width="30" :src="require(`@/assets/house.png`)"></v-img>
 
-<div style="font-family: NanumSquare">
+<div style="font-family: JuaRegular; font-size: 21pt">
           차자방
 </div>
         </router-link>
@@ -323,6 +323,6 @@ https://vuetifyjs.com/en/components/app-bars/#dense
     color: white;
   }
   v-toolbar-title{
-    font-family: 'NanumBarunGothic';
+    font-family: 'JuaRegular';
   }
 </style>

@@ -70,6 +70,10 @@ export default {
     font-family:'NanumSquare';
     src: url('@/assets/font/NanumSquareR.ttf');
   }
+  @font-face {
+    font-family:'JuaRegular';
+    src: url('@/assets/font/Jua-Regular.ttf');
+  }
 
 #app{
   font-family: 'NanumBarunGothic';
