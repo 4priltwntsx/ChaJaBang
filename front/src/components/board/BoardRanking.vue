@@ -18,7 +18,13 @@ https://vuetifyjs.com/en/components/simple-tables/#fixed-header
           </td>
           <td>{{ item.writer }}</td>
           <td>
-            <v-btn depressed disable dark color="red lighten-3" class="rounded-pill">
+            <v-btn
+              depressed
+              disable
+              dark
+              color="red lighten-3"
+              class="rounded-pill"
+            >
               <v-icon size="small" dark left>mdi-heart</v-icon>
               {{ item.readCount }}
             </v-btn>
@@ -44,8 +50,8 @@ export default {
       rankingList: [],
     };
   },
-  computed:{
-    ...mapState(boardStore, ["ranking","board"]),
+  computed: {
+    ...mapState(boardStore, ["ranking", "board"]),
   },
   created() {
     let _this = this;
@@ -61,41 +67,34 @@ export default {
     );
     this.getBoardList();
     this.getRanking();
-    /*
-    fetch("http://localhost:8888/board/order", { method: "get" })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data.length, data);
-        _this.rankingList = data;
-        _this.totalCnt = data.length;
-      });
-      */
   },
-  watch:{
-    // ranking(){
-    //   this.getRanking();
-    // }
-  },
+  watch: {},
   methods: {
-    ...mapActions(boardStore, ["getRanking","getDetail","getComments","getBoardList"]),
+    ...mapActions(boardStore, [
+      "getRanking",
+      "getDetail",
+      "getComments",
+      "getBoardList",
+    ]),
     move2Detail(el) {
       let bno = el;
       this.getDetail(bno);
       this.getComments(bno);
       console.log(bno);
-      this.$router.push({ name: "boardDetail", query: { bno } })
-      .catch((error)=>{
-        if(error.name !== 'NavigationDuplicated'){
-          this.$router.go(this.$router.currentRoute);
-        }
-      });
+      this.$router
+        .push({ name: "boardDetail", query: { bno } })
+        .catch((error) => {
+          if (error.name !== "NavigationDuplicated") {
+            this.$router.go(this.$router.currentRoute);
+          }
+        });
     },
   },
 };
 </script>
 
 <style>
-.ttt{
-  font-family: 'NanumSquare';
+.ttt {
+  font-family: "NanumSquare";
 }
 </style>

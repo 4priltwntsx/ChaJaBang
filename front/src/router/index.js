@@ -146,6 +146,7 @@ const routes = [
       {
         path: "qwrite",
         name: "qnaWrite",
+        beforeEnter: onlyAuthUser,
         component: QnaWrite,
       },
       {

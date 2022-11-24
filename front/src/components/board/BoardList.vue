@@ -57,16 +57,6 @@ export default {
         console.log(error);
       }
     );
-
-    /*
-    fetch("http://localhost:8888/board", { method: "get" })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data.length, data);
-        _this.boardList = data;
-        _this.totalCnt = data.length;
-      });
-      */
   },
   methods: {
     move2Detail(el) {

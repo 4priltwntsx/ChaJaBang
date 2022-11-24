@@ -1,10 +1,24 @@
 <template>
   <div id="app">
     <v-row>
-      <v-col cols="12" md="3"></v-col>
-      <v-col cols="12" md="3"><v-btn @click="clickTraffic">교통 정보 </v-btn></v-col>
-      <v-col cols="12" md="3"><v-btn @click="clickBicycle">자전거도로</v-btn></v-col>
-      <v-col cols="12" md="3"></v-col>
+      <v-col cols="12" md="2"></v-col>
+      <v-col cols="12" md="4">
+        <v-btn @click="clickTraffic"
+          >교통 정보 &nbsp;
+          <v-img
+            class="image-btn"
+            :src="require(`@/assets/car.png`)"
+          ></v-img> </v-btn
+      ></v-col>
+      <v-col cols="12" md="4"
+        ><v-btn @click="clickBicycle"
+          >자전거도로&nbsp;
+          <v-img
+            class="image-btn"
+            :src="require(`@/assets/bike.png`)"
+          ></v-img> </v-btn
+      ></v-col>
+      <v-col cols="12" md="2"></v-col>
     </v-row>
     <br />
     <v-card id="map" class="mx-auto" max-width="580" height="590">
@@ -107,7 +121,9 @@ export default {
         this.markers.forEach((marker) => marker.setMap(null));
       }
 
-      const positions = markerPositions.map((position) => new kakao.maps.LatLng(...position));
+      const positions = markerPositions.map(
+        (position) => new kakao.maps.LatLng(...position)
+      );
 
       if (positions.length > 0) {
         this.markers = positions.map(
@@ -166,6 +182,10 @@ export default {
 #t {
   border: 2px;
   border-color: blue;
+}
+.image-btn {
+  height: 30px;
+  width: 30px;
 }
 
 .map_wrap,
@@ -322,8 +342,8 @@ export default {
   color: #fff;
   background: #d95050;
   background: #d95050
-    url("https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/arrow_white.png") no-repeat right
-    14px center;
+    url("https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/arrow_white.png")
+    no-repeat right 14px center;
 }
 
 .placeinfo .tel {

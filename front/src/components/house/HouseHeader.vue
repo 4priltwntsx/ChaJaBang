@@ -5,7 +5,10 @@
     class="position-relative"
   >
     <v-card-text>
-      <h1 style="text-align: center">House</h1>
+      <v-row>
+        <v-col cols="12"> <h1 style="text-align: center">House</h1> </v-col>
+      </v-row>
+      <h5><br /></h5>
       <v-select
         class="select"
         label="시도"
@@ -59,45 +62,45 @@
 
               <v-card>
                 <v-container>
-                <v-toolbar color="indigo" dark
-                  >해당 지역 교통사고 정보</v-toolbar
-                >
-                <v-sparkline
-                  :labels="labels"
-                  :value="value"
-                  :gradient="gradient"
-                  :smooth="radius || false"
-                  :padding="padding"
-                  :line-width="width"
-                  :stroke-linecap="lineCap"
-                  :gradient-direction="gradientDirection"
-                  :fill="fill"
-                  :type="type"
-                  :auto-line-width="autoLineWidth"
-                  auto-draw
-                >
-                </v-sparkline>
-                <v-row style="text-align: center">
-                  <v-col 
-                    ><v-btn small @click="changeChild"
-                      >보행 어린이 사고 다발 지역</v-btn
-                    ></v-col
-                  ><v-spacer></v-spacer>
-                  <v-col
-                    ><v-btn small @click="changeOldman"
-                      >보행 노인 사고 다발 지역</v-btn
-                    ></v-col
-                  ><v-spacer></v-spacer>
-                  <v-col 
-                    ><v-btn small @click="changeBicycle"
-                      >자전거 사고 다발지역</v-btn
-                    ></v-col
+                  <v-toolbar color="indigo" dark
+                    >해당 지역 교통사고 정보</v-toolbar
                   >
-                </v-row>
+                  <v-sparkline
+                    :labels="labels"
+                    :value="value"
+                    :gradient="gradient"
+                    :smooth="radius || false"
+                    :padding="padding"
+                    :line-width="width"
+                    :stroke-linecap="lineCap"
+                    :gradient-direction="gradientDirection"
+                    :fill="fill"
+                    :type="type"
+                    :auto-line-width="autoLineWidth"
+                    auto-draw
+                  >
+                  </v-sparkline>
+                  <v-row style="text-align: center">
+                    <v-col
+                      ><v-btn small @click="changeChild"
+                        >보행 어린이 사고 다발 지역</v-btn
+                      ></v-col
+                    ><v-spacer></v-spacer>
+                    <v-col
+                      ><v-btn small @click="changeOldman"
+                        >보행 노인 사고 다발 지역</v-btn
+                      ></v-col
+                    ><v-spacer></v-spacer>
+                    <v-col
+                      ><v-btn small @click="changeBicycle"
+                        >자전거 사고 다발지역</v-btn
+                      ></v-col
+                    >
+                  </v-row>
 
-                <v-card-actions class="justify-end">
-                  <v-btn text @click="dialog = false">Close</v-btn>
-                </v-card-actions>
+                  <v-card-actions class="justify-end">
+                    <v-btn text @click="dialog = false">Close</v-btn>
+                  </v-card-actions>
                 </v-container>
               </v-card>
             </v-dialog>
@@ -268,7 +271,7 @@ export default {
       }
     },
     searchApt() {
-          // this.CLEAR_APT_LIST();
+      // this.CLEAR_APT_LIST();
 
       if (this.dongName) {
         this.getHouseList({
@@ -327,6 +330,6 @@ v-container {
   overflow: auto;
 }
 .scroll {
-  overflow-y: scroll
+  overflow-y: scroll;
 }
 </style>

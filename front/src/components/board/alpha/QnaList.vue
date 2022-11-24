@@ -7,7 +7,13 @@ https://vuetifyjs.com/en/components/tabs/#icons-and-text
       <v-row>
         <v-col cols="12">
           <v-card>
-            <v-tabs v-model="tab" background-color="indigo " centered dark icons-and-text>
+            <v-tabs
+              v-model="tab"
+              background-color="indigo lighten-2"
+              centered
+              dark
+              icons-and-text
+            >
               <v-tabs-slider></v-tabs-slider>
 
               <v-tab href="#tab-1">
@@ -15,7 +21,7 @@ https://vuetifyjs.com/en/components/tabs/#icons-and-text
                 <v-icon>mdi-phone</v-icon>
               </v-tab>
 
-              <v-tab  v-if= "userInfo.userid != 'admin'" href="#tab-2">
+              <v-tab v-if="userInfo.userid != 'admin'" href="#tab-2">
                 완료
                 <v-icon>mdi-heart</v-icon>
               </v-tab>
@@ -103,7 +109,13 @@ https://vuetifyjs.com/en/components/tabs/#icons-and-text
       <v-row>
         <v-col cols="12" md="6" style="margin: auto">
           <v-card>
-            <v-tabs v-model="tab" background-color="indigo " centered dark icons-and-text>
+            <v-tabs
+              v-model="tab"
+              background-color="indigo "
+              centered
+              dark
+              icons-and-text
+            >
               <v-tabs-slider></v-tabs-slider>
 
               <v-tab href="#tab-1">
@@ -111,7 +123,7 @@ https://vuetifyjs.com/en/components/tabs/#icons-and-text
                 <v-icon>mdi-phone</v-icon>
               </v-tab>
 
-              <v-tab v-if= "userInfo.userid != 'admin'" href="#tab-2">
+              <v-tab v-if="userInfo.userid != 'admin'" href="#tab-2">
                 완료
                 <v-icon>mdi-heart</v-icon>
               </v-tab>
@@ -196,77 +208,94 @@ https://vuetifyjs.com/en/components/tabs/#icons-and-text
         <v-col cols="12" md="6">
           <v-card class="mx-auto my-12" min-height="550" max-width="400">
             <v-container>
-            <template slot="progress">
-              <v-progress-linear color="deep-purple" height="10" indeterminate></v-progress-linear>
-            </template>
+              <template slot="progress">
+                <v-progress-linear
+                  color="deep-purple"
+                  height="10"
+                  indeterminate
+                ></v-progress-linear>
+              </template>
 
-            <br />
-            <v-card-title>
-              <h3>{{ qna.qtitle }}</h3>
-            </v-card-title>
-            <div style="text-align: right">
-              <h4>
-                <v-icon size="x-large">mdi-account</v-icon>
-                {{ qna.qwriter }}
-              </h4>
-            </div>
-            <v-card-text>
-              <div style="text-align: right">
-                <span class="my-4 text-subtitle-1"> 작성일 : {{ qna.qwriteDate | yyyyMMdd }} </span>
-              </div>
-
-              <h3 v-html="qna.qcontent"></h3>
               <br />
-            </v-card-text>
-            <v-row style="text-align: center">
-              <v-col cols="12" md="3"></v-col>
-              <v-spacer></v-spacer>
-              <!-- <v-col cols="12" md="3"><v-btn center color="indigo lighten-3">수정</v-btn></v-col> -->
-              <v-col cols="12" md="3"
-                ><v-btn color="indigo lighten-5" @click="qnaDelete">삭제</v-btn></v-col
-              >
-              <!-- <v-col cols="12" md="3"></v-col> -->
-            </v-row>
+              <v-card-title>
+                <h3>{{ qna.qtitle }}</h3>
+              </v-card-title>
+              <div style="text-align: right">
+                <h4>
+                  <v-icon size="x-large">mdi-account</v-icon>
+                  {{ qna.qwriter }}
+                </h4>
+              </div>
+              <v-card-text>
+                <div style="text-align: right">
+                  <span class="my-4 text-subtitle-1">
+                    작성일 : {{ qna.qwriteDate | yyyyMMdd }}
+                  </span>
+                </div>
 
-            <v-row>
-              <v-card class="overflow-hidden" v-if="userInfo.userid==='admin' && qna.acontent===null">
-            <v-card-text>
-              <v-text-field
-                color="indigo lighten-3"
-                label="답변"
-                v-model="answer"
-              ></v-text-field>
-            </v-card-text>
-            <v-row style="text-align: center"
-              ><v-col
-                ><v-btn @click="qAnswer" color="indigo lighten-3">답변하기</v-btn></v-col
-              ></v-row>
-            <br />
-          </v-card>
-        <br>
-          <v-card class="overflow-hidden" v-if="qna.acontent!==null">
-            <v-card-title>
-              <h3>답변</h3>
-            </v-card-title>
-            <v-card-text>                
-              {{qna.acontent}}
-            </v-card-text>
-          </v-card>
-          </v-row>
-                      </v-container>
+                <h3 v-html="qna.qcontent"></h3>
+                <br />
+              </v-card-text>
+              <v-row style="text-align: center">
+                <v-col cols="12" md="3"></v-col>
+                <v-spacer></v-spacer>
+                <!-- <v-col cols="12" md="3"><v-btn center color="indigo lighten-3">수정</v-btn></v-col> -->
+                <v-col cols="12" md="3"
+                  ><v-btn color="indigo lighten-5" @click="qnaDelete"
+                    >삭제</v-btn
+                  ></v-col
+                >
+                <!-- <v-col cols="12" md="3"></v-col> -->
+              </v-row>
 
+              <v-row>
+                <v-card
+                  class="overflow-hidden"
+                  v-if="userInfo.userid === 'admin' && qna.acontent === null"
+                >
+                  <v-card-text>
+                    <v-text-field
+                      color="indigo lighten-3"
+                      label="답변"
+                      v-model="answer"
+                    ></v-text-field>
+                  </v-card-text>
+                  <v-row style="text-align: center"
+                    ><v-col
+                      ><v-btn @click="qAnswer" color="indigo lighten-3"
+                        >답변하기</v-btn
+                      ></v-col
+                    ></v-row
+                  >
+                  <br />
+                </v-card>
+                <br />
+                <v-card class="overflow-hidden" v-if="qna.acontent !== null">
+                  <v-card-title>
+                    <h3>답변</h3>
+                  </v-card-title>
+                  <v-card-text>
+                    {{ qna.acontent }}
+                  </v-card-text>
+                </v-card>
+              </v-row>
+            </v-container>
           </v-card>
         </v-col>
-        
       </v-row>
-      
     </div>
-    
   </div>
 </template>
 
 <script>
-import { qModifyManager, qgetManagerNotAnswer, qgetManagerQna, qgetUserQna, qgetUserAnswered, qgetUserNotAnswer } from "@/api/board";
+import {
+  qModifyManager,
+  qgetManagerNotAnswer,
+  qgetManagerQna,
+  qgetUserQna,
+  qgetUserAnswered,
+  qgetUserNotAnswer,
+} from "@/api/board";
 import { mapActions, mapState, mapMutations } from "vuex";
 import { qRead, qDelete } from "@/api/board";
 const memberStore = "memberStore";
@@ -279,7 +308,7 @@ export default {
       qno: "",
       qna: null,
       tab: null,
-      answer:"",
+      answer: "",
       allList: [],
       complete: [],
       notcomplete: [],
@@ -326,7 +355,7 @@ export default {
   },
   created() {
     this.init();
-    console.log(this.userInfo.userid)
+    console.log(this.userInfo.userid);
   },
   computed: {
     ...mapState(memberStore, ["userInfo"]),
@@ -337,39 +366,41 @@ export default {
       console.log("qna list qna watch");
     },
     allList() {},
-    complete() {      let tmp = this.userInfo;
-      this.id = tmp.userid; 
-      if(this.id==='admin'){
+    complete() {
+      let tmp = this.userInfo;
+      this.id = tmp.userid;
+      if (this.id === "admin") {
         this.getManagerNotAnswer();
-      } else{
+      } else {
         this.getUserNotCheck(this.id);
-      }    },
+      }
+    },
     notcomplete() {},
   },
   methods: {
-    ...mapActions(boardStore, ["getManagerNotAnswer","getUserNotCheck"]),
+    ...mapActions(boardStore, ["getManagerNotAnswer", "getUserNotCheck"]),
     init() {
       let _this = this;
       let id = _this.userInfo.userid;
       console.log(_this.userInfo.userid);
-      if(id==="admin"){
-        qgetManagerQna(({data})=>{
+      if (id === "admin") {
+        qgetManagerQna(({ data }) => {
           console.log("admin qna list, all list???", data);
           _this.allList = data;
-        }), (error)=>{
-          _this.err = error;
-          console.log("admin qna all list fail");
-        },
-        qgetManagerNotAnswer(({data})=>{
-          console.log("admin qna list, notcomplete list", data);
-          this.notcomplete = data;
         }),
+          (error) => {
+            _this.err = error;
+            console.log("admin qna all list fail");
+          },
+          qgetManagerNotAnswer(({ data }) => {
+            console.log("admin qna list, notcomplete list", data);
+            this.notcomplete = data;
+          }),
           (error) => {
             this.err = error;
             console.log("admin qna list, notcomplete list fail");
-          };        
-
-      }else{
+          };
+      } else {
         qgetUserQna(id, ({ data }) => {
           console.log("qna list, all list", data);
           this.allList = data;
@@ -413,7 +444,6 @@ export default {
         }
       );
       this.updateNckQna(this.userInfo.userid);
-      
     },
     qnaDelete() {
       qDelete(
@@ -428,32 +458,30 @@ export default {
         }
       );
     },
-    qAnswer(){
+    qAnswer() {
       console.log(this.answer);
       this.qna.acontent = this.answer;
       qModifyManager(
         this.qna,
-        ({data})=>{
+        ({ data }) => {
           alert("답변 완료");
           console.log("답변 success", data);
           this.init();
-        }, (error) =>{
+        },
+        (error) => {
           console.log("qna answer", error);
         }
-      )
-      // this.SET_CHECK_STATUS();
+      );
     },
-    updateNckQna(userid){
-        if (this.userInfo != null) {
-          // let tmp = this.userInfo;
-          // this.id = tmp.userid;
-          if (userid === "admin") {
-            this.getManagerNotAnswer();
-          } else {
-            this.getUserNotCheck(userid);
-          }
+    updateNckQna(userid) {
+      if (this.userInfo != null) {
+        if (userid === "admin") {
+          this.getManagerNotAnswer();
+        } else {
+          this.getUserNotCheck(userid);
         }
-    }
+      }
+    },
   },
   filters: {
     ox: function (value) {

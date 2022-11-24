@@ -4,8 +4,17 @@
       <v-col>
         <v-card class="overflow-hidden">
           <v-card-text>
-            <v-text-field color="indigo lighten-3" label="Title" v-model="title"></v-text-field>
-            <v-text-field color="indigo lighten-3" label="Writer" v-model="writer"></v-text-field>
+            <v-text-field
+              color="indigo lighten-3"
+              label="Title"
+              v-model="title"
+            ></v-text-field>
+            <v-text-field
+              color="indigo lighten-3"
+              label="Writer"
+              v-model="writer"
+              readonly
+            ></v-text-field>
           </v-card-text>
         </v-card> </v-col
     ></v-row>
@@ -26,7 +35,9 @@
       {{ result }}
 
       <template v-slot:action="{ attrs }">
-        <v-btn color="pink" text v-bind="attrs" @click="isShow = false"> Close </v-btn>
+        <v-btn color="pink" text v-bind="attrs" @click="isShow = false">
+          Close
+        </v-btn>
       </template>
     </v-snackbar>
   </div>
@@ -49,11 +60,11 @@ export default {
       timeout: 1000,
     };
   },
-  created(){
+  created() {
     this.writer = this.userInfo.userid;
   },
-  computed:{
-        ...mapState(memberStore, ["isLogin", "userInfo"]),
+  computed: {
+    ...mapState(memberStore, ["isLogin", "userInfo"]),
   },
   methods: {
     write() {
@@ -76,27 +87,6 @@ export default {
           console.log(error);
         }
       );
-      /*
-      fetch("http://localhost:8888/board", {
-        method: "post",
-        body: JSON.stringify({
-          title: _this.title,
-          writer: _this.writer,
-          content: _this.content,
-        }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-        .then((response) => response.text())
-        .then((data) => {
-          console.log(data);
-          _this.result = data;
-          _this.isShow = true;
-
-          _this.$router.push({ name: "boardList" });
-        });
-        */
     },
   },
 };

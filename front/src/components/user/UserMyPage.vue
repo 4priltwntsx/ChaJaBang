@@ -8,7 +8,7 @@ https://vuetifyjs.com/en/components/tabs/#props
       <v-col cols="12" md="2"></v-col>
       <v-col cols="12" md="8">
         <v-card>
-          <v-toolbar color="indigo lighten-2" flat>
+          <v-toolbar color="indigo darken-1" flat>
             <template v-slot:extension>
               <v-tabs v-model="tab" align-with-title color="white">
                 <v-tabs-slider color="white"></v-tabs-slider>
@@ -75,10 +75,9 @@ export default {
     // QnaDetail,
     UserInterest,
   },
-  mounted(){
+  mounted() {
     this.tab = this.$route.params.tab;
-
-  }
+  },
 };
 </script>
 

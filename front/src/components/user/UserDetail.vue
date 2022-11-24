@@ -1,7 +1,7 @@
 <template>
   <v-row>
     <v-col cols="12">
-      <v-card title="Account Details">
+      <v-card title="Account Details" min-height="340">
         <v-card-text class="d-flex"> </v-card-text>
 
         <v-divider />
@@ -33,11 +33,15 @@
               </v-col>
 
               <!-- 👉 Form Actions -->
-              <v-col cols="12" class="d-flex flex-wrap gap-4">
-                <v-btn @click="modify">Save changes</v-btn>
-
+              <v-col cols="12" sm="3" md="3"> </v-col>
+              <v-col cols="12" sm="3" md="3" style="text-align: center">
+                <v-btn color="indigo lighten-3" @click="modify"
+                  >Save changes</v-btn
+                >
+              </v-col>
+              <v-col cols="12" sm="3" md="3" style="text-align: center">
                 <v-btn
-                  color="secondary"
+                  color="indigo lighten-5"
                   variant="tonal"
                   type="reset"
                   @click.prevent="resetForm"
@@ -45,6 +49,7 @@
                   Reset
                 </v-btn>
               </v-col>
+              <v-col cols="12" sm="3" md="3"> </v-col>
             </v-row>
           </v-form>
         </v-card-text>

@@ -14,7 +14,7 @@ https://vuetifyjs.com/en/components/data-tables/#filterable
       ></v-text-field>
     </v-card-title>
 
-    <v-simple-table fixed-header max-width="580" height="700">
+    <v-simple-table fixed-header max-width="580" min-height="500">
       <template v-slot:default>
         <thead>
           <tr>
